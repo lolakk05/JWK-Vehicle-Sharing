@@ -1,3 +1,5 @@
+package Pojazd;
+
 public class Rower extends Pojazd {
     private int rozmiarKol;
     private String typ;

@@ -1,3 +1,5 @@
+package Pojazd;
+
 abstract public class PojazdSilnikowy extends Pojazd {
     private String vin;
     private String nrRejestracyjny;

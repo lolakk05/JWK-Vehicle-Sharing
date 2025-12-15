@@ -1,3 +1,5 @@
+package Pojazd;
+
 public class HulajnogaElektryczna extends Pojazd {
     private int pojemnoscBaterii;
     private int zasiegKm;

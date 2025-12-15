@@ -1,3 +1,5 @@
+package Pojazd;
+
 abstract public class Pojazd {
     private String marka;
     private String model;

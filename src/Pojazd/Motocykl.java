@@ -1,3 +1,5 @@
+package Pojazd;
+
 public class Motocykl extends PojazdSilnikowy {
     private boolean czyMaKufry;
     private String typ;

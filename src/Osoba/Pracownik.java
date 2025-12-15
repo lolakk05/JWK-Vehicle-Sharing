@@ -1,3 +1,5 @@
+package Osoba;
+
 public class Pracownik extends Osoba {
     private double pensja;
     private String dzial;
