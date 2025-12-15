@@ -13,4 +13,4 @@ Dokumentacja Gita: https://git-scm.com/docs\
 trzymajcie się tego 1 WSZYSCY!!!! jak nie to ban
 
 # Co dalej??
-Nie wiem kurde
+Bedziemy aktywnie pracować
