@@ -1,3 +1,5 @@
+package Osoba;
+
 public class Administrator extends Pracownik {
     public void przydzielNaprawe() {};
     public void dodajPojazd() {};

@@ -1,4 +1,5 @@
-import java.util.ArrayList;
+package Osoba;
+
 import java.util.List;
 
 public class Klient extends Osoba {

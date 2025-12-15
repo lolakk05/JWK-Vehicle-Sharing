@@ -1,3 +1,5 @@
+package Pojazd;
+
 public class SamochodOsobowy extends PojazdSilnikowy {
     private String nadwozie;
     private int iloscDrzwi;

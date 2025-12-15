@@ -1,3 +1,5 @@
+package Pojazd;
+
 public class Ciezarowka extends PojazdSilnikowy {
     private double ladownosc;
     private int iloscOsi;

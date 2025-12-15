@@ -1,3 +1,5 @@
+package Osoba;
+
 import java.util.List;
 
 public class Serwisant extends Pracownik {
