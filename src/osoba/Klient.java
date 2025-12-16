@@ -1,5 +1,7 @@
-package Osoba;
+package osoba;
 
+import wypozyczenie.Wypozyczenie;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Klient extends Osoba {
@@ -8,11 +10,11 @@ public class Klient extends Osoba {
     private List<Wypozyczenie> wypozyczenia;
     private double saldo;
 
-    public Klient(String imie, String nazwisko, String pesel, int wiek, String email, String haslo, String telefon, String numerPrawaJazdy, List<String> kategoria, List<Wypozyczenie> wypozyczenia, double saldo) {
+    public Klient(String imie, String nazwisko, String pesel, int wiek, String email, String haslo, String telefon, String numerPrawaJazdy, List<String> kategoria, double saldo) {
         super(imie, nazwisko, pesel, wiek, email, haslo, telefon);
         this.numerPrawaJazdy = numerPrawaJazdy;
         this.kategoria = kategoria;
-        this.wypozyczenia = wypozyczenia;
+        this.wypozyczenia = new ArrayList<>();
         this.saldo = saldo;
     }
 

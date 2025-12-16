@@ -1,4 +1,4 @@
-package Osoba;
+package osoba;
 
 public class Administrator extends Pracownik {
     public void przydzielNaprawe() {};

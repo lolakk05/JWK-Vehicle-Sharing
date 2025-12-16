@@ -1,4 +1,4 @@
-package Pojazd;
+package pojazd;
 
 public class Motocykl extends PojazdSilnikowy {
     private boolean czyMaKufry;

@@ -1,4 +1,4 @@
-package Serialization;
+package serialization;
 
 public class UserSerialize {
 }

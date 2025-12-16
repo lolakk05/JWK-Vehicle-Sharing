@@ -1,4 +1,4 @@
-package Pojazd;
+package pojazd;
 
 public class Ciezarowka extends PojazdSilnikowy {
     private double ladownosc;

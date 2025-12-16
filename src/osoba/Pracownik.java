@@ -1,4 +1,4 @@
-package Osoba;
+package osoba;
 
 public class Pracownik extends Osoba {
     private double pensja;

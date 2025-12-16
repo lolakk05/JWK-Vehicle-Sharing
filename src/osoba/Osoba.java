@@ -1,4 +1,4 @@
-package Osoba;
+package osoba;
 
 abstract public class Osoba {
     private String imie;
@@ -19,7 +19,19 @@ abstract public class Osoba {
         this.telefon = telefon;
     }
 
-    public void zalogujSie() {
-        //tutaj tresc metody (czytaj jakies wybranie odpowiedniego panelu w swingu i weryfikacja danych)
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getHaslo() {
+        return haslo;
+    }
+
+    public void setHaslo(String haslo) {
+        this.haslo = haslo;
     }
 }

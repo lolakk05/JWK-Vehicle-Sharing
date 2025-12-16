@@ -1,4 +1,4 @@
-package Pojazd;
+package pojazd;
 
 public class Rower extends Pojazd {
     private int rozmiarKol;

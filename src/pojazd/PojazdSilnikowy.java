@@ -1,4 +1,4 @@
-package Pojazd;
+package pojazd;
 
 abstract public class PojazdSilnikowy extends Pojazd {
     private String vin;

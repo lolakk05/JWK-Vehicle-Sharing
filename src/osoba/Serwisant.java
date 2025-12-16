@@ -1,4 +1,6 @@
-package Osoba;
+package osoba;
+
+import zlecenieNaprawy.ZlecenieNaprawy;
 
 import java.util.List;
 

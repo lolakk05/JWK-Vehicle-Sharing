@@ -1,4 +1,4 @@
-package Pojazd;
+package pojazd;
 
 public class SamochodOsobowy extends PojazdSilnikowy {
     private String nadwozie;

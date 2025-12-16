@@ -1,4 +1,4 @@
-package Pojazd;
+package pojazd;
 
 abstract public class Pojazd {
     private String marka;

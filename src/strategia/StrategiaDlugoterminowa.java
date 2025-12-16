@@ -1,3 +1,5 @@
+package strategia;
+
 public class StrategiaDlugoterminowa implements StrategiaCenowa {
     public double rabat;
 
