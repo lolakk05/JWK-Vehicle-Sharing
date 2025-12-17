@@ -113,7 +113,7 @@ public class Main {
         }
     }
 
-    public void main(String[] args) {
+    public static void main(String[] args) {
         while (true) {
             // wyswietlanie klientow
             printClients(clients);

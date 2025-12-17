@@ -1,6 +1,6 @@
 package osoba;
 
-public class Pracownik extends Osoba {
+abstract public class Pracownik extends Osoba {
     private double pensja;
     private String dzial;
 
