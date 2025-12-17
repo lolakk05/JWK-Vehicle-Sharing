@@ -11,4 +11,13 @@ public class HulajnogaElektryczna extends Pojazd {
         this.zasiegKm = zasiegKm;
         this.maxPredkosc = maxPredkosc;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + String.format(" | [HULAJNOGA] Bateria: %d | Zasięg: %d km | V-max: %.1f km/h",
+                pojemnoscBaterii,
+                zasiegKm,
+                maxPredkosc
+        );
+    }
 }

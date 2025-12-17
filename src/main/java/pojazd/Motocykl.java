@@ -9,4 +9,12 @@ public class Motocykl extends PojazdSilnikowy {
         this.czyMaKufry = czyMaKufry;
         this.typ = typ;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + String.format(" | [MOTOCYKL] Typ: %s | Kufry: %s",
+                typ,
+                czyMaKufry ? "Tak" : "Nie"
+        );
+    }
 }

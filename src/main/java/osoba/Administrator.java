@@ -16,6 +16,11 @@ public class Administrator extends Pracownik {
         super(imie, nazwisko, pesel, wiek, email, haslo, telefon, pensja, dzial);
     }
 
+    @Override
+    public String toString() {
+        return super.toString() + " | [ADMINISTRATOR]";
+    }
+
     public static void addVehicle(ArrayList<Pojazd> pojazdy) {
         System.out.println("-------------------------");
         System.out.println("1. Samochód osobowy");

@@ -9,4 +9,12 @@ public class SamochodOsobowy extends PojazdSilnikowy {
         this.nadwozie = nadwozie;
         this.iloscDrzwi = iloscDrzwi;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + String.format(" | [OSOBOWY] Nadwozie: %s | Drzwi: %d",
+                nadwozie,
+                iloscDrzwi
+        );
+    }
 }

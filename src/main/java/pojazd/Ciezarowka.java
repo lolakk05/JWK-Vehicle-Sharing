@@ -9,4 +9,12 @@ public class Ciezarowka extends PojazdSilnikowy {
         this.ladownosc = ladownosc;
         this.iloscOsi = iloscOsi;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + String.format(" | [CIĘŻARÓWKA] Ładowność: %.1f t | Osie: %d",
+                ladownosc,
+                iloscOsi
+        );
+    }
 }

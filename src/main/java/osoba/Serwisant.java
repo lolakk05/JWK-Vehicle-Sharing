@@ -16,4 +16,12 @@ public class Serwisant extends Pracownik {
         this.specjalizacja = specjalizacja;
         this.aktywneZlecenia = aktywneZlecenia;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + String.format(" | Specjalizacja: %s | Aktywne zlecenia: %d",
+                specjalizacja,
+                aktywneZlecenia != null ? aktywneZlecenia.size() : 0
+        );
+    }
 }

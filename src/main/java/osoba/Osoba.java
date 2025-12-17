@@ -1,13 +1,13 @@
 package osoba;
 
 abstract public class Osoba {
-    private String imie;
-    private String nazwisko;
-    private String pesel;
-    private int wiek;
-    private String email;
-    private String haslo;
-    private String telefon;
+    protected String imie;
+    protected String nazwisko;
+    protected String pesel;
+    protected int wiek;
+    protected String email;
+    protected String haslo;
+    protected String telefon;
 
     public Osoba(String imie, String nazwisko, String pesel, int wiek, String email, String haslo, String telefon) {
         this.imie = imie;
@@ -35,7 +35,15 @@ abstract public class Osoba {
         this.haslo = haslo;
     }
 
-    public String toString(){
-        return imie+" "+nazwisko+" "+pesel;
+    @Override
+    public String toString() {
+        return String.format("%s %s (lat: %d) | PESEL: %s | Email: %s | Tel: %s",
+                imie,
+                nazwisko,
+                wiek,
+                pesel,
+                email,
+                telefon
+        );
     }
 }

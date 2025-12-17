@@ -11,14 +11,14 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 abstract public class Pojazd {
-    private String marka;
-    private String model;
-    private int rokProdukcji;
-    private String kolor;
-    private double waga;
-    private double cenaBazowa;
-    private String status;
-    private String wymaganeUprawnienia;
+    protected String marka;
+    protected String model;
+    protected int rokProdukcji;
+    protected String kolor;
+    protected double waga;
+    protected double cenaBazowa;
+    protected String status;
+    protected String wymaganeUprawnienia;
 
     public Pojazd(String marka, String model, int rokProdukcji, String kolor, double waga, double cenaBazowa, String status, String wymaganeUprawnienia) {
         this.marka = marka;
@@ -31,8 +31,18 @@ abstract public class Pojazd {
         this.wymaganeUprawnienia = wymaganeUprawnienia;
     }
 
+    @Override
     public String toString() {
-        return marka+" "+model;
+        return String.format("[%s] %s %s (%d) | Kolor: %s | Cena: %.2f PLN | Waga: %.1f kg | Wymagane: %s",
+                status.toUpperCase(),
+                marka,
+                model,
+                rokProdukcji,
+                kolor,
+                cenaBazowa,
+                waga,
+                wymaganeUprawnienia
+        );
     }
 
     public static void saveVehicles(ArrayList<Pojazd> pojazdy) {

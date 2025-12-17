@@ -18,6 +18,16 @@ public class Klient extends Osoba {
         this.saldo = saldo;
     }
 
+    @Override
+    public String toString() {
+        return super.toString() + String.format(" | Prawo Jazdy: %s %s | Saldo: %.2f PLN | Wypożyczenia: %d",
+                numerPrawaJazdy,
+                kategoria,
+                saldo,
+                wypozyczenia.size()
+        );
+    }
+
     public void wypozycz() {
         //logika wypozyczenia
     }

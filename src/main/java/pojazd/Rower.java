@@ -9,4 +9,12 @@ public class Rower extends Pojazd {
         this.rozmiarKol = rozmiarKol;
         this.typ = typ;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + String.format(" | [ROWER] Typ: %s | Koła: %d\"",
+                typ,
+                rozmiarKol
+        );
+    }
 }
