@@ -1,0 +1,14 @@
+[
+  {
+    "rozmiarKol": 65,
+    "typ": "górski",
+    "marka": "Romet",
+    "model": "N3",
+    "rokProdukcji": 2023,
+    "kolor": "niebieski",
+    "waga": 20.0,
+    "cenaBazowa": 3500.0,
+    "status": "wolny",
+    "wymaganeUprawnienia": "kartaRowerowa"
+  }
+]

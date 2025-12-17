@@ -5,6 +5,7 @@ import osoba.Klient;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import pojazd.Pojazd;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -13,10 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import static osoba.Administrator.addVehicle;
+import static pojazd.Pojazd.loadVehicles;
 import static serialization.UserSerialize.*;
 
 public class Main {
     public static ArrayList<Klient> clients = loadClients();
+    public static ArrayList<Pojazd> pojazdy = loadVehicles();
 
     public static void login(String email, String password, ArrayList<Klient> clients) {
         for(Klient client : clients) {
@@ -76,7 +80,8 @@ public class Main {
         System.out.println("------------------------");
         System.out.println("1. Logowanie");
         System.out.println("2. Rejestracja");
-        System.out.println("3. Zapisz i wyjdź");
+        System.out.println("3. Dodaj pojazd");
+        System.out.println("4. Zapisz i wyjdź");
         System.out.println("------------------------");
     }
 
@@ -94,12 +99,26 @@ public class Main {
                 registerClient(clients);
                 break;
             case 3:
+                addVehicle(pojazdy);
+
+                System.out.println("Dostępne pojazdy:");
+                for(Pojazd pojazd : pojazdy) {
+                    System.out.println(pojazd);
+                }
+
+                break;
+            case 4:
                 System.exit(0);
 
         }
     }
+
     public void main(String[] args) {
         while (true) {
+            // wyswietlanie klientow
+            printClients(clients);
+            System.out.println();
+
             printMenu();
             Scanner userInput = new Scanner(System.in);
             System.out.print("Wybierz opcje: ");

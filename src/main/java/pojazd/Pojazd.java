@@ -1,5 +1,15 @@
 package pojazd;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import osoba.Klient;
+
+import java.io.*;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Scanner;
+
 abstract public class Pojazd {
     private String marka;
     private String model;
@@ -19,5 +29,39 @@ abstract public class Pojazd {
         this.cenaBazowa = cenaBazowa;
         this.status = status;
         this.wymaganeUprawnienia = wymaganeUprawnienia;
+    }
+
+    public String toString() {
+        return marka+" "+model;
+    }
+
+    public static void saveVehicles(ArrayList<Pojazd> pojazdy) {
+        File vehiclesFile = new File("data/pojazdy.json");
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(vehiclesFile));
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            gson.toJson(pojazdy, bw);
+            bw.close();
+            System.out.println("Pojazd dodany prawidłowo!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static ArrayList<Pojazd> loadVehicles() {
+            ArrayList<Pojazd> loadedVehicles = new ArrayList<>();
+        try {
+            File vehiclesFile = new File("data/pojazdy.json");
+            BufferedReader reader = new BufferedReader(new FileReader(vehiclesFile));
+
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();;
+            Type vehicleListType = new TypeToken<ArrayList<Pojazd>>() {}.getType();
+            ArrayList<Klient> loadedClients = gson.fromJson(reader, vehicleListType);
+            reader.close();
+            return loadedVehicles;
+
+        }catch (Exception e){
+            return new ArrayList<>();
+        }
     }
 }
