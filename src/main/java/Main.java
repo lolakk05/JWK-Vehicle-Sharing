@@ -1,7 +1,4 @@
-import osoba.Osoba;
-import osoba.Administrator;
-import osoba.Serwisant;
-import osoba.Klient;
+import osoba.*;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -32,16 +29,43 @@ public class Main {
 
     public static void registerClient(ArrayList<Klient> clients) {
         Scanner userInput = new Scanner(System.in);
+
+        boolean peselValid = false;
+        String pesel = "";
+
+        boolean emailValid = false;
+        String email = "";
+
         System.out.print("Imie: ");
         String name = userInput.nextLine();
         System.out.print("Nazwisko: ");
         String surname = userInput.nextLine();
-        System.out.print("Pesel: ");
-        String pesel = userInput.nextLine();
+        while (!peselValid) {
+            System.out.print("Pesel: ");
+            pesel = userInput.nextLine();
+            try {
+                PeselException.ValidatePesel(pesel);
+
+                peselValid = true;
+            } catch (PeselException e) {
+                System.out.println(e.getMessage());
+                System.out.println("Wprowadź poprawny pesel");
+            }
+        }
         System.out.print("Wiek: ");
         int age = Integer.parseInt(userInput.nextLine());
-        System.out.print("Email: ");
-        String email = userInput.nextLine();
+        while (!emailValid) {
+            System.out.print("Email: ");
+            email = userInput.nextLine();
+            try {
+                EmailException.ValidateEmail(email);
+
+                emailValid = true;
+            } catch (EmailException e) {
+                System.out.println(e.getMessage());
+                System.out.println("Wprowadź poprawny email");
+            }
+        }
         System.out.print("Haslo: ");
         String password = userInput.nextLine();
         System.out.print("Telefon: ");
@@ -56,7 +80,7 @@ public class Main {
                 driverLicenseNumber = userInput.nextLine();
                 System.out.print("Ile kategorii?: ");
                 int categories = Integer.parseInt(userInput.nextLine());
-                for(int i = 0; i < categories; i++) {
+                for (int i = 0; i < categories; i++) {
                     System.out.print("Kategoria: ");
                     category.add(userInput.nextLine());
                 }
@@ -71,7 +95,7 @@ public class Main {
             gson.toJson(clients, writer);
             writer.close();
             System.out.println("Użytkownik zarejestrowany prawidłowo!");
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -113,7 +137,7 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)  {
         while (true) {
             // wyswietlanie klientow
             printClients(clients);
