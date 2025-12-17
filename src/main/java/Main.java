@@ -149,7 +149,7 @@ public class Main {
         System.out.println("--- RAPORT FINANSOWY ---");
         System.out.println(wypozyczenieAuta);
         System.out.println("-> Powinno wyjść 450.00 PLN (3 doby)");
-
+        //dziala chyba
         System.out.println("\n" + wypozyczenieHulajnogi);
         System.out.println("-> Powinno wyjść 24.00 PLN");
         System.out.println();
