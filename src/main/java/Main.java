@@ -1,4 +1,4 @@
-import osoba.Klient;
+import osoba.*;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -35,16 +35,43 @@ public class Main {
 
     public static void registerClient(ArrayList<Klient> clients) {
         Scanner userInput = new Scanner(System.in);
+
+        boolean peselValid = false;
+        String pesel = "";
+
+        boolean emailValid = false;
+        String email = "";
+
         System.out.print("Imie: ");
         String name = userInput.nextLine();
         System.out.print("Nazwisko: ");
         String surname = userInput.nextLine();
-        System.out.print("Pesel: ");
-        String pesel = userInput.nextLine();
+        while (!peselValid) {
+            System.out.print("Pesel: ");
+            pesel = userInput.nextLine();
+            try {
+                PeselException.ValidatePesel(pesel);
+
+                peselValid = true;
+            } catch (PeselException e) {
+                System.out.println(e.getMessage());
+                System.out.println("Wprowadź poprawny pesel");
+            }
+        }
         System.out.print("Wiek: ");
         int age = Integer.parseInt(userInput.nextLine());
-        System.out.print("Email: ");
-        String email = userInput.nextLine();
+        while (!emailValid) {
+            System.out.print("Email: ");
+            email = userInput.nextLine();
+            try {
+                EmailException.ValidateEmail(email);
+
+                emailValid = true;
+            } catch (EmailException e) {
+                System.out.println(e.getMessage());
+                System.out.println("Wprowadź poprawny email");
+            }
+        }
         System.out.print("Haslo: ");
         String password = userInput.nextLine();
         System.out.print("Telefon: ");
@@ -59,7 +86,7 @@ public class Main {
                 driverLicenseNumber = userInput.nextLine();
                 System.out.print("Ile kategorii?: ");
                 int categories = Integer.parseInt(userInput.nextLine());
-                for(int i = 0; i < categories; i++) {
+                for (int i = 0; i < categories; i++) {
                     System.out.print("Kategoria: ");
                     category.add(userInput.nextLine());
                 }
@@ -74,7 +101,7 @@ public class Main {
             gson.toJson(clients, writer);
             writer.close();
             System.out.println("Użytkownik zarejestrowany prawidłowo!");
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -116,45 +143,7 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) {
-
-        // a'la test strategii (?)
-        // utworzenie pojazdów
-        Pojazd bmw_car = new SamochodOsobowy("BMW", "320i", 2022, "Czarny", 1600, 150.00, "Dostępny", "B", "VIN123", "DW 55555", 2.0, 5, "Benzyna", 50000, "Sedan", 4);
-
-        // Cena bazowa Hulajnogi: 0.80 PLN (traktujemy to jako cenę za minutę)
-        Pojazd xiaomi_scooter = new HulajnogaElektryczna("Xiaomi", "Pro 2", 2023, "Szary", 14, 0.80, "Dostępny", "Brak", 474, 45, 25.0);
-
-        System.out.println(bmw_car);
-        System.out.println(xiaomi_scooter);
-        System.out.println();
-
-        // symulacja dat
-        Date teraz = new Date();
-
-        // Symulacja: Oddajemy auto po 2 dniach i 3 godzinach, 51h
-        Date zaDwaDni = new Date(teraz.getTime() + (51L * 60 * 60 * 1000));
-
-        // Symulacja: Oddajemy hulajnogę po 30 minutach
-        Date zaPolGodziny = new Date(teraz.getTime() + (30L * 60 * 1000));
-
-        // A) Wypożyczenie Auta -> Strategia Dobowa
-        // System wie, że 150 PLN to stawka za dobę
-        Wypozyczenie wypozyczenieAuta = new Wypozyczenie(bmw_car, teraz, zaDwaDni, new StrategiaGodzinowa());
-
-        // B) Wypożyczenie Hulajnogi -> Strategia Minutowa
-        // System wie, że 0.80 PLN to stawka za minutę
-        Wypozyczenie wypozyczenieHulajnogi = new Wypozyczenie(xiaomi_scooter, teraz, zaPolGodziny, new StrategiaMinutowa());
-
-        System.out.println("--- RAPORT FINANSOWY ---");
-        System.out.println(wypozyczenieAuta);
-        System.out.println("-> Powinno wyjść 450.00 PLN (3 doby)");
-
-        System.out.println("\n" + wypozyczenieHulajnogi);
-        System.out.println("-> Powinno wyjść 24.00 PLN");
-        System.out.println();
-
-
+    public static void main(String[] args)  {
         while (true) {
             // wyswietlanie klientow
             printClients(clients);
