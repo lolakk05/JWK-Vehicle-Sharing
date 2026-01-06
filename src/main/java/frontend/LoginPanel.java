@@ -31,10 +31,12 @@ public class LoginPanel extends JPanel {
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if(Main.login(emailField.getText(), new String(passwordField.getPassword()))) {
-                    JOptionPane.showMessageDialog(null, "Super duper");
-                     mainFrame.ChangeCard("USER");
+                     mainFrame.ChangeCard("MAIN");
                 }
-                else if(emailField.getText().isEmpty() || passwordField.getText().isEmpty()){
+                else {
+                    JOptionPane.showMessageDialog(mainFrame, "Niepoprawny email lub hasło!");
+                }
+                if(emailField.getText().isEmpty() || passwordField.getText().isEmpty()){
                     JOptionPane.showMessageDialog(null, "Dane nie mogą być puste");
                 }
             }

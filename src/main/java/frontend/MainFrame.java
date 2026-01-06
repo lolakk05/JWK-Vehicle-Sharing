@@ -9,8 +9,10 @@ public class MainFrame extends JFrame{
     private CardLayout layout;
     private JPanel mainContainer;
     private Main appLogic;
+    private UserPanel userPanel;
+    private VehicleListPanel vehicleListPanel;
 
-    public MainFrame() {
+    public MainFrame(Main appLogic) {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 600);
 
@@ -19,12 +21,15 @@ public class MainFrame extends JFrame{
 
         //tutaj narazie tak, potem się zmieni
         LoginPanel loginPanel = new LoginPanel(this, appLogic);
-        UserPanel userPanel = new UserPanel(this);
+        userPanel = new UserPanel(this, appLogic);
         RegisterPanel registerPanel = new RegisterPanel(this, appLogic);
+        vehicleListPanel = new VehicleListPanel(this);
+
 
         mainContainer.add(loginPanel, "LOGIN");
         mainContainer.add(registerPanel, "REGISTER");
         mainContainer.add(userPanel, "USER");
+        mainContainer.add(vehicleListPanel, "MAIN");
 
         add(mainContainer);
 
@@ -34,11 +39,12 @@ public class MainFrame extends JFrame{
     }
 
     public void ChangeCard(String cardName) {
+        if(cardName.equals("USER")){
+            userPanel.getUserData();
+        }
+        if(cardName.equals("VEHICLE")){
+            vehicleListPanel.refreshList();
+        }
         layout.show(mainContainer, cardName);
-    }
-
-    public static void main(String[] args) {
-           SwingUtilities.invokeLater(MainFrame::new);
-
     }
  }

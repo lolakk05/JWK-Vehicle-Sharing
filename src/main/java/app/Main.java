@@ -1,11 +1,14 @@
 package app;
 
+import frontend.MainFrame;
 import osoba.*;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import pojazd.Pojazd;
+import pojazd.SamochodOsobowy;
 
+import javax.swing.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -24,6 +27,7 @@ public class Main {
     public static boolean login(String email, String password) {
         for (Klient client : clients) {
             if (client.getEmail().equals(email) && client.getHaslo().equals(password)) {
+                Session.login(client);
                 return true;
             }
         }
@@ -52,6 +56,18 @@ public class Main {
 
         Klient newClient = new Klient(name, surname, pesel, age, email, password, phone, driverLicenseNumber, categories, 0);
 
+        clients.add(newClient);
+
+        try {
+            saveClients();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return true;
+    }
+
+    public void saveClients() {
         File clientsFile = new File("data/clients.json");
 
         try {
@@ -63,58 +79,38 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return true;
     }
 
-//    public static void printMenu() {
-//        System.out.println("------------------------");
-//        System.out.println("1. Logowanie");
-//        System.out.println("2. Rejestracja");
-//        System.out.println("3. Dodaj pojazd");
-//        System.out.println("4. Zapisz i wyjdź");
-//        System.out.println("------------------------");
-//    }
-//
-//    public static void processChoice(int choice){
-//        switch(choice){
-//            case 1:
-//                Scanner userInput = new Scanner(System.in);
-//                System.out.print("Email: ");
-//                String email = userInput.nextLine();
-//                System.out.print("Haslo: ");
-//                String password = userInput.nextLine();
-//                login(email, password);
-//                break;
-//            case 2:
-//                registerClient(clients);
-//                break;
-//            case 3:
-//                addVehicle(pojazdy);
-//
-//                System.out.println("Dostępne pojazdy:");
-//                for(Pojazd pojazd : pojazdy) {
-//                    System.out.println(pojazd);
-//                }
-//
-//                break;
-//            case 4:
-//                System.exit(0);
-//
-//        }
-//    }
-//
-//    public static void main(String[] args)  {
-//        while (true) {
-//            // wyswietlanie klientow
-//            printClients(clients);
-//            System.out.println();
-//
-//            printMenu();
-//            Scanner userInput = new Scanner(System.in);
-//            System.out.print("Wybierz opcje: ");
-//            int choice = userInput.nextInt();
-//            processChoice(choice);
-//        }
-//    }
+    public void startGUI() {
+        new MainFrame(this);
+    }
+
+    public static void main(String[] args) {
+        for(int i = 0; i < 50; i++ ) {
+            pojazdy.add(new SamochodOsobowy(
+                    "Toyota",           // marka
+                    "Corollaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",          // model
+                    2023,               // rokProdukcji
+                    "Srebrny",          // kolor
+                    1350.0,             // waga
+                    250.0,              // cenaBazowa
+                    "wolny",            // status
+                    "B",                // wymaganeUprawnienia
+                    "TMJK1234567890",   // vin
+                    "DW 12345",         // nrRejestracyjny
+                    1.8,                // pojemnoscSilnika
+                    5,                  // liczbaMiejsc
+                    "Hybryda",          // paliwo
+                    12500.0,            // przebieg
+                    "Sedan",            // nadwozie (pole z SamochodOsobowy)
+                    4                   // iloscDrzwi (pole z SamochodOsobowy)
+            ));
+        }
+        for(Pojazd pojazd : pojazdy) {
+            System.out.println(pojazd.getMarka());
+        }
+        SwingUtilities.invokeLater(() -> {
+            new Main().startGUI();
+        });
+    }
 }

@@ -18,6 +18,14 @@ public class Klient extends Osoba {
         this.saldo = saldo;
     }
 
+    public double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(double saldo) {
+        this.saldo += saldo;
+    }
+
     @Override
     public String toString() {
         return super.toString() + String.format(" | Prawo Jazdy: %s %s | Saldo: %.2f PLN | Wypożyczenia: %d",

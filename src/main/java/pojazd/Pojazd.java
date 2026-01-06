@@ -67,8 +67,8 @@ abstract public class Pojazd {
             Type vehicleListType = new TypeToken<ArrayList<Pojazd>>() {}.getType();
             ArrayList<Klient> loadedClients = gson.fromJson(reader, vehicleListType);
             reader.close();
+            System.out.println("działa");
             return loadedVehicles;
-
         }catch (Exception e){
             return new ArrayList<>();
         }
