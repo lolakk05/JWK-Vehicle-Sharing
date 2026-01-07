@@ -32,8 +32,7 @@ abstract public class Pojazd {
 
     @Override
     public String toString() {
-        return String.format("[%s] %s %s (%d) | Kolor: %s | Cena: %.2f PLN | Waga: %.1f kg | Wymagane: %s",
-                status.toUpperCase(),
+        return String.format("%s %s (%d) | Kolor: %s | Cena: %.2f PLN | Waga: %.1f kg | Wymagane: %s",
                 marka,
                 model,
                 rokProdukcji,
@@ -67,8 +66,8 @@ abstract public class Pojazd {
             Type vehicleListType = new TypeToken<ArrayList<Pojazd>>() {}.getType();
             ArrayList<Klient> loadedClients = gson.fromJson(reader, vehicleListType);
             reader.close();
+            System.out.println("działa");
             return loadedVehicles;
-
         }catch (Exception e){
             return new ArrayList<>();
         }

@@ -16,7 +16,9 @@
     "telefon": "213721376"
   },
   {
-    "kategoria": ["T"],
+    "kategoria": [
+      "T"
+    ],
     "wypozyczenia": [],
     "saldo": 0.0,
     "imie": "Karol",
@@ -26,5 +28,17 @@
     "email": "verstappengoat2137@gmail.com",
     "haslo": "Maxiu6969",
     "telefon": "992 299 992"
+  },
+  {
+    "kategoria": [],
+    "wypozyczenia": [],
+    "saldo": 1.2416388E7,
+    "imie": "Tim",
+    "nazwisko": "Cheese",
+    "pesel": "53091718554",
+    "wiek": 2137,
+    "email": "tim@cheese.com",
+    "haslo": "123",
+    "telefon": "123456789"
   }
 ]
