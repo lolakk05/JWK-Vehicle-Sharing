@@ -42,6 +42,7 @@ public class Main {
         try {
             age = Integer.parseInt(ageStr);
         } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Wiek musi być liczbą");
             throw new Exception("Wiek musi być liczbą!");
         }
 
