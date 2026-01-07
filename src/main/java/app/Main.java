@@ -89,7 +89,7 @@ public class Main {
         for(int i = 0; i < 50; i++ ) {
             pojazdy.add(new SamochodOsobowy(
                     "Toyota",           // marka
-                    "Corollaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",          // model
+                    "Corolla",          // model
                     2023,               // rokProdukcji
                     "Srebrny",          // kolor
                     1350.0,             // waga
@@ -102,8 +102,8 @@ public class Main {
                     5,                  // liczbaMiejsc
                     "Hybryda",          // paliwo
                     12500.0,            // przebieg
-                    "Sedan",            // nadwozie (pole z SamochodOsobowy)
-                    4                   // iloscDrzwi (pole z SamochodOsobowy)
+                    "Sedan",
+                    4
             ));
         }
         for(Pojazd pojazd : pojazdy) {

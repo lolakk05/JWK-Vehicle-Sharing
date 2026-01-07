@@ -32,13 +32,13 @@
   {
     "kategoria": [],
     "wypozyczenia": [],
-    "saldo": 10.0,
+    "saldo": 1.2416388E7,
     "imie": "Tim",
     "nazwisko": "Cheese",
     "pesel": "53091718554",
     "wiek": 2137,
     "email": "tim@cheese.com",
-    "haslo": "johnporktochuj",
+    "haslo": "123",
     "telefon": "123456789"
   }
 ]

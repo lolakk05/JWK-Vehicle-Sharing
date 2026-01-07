@@ -15,6 +15,18 @@ public class RegisterPanel extends JPanel {
     private MainFrame mainFrame;
     private Main registerLogic;
 
+    private JTextField driverLicenseNumber;
+    private JCheckBox checkBox;
+    private JCheckBox checkBox1;
+    private JCheckBox checkBox2;
+
+    public void toggleLicense(boolean value) {
+        driverLicenseNumber.setEnabled(value);
+        checkBox.setEnabled(value);
+        checkBox1.setEnabled(value);
+        checkBox2.setEnabled(value);
+    }
+
     RegisterPanel(MainFrame mainFrame, Main registerLogic) {
         this.mainFrame = mainFrame;
         this.registerLogic = registerLogic;
@@ -54,7 +66,21 @@ public class RegisterPanel extends JPanel {
         JPanel radioPanel =  new JPanel(new FlowLayout(FlowLayout.LEFT));
         registerPanel.add(new JLabel("Prawo jazdy: "));
         JRadioButton radioButton = new JRadioButton("Tak");
+        radioButton.addActionListener(new ActionListener() {
+           public void actionPerformed(ActionEvent e) {
+               if(radioButton.isSelected()) {
+                   toggleLicense(true);
+               }
+           }
+        });
         JRadioButton radioButton1 = new JRadioButton("Nie", true);
+        radioButton1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(radioButton1.isSelected()) {
+                    toggleLicense(false);
+                }
+            }
+        });
         radioPanel.add(radioButton);
         radioPanel.add(radioButton1);
 
@@ -65,15 +91,15 @@ public class RegisterPanel extends JPanel {
         registerPanel.add(radioPanel);
 
         registerPanel.add(new JLabel("Numer prawa jazdy: "));
-        JTextField driverLicenseNumber = new JTextField(15);
+        driverLicenseNumber = new JTextField(15);
         driverLicenseNumber.setEnabled(false);
         registerPanel.add(driverLicenseNumber);
 
         JPanel checkPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         registerPanel.add(new JLabel("Kategorie: "));
-        JCheckBox checkBox = new JCheckBox("A");
-        JCheckBox checkBox1 = new JCheckBox("B");
-        JCheckBox checkBox2 = new JCheckBox("T");
+        checkBox = new JCheckBox("A");
+        checkBox1 = new JCheckBox("B");
+        checkBox2 = new JCheckBox("T");
 
         checkPanel.add(checkBox);
         checkPanel.add(checkBox1);

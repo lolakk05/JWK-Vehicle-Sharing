@@ -45,13 +45,22 @@ public class UserPanel extends JPanel {
             }
         });
 
-
+        JButton returnButton = new JButton("POWRUT 4");
+        returnButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                mainFrame.ChangeCard("MAIN");
+            }
+        });
 
         userPanel.add(nameLabel);
         userPanel.add(balanceLabel);
 
         userPanel.add(balanceField);
         userPanel.add(balanceButton);
+
+        userPanel.add(returnButton);
+
+        userPanel.add(new JLabel("W budowie..."));
 
         add(userPanel);
     }

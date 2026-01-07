@@ -32,8 +32,7 @@ abstract public class Pojazd {
 
     @Override
     public String toString() {
-        return String.format("[%s] %s %s (%d) | Kolor: %s | Cena: %.2f PLN | Waga: %.1f kg | Wymagane: %s",
-                status.toUpperCase(),
+        return String.format("%s %s (%d) | Kolor: %s | Cena: %.2f PLN | Waga: %.1f kg | Wymagane: %s",
                 marka,
                 model,
                 rokProdukcji,
