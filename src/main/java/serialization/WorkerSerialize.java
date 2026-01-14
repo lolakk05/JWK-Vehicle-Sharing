@@ -1,24 +1,28 @@
 package serialization;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import osoba.Klient;
+import osoba.Serwisant;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import com.google.gson.*;
 
-public class UserSerialize {
-    public static ArrayList<Klient> loadClients() {
+public class WorkerSerialize {
+    public static ArrayList<Serwisant> loadWorkers() {
         try {
-            File clientsFile = new File("data/clients.json");
+            File clientsFile = new File("data/workers.json");
             BufferedReader reader = new BufferedReader(new FileReader(clientsFile));
 
             Gson gson = new GsonBuilder().setPrettyPrinting().create();;
-            Type clientListType = new TypeToken<ArrayList<Klient>>() {}.getType();
-            ArrayList<Klient> loadedClients = gson.fromJson(reader, clientListType);
+            Type workerListType = new TypeToken<ArrayList<Serwisant>>() {}.getType();
+            ArrayList<Serwisant> loadedWorkers = gson.fromJson(reader, workerListType);
             reader.close();
-            return loadedClients;
+            return loadedWorkers;
         }catch (Exception e){
             return new ArrayList<>();
         }

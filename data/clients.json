@@ -6,7 +6,7 @@
       "B"
     ],
     "wypozyczenia": [],
-    "saldo": 0.0,
+    "saldo": 1800.0,
     "imie": "Jakub",
     "nazwisko": "Dłużak",
     "pesel": "06302756234",
@@ -39,6 +39,59 @@
     "wiek": 2137,
     "email": "tim@cheese.com",
     "haslo": "123",
+    "telefon": "123456789"
+  },
+  {
+    "kategoria": [],
+    "wypozyczenia": [],
+    "saldo": 0.0,
+    "imie": "p",
+    "nazwisko": "p",
+    "pesel": "98010824981",
+    "wiek": 19,
+    "email": "p@",
+    "haslo": "p",
+    "telefon": "213721377"
+  },
+  {
+    "numerPrawaJazdy": "ghr2137",
+    "kategoria": [
+      "Karta rowerowa"
+    ],
+    "wypozyczenia": [],
+    "saldo": 0.0,
+    "imie": "Adaś",
+    "nazwisko": "Skrzypczak",
+    "pesel": "93021594597",
+    "wiek": 13,
+    "email": "adas@wp.pl",
+    "haslo": "Maslo67",
+    "telefon": "123873450"
+  },
+  {
+    "numerPrawaJazdy": "",
+    "kategoria": [],
+    "wypozyczenia": [],
+    "saldo": 0.0,
+    "imie": "",
+    "nazwisko": "",
+    "pesel": "85090389734",
+    "wiek": 17,
+    "email": "jsijsjsij@",
+    "haslo": "",
+    "telefon": "123456789"
+  },
+  {
+    "numerPrawaJazdy": "",
+    "kategoria": [],
+    "wypozyczenia": [],
+    "saldo": 0.0,
+    "imie": "Jakub",
+    "nazwisko": "Dłużak",
+    "pesel": "61061748876",
+    "wiek": 19,
+    "email": "p@",
+    "haslo": "p",
     "telefon": "123456789"
   }
 ]

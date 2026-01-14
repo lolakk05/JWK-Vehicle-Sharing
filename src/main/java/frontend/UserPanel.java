@@ -45,7 +45,7 @@ public class UserPanel extends JPanel {
             }
         });
 
-        JButton returnButton = new JButton("POWRUT 4");
+        JButton returnButton = new JButton("POWRUT");
         returnButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 mainFrame.ChangeCard("MAIN");

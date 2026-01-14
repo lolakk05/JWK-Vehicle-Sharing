@@ -12,8 +12,8 @@ public class Administrator extends Pracownik {
     public void dodajPojazd() {};
     public void usunPojazd() {};
 
-    public Administrator(String imie, String nazwisko, String pesel, int wiek, String email, String haslo, String telefon, double pensja, String dzial) {
-        super(imie, nazwisko, pesel, wiek, email, haslo, telefon, pensja, dzial);
+    public Administrator(String imie, String nazwisko, String pesel, int wiek, String email, String haslo, String telefon, String dzial) {
+        super(imie, nazwisko, pesel, wiek, email, haslo, telefon, dzial);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class Administrator extends Pracownik {
                 int iloscDrzwi = sc.nextInt();
                 sc.nextLine();
 
-                pojazdy.add(new SamochodOsobowy(marka, model, rokProdukcji, kolor, waga, cenaBazowa, status, wymaganeUprawnienia, vin, nrRejestracyjny, pojemnoscSilnika, liczbaMiejsc, paliwo, przebieg, nadwozie, iloscDrzwi));
+                pojazdy.add(new SamochodOsobowy(marka, model, rokProdukcji, kolor, waga, cenaBazowa, status, wymaganeUprawnienia, vin, nrRejestracyjny, pojemnoscSilnika, liczbaMiejsc, paliwo, nadwozie, iloscDrzwi));
                 saveVehicles(pojazdy);
                 break;
 
@@ -123,7 +123,7 @@ public class Administrator extends Pracownik {
                 int iloscOsi = sc.nextInt();
                 sc.nextLine();
 
-                pojazdy.add(new Ciezarowka(marka, model, rokProdukcji, kolor, waga, cenaBazowa, status, wymaganeUprawnienia, vin, nrRejestracyjny, pojemnoscSilnika,liczbaMiejsc, paliwo, przebieg, ladownosc, iloscOsi));
+                pojazdy.add(new Ciezarowka(marka, model, rokProdukcji, kolor, waga, cenaBazowa, status, wymaganeUprawnienia, vin, nrRejestracyjny, pojemnoscSilnika,liczbaMiejsc, paliwo, ladownosc, iloscOsi));
                 saveVehicles(pojazdy);
                 break;
 
@@ -167,7 +167,7 @@ public class Administrator extends Pracownik {
                 System.out.print("Typ: ");
                 String typ = sc.nextLine();
 
-                pojazdy.add(new Motocykl(marka, model, rokProdukcji, kolor, waga, cenaBazowa, status, wymaganeUprawnienia, vin, nrRejestracyjny, pojemnoscSilnika,liczbaMiejsc, paliwo, przebieg, czyMaKufry, typ));
+                pojazdy.add(new Motocykl(marka, model, rokProdukcji, kolor, waga, cenaBazowa, status, wymaganeUprawnienia, vin, nrRejestracyjny, pojemnoscSilnika,liczbaMiejsc, paliwo, czyMaKufry, typ));
                 saveVehicles(pojazdy);
                 break;
 

@@ -69,10 +69,11 @@ public class VehicleListPanel extends JPanel {
     public void refreshList() {
         vehicleListPanel.removeAll();
 
-        ArrayList<Pojazd> pojazdy = Main.pojazdy;
+        ArrayList<Pojazd> pojazdy = Main.vehicles;
 
         for (Pojazd p : pojazdy) {
             if(Objects.equals(p.getStatus(), "wolny")) {
+                System.out.println(p);
                 JPanel row = new JPanel(new FlowLayout(FlowLayout.LEFT));
                 row.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
 

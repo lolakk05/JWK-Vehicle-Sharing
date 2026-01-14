@@ -7,6 +7,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class VehicleDetailPanel extends JPanel {
     private MainFrame mainFrame;
@@ -19,6 +23,8 @@ public class VehicleDetailPanel extends JPanel {
 
     private JTextField dateStart;
     private JTextField dateEnd;
+
+    private JLabel priceLabel = new JLabel();
 
 
     public VehicleDetailPanel(MainFrame mainFrame, Main appLogic) {
@@ -61,8 +67,40 @@ public class VehicleDetailPanel extends JPanel {
         dateEnd = new JTextField(10);
         rentPanel.add(dateEnd);
         JButton calculateButton = new JButton("Oblicz");
+        calculateButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                calculatePrice();
+            }
+        });
+        rentPanel.add(calculateButton);
+        rentPanel.add(priceLabel);
         add(rentPanel, BorderLayout.SOUTH);
 
+    }
+
+    public void calculatePrice() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+        sdf.setLenient(false);
+
+        try {
+            Date startDate = sdf.parse(dateStart.getText());
+            Date endDate = sdf.parse(dateEnd.getText());
+
+            if(endDate.before(startDate)) {
+                JOptionPane.showMessageDialog(this, "Data zwrotu nie może być wcześniejsza");
+                return;
+            }
+
+            long diffInDays = TimeUnit.DAYS.convert(endDate.getTime() - startDate.getTime(), TimeUnit.MILLISECONDS);
+
+            if(diffInDays == 0) diffInDays = 1;
+
+            double price = diffInDays * currentVehicle.getCenaBazowa();
+            priceLabel.setText(String.format("%.2f", price));
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(this, "Błędny format daty! Użyj formatu DD/MM/RRRR");
+        }
     }
 
     public void getVehicle(Pojazd P) {

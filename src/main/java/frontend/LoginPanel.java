@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class LoginPanel extends JPanel {
     private MainFrame mainFrame;
@@ -30,18 +32,30 @@ public class LoginPanel extends JPanel {
         JButton loginButton = new JButton("Zaloguj się");
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(Main.login(emailField.getText(), new String(passwordField.getPassword()))) {
+                if (emailField.getText().equals("admin") && passwordField.getText().equals("admin")) {
+                    mainFrame.ChangeCard("ACCEPT_LOAN");
+                    emailField.setText(null);
+                    passwordField.setText(null);
+                }
+                else if(Main.login(emailField.getText(), new String(passwordField.getPassword()))) {
                      mainFrame.ChangeCard("MAIN");
+                     emailField.setText(null);
+                     passwordField.setText(null);
+                }else if(emailField.getText().isEmpty() || passwordField.getText().isEmpty()){
+                    JOptionPane.showMessageDialog(null, "Dane nie mogą być puste");
                 }
                 else {
                     JOptionPane.showMessageDialog(mainFrame, "Niepoprawny email lub hasło!");
                 }
-                if(emailField.getText().isEmpty() || passwordField.getText().isEmpty()){
-                    JOptionPane.showMessageDialog(null, "Dane nie mogą być puste");
-                }
             }
         });
         loginPanel.add(loginButton);
+        SwingUtilities.invokeLater(() -> {
+            JRootPane root = SwingUtilities.getRootPane(this);
+            if (root != null) {
+                root.setDefaultButton(loginButton);
+            }
+        });
 
         loginPanel.add(new JLabel("Nie masz konta?"));
         JButton registerButton = new JButton("Zarejestruj się");

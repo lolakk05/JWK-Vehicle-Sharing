@@ -11,8 +11,8 @@ public class Serwisant extends Pracownik {
     public void przyjmijZlecenie() {};
     public void zakonczNaprawe() {};
 
-    public Serwisant(String imie, String nazwisko, String pesel, int wiek, String email, String haslo, String telefon, double pensja, String dzial, String specjalizacja, List<ZlecenieNaprawy> aktywneZlecenia) {
-        super(imie, nazwisko, pesel, wiek, email, haslo, telefon, pensja, dzial);
+    public Serwisant(String imie, String nazwisko, String pesel, int wiek, String email, String haslo, String telefon, String dzial, String specjalizacja, List<ZlecenieNaprawy> aktywneZlecenia) {
+        super(imie, nazwisko, pesel, wiek, email, haslo, telefon, dzial);
         this.specjalizacja = specjalizacja;
         this.aktywneZlecenia = aktywneZlecenia;
     }

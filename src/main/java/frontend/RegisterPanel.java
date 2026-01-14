@@ -19,15 +19,18 @@ public class RegisterPanel extends JPanel {
     private JCheckBox checkBox;
     private JCheckBox checkBox1;
     private JCheckBox checkBox2;
+    private JCheckBox checkBox3;
+
 
     public void toggleLicense(boolean value) {
         driverLicenseNumber.setEnabled(value);
         checkBox.setEnabled(value);
         checkBox1.setEnabled(value);
         checkBox2.setEnabled(value);
+        checkBox3.setEnabled(value);
     }
 
-    RegisterPanel(MainFrame mainFrame, Main registerLogic) {
+    public RegisterPanel(MainFrame mainFrame, Main registerLogic) {
         this.mainFrame = mainFrame;
         this.registerLogic = registerLogic;
         setLayout(new GridBagLayout());
@@ -99,11 +102,13 @@ public class RegisterPanel extends JPanel {
         registerPanel.add(new JLabel("Kategorie: "));
         checkBox = new JCheckBox("A");
         checkBox1 = new JCheckBox("B");
-        checkBox2 = new JCheckBox("T");
+        checkBox2 = new JCheckBox("C+E");
+        checkBox3 = new JCheckBox("Karta rowerowa");
 
         checkPanel.add(checkBox);
         checkPanel.add(checkBox1);
         checkPanel.add(checkBox2);
+        checkPanel.add(checkBox3);
 
         Component[] components = checkPanel.getComponents();
 
@@ -133,8 +138,27 @@ public class RegisterPanel extends JPanel {
                         }
                     }
                 }
+
+                Object[] user = {name.getText(), surname.getText(), pesel.getText(), age.getText(), email.getText(), new String(password.getPassword()), phone.getText(), hasLicense, driverLicenseNumber.getText(), categories};
                 try {
-                    registerLogic.registerClient(name.getText(), surname.getText(), pesel.getText(), age.getText(), email.getText(), new String(password.getPassword()), phone.getText(), hasLicense, driverLicenseNumber.getText(), categories);
+                    registerLogic.registerClient(user);
+                    JOptionPane.showMessageDialog(null, "Użytkownik zarejestrowany pomyślnie!");
+
+                    name.setText(null);
+                    surname.setText(null);
+                    pesel.setText(null);
+                    age.setText(null);
+                    email.setText(null);
+                    password.setText(null);
+                    phone.setText(null);
+                    driverLicenseNumber.setText(null);
+                    checkBox.setSelected(false);
+                    checkBox1.setSelected(false);
+                    checkBox2.setSelected(false);
+                    checkBox3.setSelected(false);
+                    radioButton.setSelected(false);
+
+                    mainFrame.ChangeCard("LOGIN");
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
