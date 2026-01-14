@@ -10,15 +10,13 @@ import com.google.gson.*;
 
 public class UserSerialize {
     public static ArrayList<Klient> loadClients() {
-        try {
-            File clientsFile = new File("data/clients.json");
-            BufferedReader reader = new BufferedReader(new FileReader(clientsFile));
-
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();;
-            Type clientListType = new TypeToken<ArrayList<Klient>>() {}.getType();
-            ArrayList<Klient> loadedClients = gson.fromJson(reader, clientListType);
-            reader.close();
-            return loadedClients;
+        ArrayList<Klient> clients = new ArrayList<>();
+        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("data/clients.ser"))){
+            int rozmiar = ois.readInt();
+            for(int i = 0; i < rozmiar; i++){
+                clients.add((Klient) ois.readObject());
+            }
+            return clients;
         }catch (Exception e){
             return new ArrayList<>();
         }

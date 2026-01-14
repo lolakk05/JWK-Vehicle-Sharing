@@ -5,7 +5,6 @@ import pojazd.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import static pojazd.Pojazd.saveVehicles;
 
 public class Administrator extends Pracownik {
     public void przydzielNaprawe() {};
@@ -78,7 +77,6 @@ public class Administrator extends Pracownik {
                 sc.nextLine();
 
                 pojazdy.add(new SamochodOsobowy(marka, model, rokProdukcji, kolor, waga, cenaBazowa, status, wymaganeUprawnienia, vin, nrRejestracyjny, pojemnoscSilnika, liczbaMiejsc, paliwo, nadwozie, iloscDrzwi));
-                saveVehicles(pojazdy);
                 break;
 
             case 2:
@@ -124,7 +122,6 @@ public class Administrator extends Pracownik {
                 sc.nextLine();
 
                 pojazdy.add(new Ciezarowka(marka, model, rokProdukcji, kolor, waga, cenaBazowa, status, wymaganeUprawnienia, vin, nrRejestracyjny, pojemnoscSilnika,liczbaMiejsc, paliwo, ladownosc, iloscOsi));
-                saveVehicles(pojazdy);
                 break;
 
             case 3:
@@ -168,7 +165,6 @@ public class Administrator extends Pracownik {
                 String typ = sc.nextLine();
 
                 pojazdy.add(new Motocykl(marka, model, rokProdukcji, kolor, waga, cenaBazowa, status, wymaganeUprawnienia, vin, nrRejestracyjny, pojemnoscSilnika,liczbaMiejsc, paliwo, czyMaKufry, typ));
-                saveVehicles(pojazdy);
                 break;
 
             case 4:
@@ -198,7 +194,6 @@ public class Administrator extends Pracownik {
                 typ = sc.nextLine();
 
                 pojazdy.add(new Rower(marka, model, rokProdukcji, kolor, waga, cenaBazowa, status, wymaganeUprawnienia, rozmiarKol, typ));
-                saveVehicles(pojazdy);
                 break;
 
             case 5:
@@ -232,7 +227,6 @@ public class Administrator extends Pracownik {
                 sc.nextLine();
 
                 pojazdy.add(new HulajnogaElektryczna(marka, model, rokProdukcji, kolor, waga, cenaBazowa, status, wymaganeUprawnienia, pojemnoscBaterii, zasiegKm, maxPredkosc));
-                saveVehicles(pojazdy);
                 break;
         }
     }

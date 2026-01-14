@@ -1,24 +1,39 @@
 package frontend;
 
-import app.Main;
 import pojazd.Pojazd;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Objects;
 
 import static app.Main.vehicles;
+import static serialization.VehicleSerialize.loadVehicles;
 
 public class RemoveVehiclePanel extends JPanel {
     private MainFrame mainFrame;
+    private JPanel containerPanel;
+    private ArrayList<Pojazd> vehicles = loadVehicles();
+
+    public void saveVehicle() {
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data/vehicles.ser"))) {
+            oos.writeInt(vehicles.size());
+            for (Pojazd pojazd : vehicles) {
+                oos.writeObject(vehicles);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public RemoveVehiclePanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         setLayout(new FlowLayout());
+        vehicles = loadVehicles();
 
         JPanel optionsPanel = new JPanel();
         optionsPanel.setLayout(new GridLayout(1,4));
@@ -77,81 +92,47 @@ public class RemoveVehiclePanel extends JPanel {
         optionsPanel.setSize(50,50);
 
         add(optionsPanel, BorderLayout.CENTER);
-        JPanel containerPanel = new JPanel(new GridLayout(0, 3, 15, 15));
-        containerPanel.setBorder(new EmptyBorder(20, 20, 20, 20)); // Margines dookoła całej siatki
-        containerPanel.setBackground(new Color(240, 240, 240)); // Jasnoszare tło pod kafelkami
 
-        for (Pojazd m : vehicles) {
-            containerPanel.add(new MotorTile(m));
-        }
+        containerPanel = new JPanel();
+        containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));
 
         JScrollPane scrollPane = new JScrollPane(containerPanel);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
-        scrollPane.setBorder(null);
 
-        add(scrollPane);
-        add(containerPanel);
+        add(scrollPane, BorderLayout.CENTER);
+
+        refresh();
     }
 
-    public void refreshList(JPanel vehicleListPanel) {
-        ArrayList<Pojazd> pojazdy = vehicles;
+    public void refresh() {
+        containerPanel.removeAll();
 
-        for (Pojazd p : pojazdy) {
-            if(Objects.equals(p.getStatus(), "wolny")) {
-                JPanel row = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                row.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
+        if (vehicles.isEmpty()) {
+            containerPanel.add(new JLabel("Brak pojazdów w bazie."));
+        } else {
+            for (Pojazd pojazd : vehicles) {
+                JPanel vehicleRow = new JPanel(new BorderLayout());
+                vehicleRow.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
+                vehicleRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
 
-                JLabel label = new JLabel(p.getMarka() + " " + p.getModel() + " (" + p.getStatus() + ")");
-                JButton btnDetails = new JButton("Szczegóły");
-                btnDetails.addActionListener(new ActionListener() {
+                JLabel rejestracjaLabel = new JLabel(pojazd.getMarka()+" | "+pojazd.getModel());
+                rejestracjaLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0)); // Margines tekstu
+                vehicleRow.add(rejestracjaLabel, BorderLayout.CENTER);
+
+                JButton deleteButton = new JButton("USUŃ");
+                deleteButton.addActionListener(new ActionListener() {
+                    @Override
                     public void actionPerformed(ActionEvent e) {
-                        mainFrame.setVehicle(p);
-                        mainFrame.ChangeCard("VEHICLE");
+                        vehicles.remove(pojazd);
+                        saveVehicle();
                     }
                 });
 
-                row.add(label);
-                row.add(btnDetails);
-
-                vehicleListPanel.add(row);
+                vehicleRow.add(deleteButton, BorderLayout.EAST);
+                containerPanel.add(vehicleRow);
             }
         }
-        vehicleListPanel.revalidate();
-        vehicleListPanel.repaint();
-    }
-}
-
-class MotorTile extends JPanel {
-
-    public MotorTile(Pojazd p) {
-        setLayout(new BorderLayout());
-        setBackground(Color.WHITE);
-        setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(200, 200, 200), 1), // Szara ramka
-                new EmptyBorder(15, 15, 15, 15) // Wewnętrzny margines (padding)
-        ));
-
-        // Wymuszenie preferowanego rozmiaru (opcjonalne, ale pomaga w GridLayout)
-        setPreferredSize(new Dimension(200, 120));
-
-        // Górna część: Nazwa
-        JLabel nameLabel = new JLabel(p.getModel());
-        nameLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        nameLabel.setForeground(new Color(50, 50, 50));
-        add(nameLabel, BorderLayout.NORTH);
-
-//        // Środek: Szczegóły
-//        JTextArea details = new JTextArea("Typ: " + .typ + "\nSilnik: " + motor.pojemnosc);
-//        details.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-//        details.setForeground(Color.GRAY);
-//        details.setEditable(false);
-//        details.setOpaque(false); // Przezroczyste tło
-//        details.setBorder(new EmptyBorder(10, 0, 10, 0));
-//        add(details, BorderLayout.CENTER);
-
-        // Dół: Przycisk akcji
-        JButton btn = new JButton("Szczegóły");
-        btn.setFocusable(false);
-        add(btn, BorderLayout.SOUTH);
+        containerPanel.revalidate();
+        containerPanel.repaint();
     }
 }

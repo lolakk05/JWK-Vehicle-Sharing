@@ -6,23 +6,19 @@ import com.google.gson.reflect.TypeToken;
 import osoba.Klient;
 import osoba.Serwisant;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class WorkerSerialize {
     public static ArrayList<Serwisant> loadWorkers() {
-        try {
-            File clientsFile = new File("data/workers.json");
-            BufferedReader reader = new BufferedReader(new FileReader(clientsFile));
-
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();;
-            Type workerListType = new TypeToken<ArrayList<Serwisant>>() {}.getType();
-            ArrayList<Serwisant> loadedWorkers = gson.fromJson(reader, workerListType);
-            reader.close();
-            return loadedWorkers;
+        ArrayList<Serwisant> workers = new ArrayList<>();
+        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("data/workers.ser"))){
+            int rozmiar = ois.readInt();
+            for(int i = 0; i < rozmiar; i++){
+                workers.add((Serwisant) ois.readObject());
+            }
+            return workers;
         }catch (Exception e){
             return new ArrayList<>();
         }

@@ -2,6 +2,7 @@ package frontend;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import pojazd.Pojazd;
 import pojazd.SamochodOsobowy;
 
 import javax.swing.*;
@@ -9,9 +10,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
+import java.io.*;
 
 import static app.Main.vehicles;
 
@@ -20,15 +19,12 @@ public class AddCar extends JPanel {
     private int liczba_stworzonych = 0;
 
     public void saveVehicle() {
-        File clientsFile = new File("data/vehicles.json");
-
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(clientsFile));
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            gson.toJson(vehicles, writer);
-            writer.close();
-            System.out.println("Pojazd zarejestrowany prawidłowo!");
-        } catch (Exception e) {
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data/vehicles.ser"))) {
+            oos.writeInt(vehicles.size());
+            for (Pojazd pojazd : vehicles) {
+                oos.writeObject(vehicles);
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

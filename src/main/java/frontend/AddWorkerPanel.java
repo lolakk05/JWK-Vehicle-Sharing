@@ -2,19 +2,14 @@ package frontend;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import osoba.EmailException;
-import osoba.PeselException;
-import osoba.PhoneNumberException;
-import osoba.Serwisant;
+import osoba.*;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,15 +20,12 @@ public class AddWorkerPanel extends JPanel {
     private MainFrame mainFrame;
 
     public void saveWorker() {
-        File clientsFile = new File("data/workers.json");
-
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(clientsFile));
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            gson.toJson(workers, writer);
-            writer.close();
-            System.out.println("Serwisant zarejestrowany prawidłowo!");
-        } catch (Exception e) {
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data/workers.ser"))) {
+            oos.writeInt(workers.size());
+            for (Serwisant worker : workers) {
+                oos.writeObject(worker);
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -43,10 +35,10 @@ public class AddWorkerPanel extends JPanel {
         setLayout(new FlowLayout());
 
         JPanel optionsPanel = new JPanel();
-        optionsPanel.setLayout(new GridLayout(1,4));
+        optionsPanel.setLayout(new GridLayout(1, 4));
 
         JButton acceptButton = new JButton("Strona główna");
-        acceptButton.setSize(new Dimension(30,30));
+        acceptButton.setSize(new Dimension(30, 30));
         acceptButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -55,7 +47,7 @@ public class AddWorkerPanel extends JPanel {
         });
 
         JButton addVehicleButton = new JButton("Dodaj pojazd");
-        addVehicleButton.setSize(new Dimension(30,30));
+        addVehicleButton.setSize(new Dimension(30, 30));
         addVehicleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -64,7 +56,7 @@ public class AddWorkerPanel extends JPanel {
         });
 
         JButton removeVehicleButton = new JButton("Usuń pojazd");
-        removeVehicleButton.setSize(new Dimension(30,30));
+        removeVehicleButton.setSize(new Dimension(30, 30));
         removeVehicleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -73,7 +65,7 @@ public class AddWorkerPanel extends JPanel {
         });
 
         JButton addWorkerButton = new JButton("Dodaj serwisanta");
-        addWorkerButton.setSize(new Dimension(30,30));
+        addWorkerButton.setSize(new Dimension(30, 30));
         addWorkerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -82,7 +74,7 @@ public class AddWorkerPanel extends JPanel {
         });
 
         JButton logoutButton = new JButton("Wyloguj");
-        logoutButton.setSize(new Dimension(30,30));
+        logoutButton.setSize(new Dimension(30, 30));
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -96,7 +88,7 @@ public class AddWorkerPanel extends JPanel {
         optionsPanel.add(addWorkerButton);
         optionsPanel.add(logoutButton);
 
-        optionsPanel.setSize(50,50);
+        optionsPanel.setSize(50, 50);
 
         add(optionsPanel, BorderLayout.CENTER);
 
@@ -113,7 +105,7 @@ public class AddWorkerPanel extends JPanel {
         addWorkerPanel.add(surname);
 
         addWorkerPanel.add(new JLabel("Pesel"));
-        JTextField pesel =  new JTextField(15);
+        JTextField pesel = new JTextField(15);
         addWorkerPanel.add(pesel);
 
         addWorkerPanel.add(new JLabel("Wiek:"));
@@ -144,14 +136,14 @@ public class AddWorkerPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 String[] worker = {name.getText(), surname.getText(), pesel.getText(), age.getText(), email.getText(), new String(password.getPassword()), phone.getText(), spec.getText()};
                 try {
-                for(String elem : worker) {
-                    if(elem.isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Żadne pole nie może pozostać puste");
-                        throw new Exception("Puste pole");
+                    for (String elem : worker) {
+                        if (elem.isEmpty()) {
+                            JOptionPane.showMessageDialog(null, "Żadne pole nie może pozostać puste");
+                            throw new Exception("Puste pole");
+                        }
                     }
-                }
 
-                    try{
+                    try {
                         PeselException.ValidatePesel(pesel.getText());
                     } catch (PeselException ex) {
                         JOptionPane.showMessageDialog(null, "Niepoprawny pesel");
@@ -160,14 +152,14 @@ public class AddWorkerPanel extends JPanel {
 
                     try {
                         EmailException.ValidateEmail(email.getText());
-                    } catch(EmailException ex) {
+                    } catch (EmailException ex) {
                         JOptionPane.showMessageDialog(null, "Niepoprawny email");
                         throw new Exception("Niepoprawny email");
                     }
 
-                    try{
+                    try {
                         PhoneNumberException.ValidateNumber(phone.getText());
-                    } catch(PhoneNumberException ex) {
+                    } catch (PhoneNumberException ex) {
                         JOptionPane.showMessageDialog(null, "Niepoprawny numer telefonu");
                         throw new Exception("Niepoprawny numer telefonu");
                     }
@@ -175,7 +167,7 @@ public class AddWorkerPanel extends JPanel {
                     int int_age;
                     try {
                         int_age = Integer.parseInt(age.getText());
-                    } catch(Exception ex) {
+                    } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null, "Wiek musi być liczbą");
                         throw new Exception("Wiek musi być liczbą");
                     }

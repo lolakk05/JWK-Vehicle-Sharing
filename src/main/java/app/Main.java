@@ -3,20 +3,15 @@ package app;
 import frontend.MainFrame;
 import osoba.*;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import pojazd.Pojazd;
-import pojazd.SamochodOsobowy;
 
 import javax.swing.*;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static pojazd.Pojazd.loadVehicles;
 import static serialization.UserSerialize.*;
+import static serialization.VehicleSerialize.loadVehicles;
 import static serialization.WorkerSerialize.loadWorkers;
 
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -110,15 +105,12 @@ public class Main {
     }
 
     public void saveClients() {
-        File clientsFile = new File("data/clients.json");
-
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(clientsFile));
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            gson.toJson(clients, writer);
-            writer.close();
-            System.out.println("Użytkownik zarejestrowany prawidłowo!");
-        } catch (Exception e) {
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data/clients.ser"))) {
+            oos.writeInt(clients.size());
+            for (Klient client : clients) {
+                oos.writeObject(client);
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
