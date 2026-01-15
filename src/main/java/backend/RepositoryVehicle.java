@@ -23,17 +23,18 @@ public class RepositoryVehicle {
             for(int i = 0; i < rozmiar; i++){
                 vehicles.add((Pojazd) ois.readObject());
             }
-            return vehicles;
         }catch (Exception e){
+            e.printStackTrace();
             return new ArrayList<>();
         }
+        return vehicles;
     }
 
     public void save() {
         try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data/vehicles.ser"))) {
             oos.writeInt(vehicles.size());
             for (Pojazd pojazd : vehicles) {
-                oos.writeObject(vehicles);
+                oos.writeObject(pojazd);
             }
         } catch (IOException e) {
             e.printStackTrace();

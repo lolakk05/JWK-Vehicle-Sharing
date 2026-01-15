@@ -1,6 +1,7 @@
 package frontend;
 
 import backend.RepositoryWorker;
+import backend.ServiceVehicle;
 import backend.Session;
 import osoba.Klient;
 import pojazd.Pojazd;
@@ -14,6 +15,7 @@ import java.util.Objects;
 
 public class VehicleListPanel extends JPanel {
     private MainFrame mainFrame;
+    private ServiceVehicle serviceVehicle;
     private JPanel vehicleListPanel;
 
     private Klient currentClient;
@@ -24,8 +26,10 @@ public class VehicleListPanel extends JPanel {
         nameLabel.setText("Zalogowano jako: " + currentClient.getImie());
     }
 
-    public VehicleListPanel(MainFrame mainFrame) {
+    public VehicleListPanel(MainFrame mainFrame, ServiceVehicle serviceVehicle) {
         this.mainFrame = mainFrame;
+        this.serviceVehicle = serviceVehicle;
+
         setLayout(new BorderLayout());
 
         JPanel topPanel = new JPanel();
@@ -69,7 +73,7 @@ public class VehicleListPanel extends JPanel {
     public void refreshList() {
         vehicleListPanel.removeAll();
 
-        ArrayList<Pojazd> pojazdy = new ArrayList<>();
+        ArrayList<Pojazd> pojazdy = new ArrayList<>(serviceVehicle.getVehicles());
 
         for (Pojazd p : pojazdy) {
             if(Objects.equals(p.getStatus(), "wolny")) {

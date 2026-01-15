@@ -1,9 +1,11 @@
 package backend;
 
 
+import pojazd.Pojazd;
 import pojazd.SamochodOsobowy;
 
 import javax.swing.*;
+import java.util.ArrayList;
 
 public class ServiceVehicle {
     private RepositoryVehicle repositoryVehicle;
@@ -77,5 +79,9 @@ public class ServiceVehicle {
         }
 
         repositoryVehicle.upload(new SamochodOsobowy(car[0], car[1], Integer.parseInt(car[2]), car[3], Double.parseDouble(car[4]), Double.parseDouble(car[5]), "wolny", car[6], car[7], car[8], Double.parseDouble(car[9]), Integer.parseInt(car[10]), car[11], car[12], Integer.parseInt(car[13])));
+    }
+
+    public ArrayList<Pojazd> getVehicles() {
+        return repositoryVehicle.getVehicles();
     }
 }

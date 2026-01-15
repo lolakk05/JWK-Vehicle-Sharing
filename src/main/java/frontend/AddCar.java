@@ -1,5 +1,6 @@
 package frontend;
 
+import backend.ServiceVehicle;
 import pojazd.Pojazd;
 import pojazd.SamochodOsobowy;
 
@@ -12,9 +13,11 @@ import java.io.*;
 
 public class AddCar extends JPanel {
     private MainFrame mainFrame;
+    private ServiceVehicle serviceVehicle;
 
-    public AddCar(MainFrame mainFrame) {
+    public AddCar(MainFrame mainFrame, ServiceVehicle serviceVehicle) {
         this.mainFrame = mainFrame;
+        this.serviceVehicle = serviceVehicle;
         setLayout(new FlowLayout());
 
         JPanel optionsPanel = new JPanel();
@@ -200,7 +203,7 @@ public class AddCar extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 String[] car = {marka.getText(), model.getText(), rokProdukcji.getText(), kolor.getText(), waga.getText(), cenaBazowa.getText(), wymaganeUprawnienia.getText(), vin.getText(), nrRejestracyjny.getText(), pojemnoscSilnika.getText(), liczbaMiejsc.getText(), paliwo.getText(), nadwozie.getText(), iloscDrzwi.getText()};
 
-
+                serviceVehicle.addCar(car);
 
                 marka.setText(null);
                 model.setText(null);

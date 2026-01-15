@@ -18,11 +18,6 @@ abstract public class PojazdSilnikowy extends Pojazd {
 
     @Override
     public String toString() {
-        return super.toString() + String.format(" | Rej: %s | Silnik: %.1fL %s | Przebieg: %.0f km | Miejsc: %d",
-                nrRejestracyjny,
-                pojemnoscSilnika,
-                paliwo,
-                liczbaMiejsc
-        );
+        return super.toString() + vin + nrRejestracyjny + pojemnoscSilnika +  liczbaMiejsc + paliwo;
     }
 }

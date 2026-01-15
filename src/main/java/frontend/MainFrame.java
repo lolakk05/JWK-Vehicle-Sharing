@@ -1,5 +1,6 @@
 package frontend;
 
+import backend.RepositoryVehicle;
 import backend.ServiceUser;
 import backend.ServiceVehicle;
 import backend.ServiceWorker;
@@ -45,12 +46,12 @@ public class MainFrame extends JFrame{
         AcceptLoanPanel acceptLoanPanel = new AcceptLoanPanel(this);
         AddVehiclePanel addVehiclePanel = new AddVehiclePanel(this);
         AddWorkerPanel addWorkerPanel = new AddWorkerPanel(this);
-        AddCar addCarPanel = new AddCar(this);
+        AddCar addCarPanel = new AddCar(this, serviceVehicle);
         AddMotorcycle addMotorcyclePanel = new AddMotorcycle(this);
         AddTir addTirPanel = new AddTir(this);
         AddScooter addScooterPanel = new AddScooter(this);
         AddBike addBikePanel = new AddBike(this);
-        vehicleListPanel = new VehicleListPanel(this);
+        vehicleListPanel = new VehicleListPanel(this, serviceVehicle);
         vehicleDetailPanel = new VehicleDetailPanel(this, serviceVehicle);
         RemoveVehiclePanel removeVehiclePanel = new RemoveVehiclePanel(this);
 
