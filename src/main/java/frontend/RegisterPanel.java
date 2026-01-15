@@ -1,19 +1,18 @@
 package frontend;
 
-import app.Main;
+import backend.ServiceUser;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class RegisterPanel extends JPanel {
     private CardLayout layout;
     private MainFrame mainFrame;
-    private Main registerLogic;
+    private ServiceUser serviceUser;
 
     private JTextField driverLicenseNumber;
     private JCheckBox checkBox;
@@ -30,9 +29,9 @@ public class RegisterPanel extends JPanel {
         checkBox3.setEnabled(value);
     }
 
-    public RegisterPanel(MainFrame mainFrame, Main registerLogic) {
+    public RegisterPanel(MainFrame mainFrame, ServiceUser serviceUser) {
         this.mainFrame = mainFrame;
-        this.registerLogic = registerLogic;
+        this.serviceUser = serviceUser;
         setLayout(new GridBagLayout());
 
         JPanel registerPanel = new JPanel();
@@ -141,7 +140,7 @@ public class RegisterPanel extends JPanel {
 
                 Object[] user = {name.getText(), surname.getText(), pesel.getText(), age.getText(), email.getText(), new String(password.getPassword()), phone.getText(), hasLicense, driverLicenseNumber.getText(), categories};
                 try {
-                    registerLogic.registerClient(user);
+                    serviceUser.registerClient(user);
                     JOptionPane.showMessageDialog(null, "Użytkownik zarejestrowany pomyślnie!");
 
                     name.setText(null);

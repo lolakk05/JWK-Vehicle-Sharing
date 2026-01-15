@@ -1,6 +1,5 @@
-package app;
+package backend;
 
-import frontend.MainFrame;
 import osoba.Klient;
 
 import java.awt.*;

@@ -1,19 +1,8 @@
 package pojazd;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import osoba.Klient;
-import osoba.Serwisant;
+import java.io.Serializable;
 
-import java.io.*;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-
-import static app.Main.clients;
-import static app.Main.vehicles;
-
-abstract public class Pojazd {
+abstract public class Pojazd implements Serializable {
     protected String marka;
     protected String model;
     protected int rokProdukcji;

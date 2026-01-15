@@ -1,10 +1,7 @@
 package frontend;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import pojazd.Motocykl;
 import pojazd.Pojazd;
-import pojazd.SamochodOsobowy;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -13,22 +10,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 
-import static app.Main.vehicles;
 
 public class AddMotorcycle extends JPanel {
     private MainFrame mainFrame;
     private int liczba_stworzonych = 0;
-
-    public void saveVehicle() {
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data/vehicles.ser"))) {
-            oos.writeInt(vehicles.size());
-            for (Pojazd pojazd : vehicles) {
-                oos.writeObject(vehicles);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public AddMotorcycle(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
@@ -268,10 +253,6 @@ public class AddMotorcycle extends JPanel {
                 if(checkBox.isSelected()) {
                     czyMaKufry = true;
                 }
-
-                vehicles.add(new Motocykl(marka.getText(), model.getText(), Integer.parseInt(rokProdukcji.getText()), kolor.getText(), Double.parseDouble(waga.getText()), Double.parseDouble(cenaBazowa.getText()), "wolny", wymaganeUprawnienia.getText(), vin.getText(), nrRejestracyjny.getText(), Double.parseDouble(pojemnoscSilnika.getText()), Integer.parseInt(liczbaMiejsc.getText()), paliwo.getText(), czyMaKufry, typ.getText()));
-                JOptionPane.showMessageDialog(null, "Motocykl dodany pomyślnie!");
-                saveVehicle();
 
                 marka.setText(null);
                 model.setText(null);

@@ -1,6 +1,8 @@
 package osoba;
 
-abstract public class Osoba {
+import java.io.Serializable;
+
+abstract public class Osoba implements Serializable {
     protected String imie;
     protected String nazwisko;
     protected String pesel;

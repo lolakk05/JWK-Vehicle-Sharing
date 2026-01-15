@@ -1,7 +1,7 @@
 package frontend;
 
-import app.Main;
-import app.Session;
+import backend.RepositoryWorker;
+import backend.Session;
 import osoba.Klient;
 import pojazd.Pojazd;
 
@@ -69,7 +69,7 @@ public class VehicleListPanel extends JPanel {
     public void refreshList() {
         vehicleListPanel.removeAll();
 
-        ArrayList<Pojazd> pojazdy = Main.vehicles;
+        ArrayList<Pojazd> pojazdy = new ArrayList<>();
 
         for (Pojazd p : pojazdy) {
             if(Objects.equals(p.getStatus(), "wolny")) {

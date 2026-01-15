@@ -1,7 +1,5 @@
 package frontend;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import pojazd.Pojazd;
 import pojazd.SamochodOsobowy;
 
@@ -12,22 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 
-import static app.Main.vehicles;
-
 public class AddCar extends JPanel {
     private MainFrame mainFrame;
-    private int liczba_stworzonych = 0;
-
-    public void saveVehicle() {
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data/vehicles.ser"))) {
-            oos.writeInt(vehicles.size());
-            for (Pojazd pojazd : vehicles) {
-                oos.writeObject(vehicles);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public AddCar(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
@@ -269,10 +253,6 @@ public class AddCar extends JPanel {
                 } catch(Exception ex) {
                     throw new RuntimeException();
                 }
-
-                vehicles.add(new SamochodOsobowy(marka.getText(), model.getText(), Integer.parseInt(rokProdukcji.getText()), kolor.getText(), Double.parseDouble(waga.getText()), Double.parseDouble(cenaBazowa.getText()), "wolny", wymaganeUprawnienia.getText(), vin.getText(), nrRejestracyjny.getText(), Double.parseDouble(pojemnoscSilnika.getText()), Integer.parseInt(liczbaMiejsc.getText()), paliwo.getText(), nadwozie.getText(), Integer.parseInt(iloscDrzwi.getText())));
-                JOptionPane.showMessageDialog(null, "Samochód dodany pomyślnie!");
-                saveVehicle();
 
                 marka.setText(null);
                 model.setText(null);

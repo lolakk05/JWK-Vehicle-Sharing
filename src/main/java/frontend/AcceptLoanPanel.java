@@ -1,18 +1,9 @@
 package frontend;
 
-import osoba.EmailException;
-import osoba.PeselException;
-import osoba.PhoneNumberException;
-import osoba.Serwisant;
-
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-
-import static app.Main.workers;
 
 public class AcceptLoanPanel extends JPanel {
     private MainFrame mainFrame;

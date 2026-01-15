@@ -1,6 +1,8 @@
 package frontend;
 
-import app.Main;
+import backend.ServiceUser;
+import backend.ServiceVehicle;
+import backend.ServiceWorker;
 import pojazd.Pojazd;
 
 import javax.swing.*;
@@ -9,7 +11,9 @@ import java.awt.*;
 public class MainFrame extends JFrame{
     private CardLayout layout;
     private JPanel mainContainer;
-    private Main appLogic;
+    private ServiceUser serviceUser;
+    private ServiceVehicle serviceVehicle;
+    private ServiceWorker serviceWorker;
     private UserPanel userPanel;
     private AcceptLoanPanel acceptLoanPanel;
     private AddVehiclePanel addVehiclePanel;
@@ -22,7 +26,7 @@ public class MainFrame extends JFrame{
     private VehicleListPanel vehicleListPanel;
     private VehicleDetailPanel vehicleDetailPanel;
 
-    public MainFrame(Main appLogic) {
+    public MainFrame() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 800);
         setResizable(false);
@@ -31,9 +35,13 @@ public class MainFrame extends JFrame{
         layout = new CardLayout();
         mainContainer = new JPanel(layout);
 
-        LoginPanel loginPanel = new LoginPanel(this, appLogic);
-        userPanel = new UserPanel(this, appLogic);
-        RegisterPanel registerPanel = new RegisterPanel(this, appLogic);
+        this.serviceUser = new ServiceUser();
+        this.serviceVehicle = new ServiceVehicle();
+        this.serviceWorker = new ServiceWorker();
+
+        LoginPanel loginPanel = new LoginPanel(this, serviceUser);
+        userPanel = new UserPanel(this, serviceUser);
+        RegisterPanel registerPanel = new RegisterPanel(this, serviceUser);
         AcceptLoanPanel acceptLoanPanel = new AcceptLoanPanel(this);
         AddVehiclePanel addVehiclePanel = new AddVehiclePanel(this);
         AddWorkerPanel addWorkerPanel = new AddWorkerPanel(this);
@@ -43,7 +51,7 @@ public class MainFrame extends JFrame{
         AddScooter addScooterPanel = new AddScooter(this);
         AddBike addBikePanel = new AddBike(this);
         vehicleListPanel = new VehicleListPanel(this);
-        vehicleDetailPanel = new VehicleDetailPanel(this, appLogic);
+        vehicleDetailPanel = new VehicleDetailPanel(this, serviceVehicle);
         RemoveVehiclePanel removeVehiclePanel = new RemoveVehiclePanel(this);
 
 

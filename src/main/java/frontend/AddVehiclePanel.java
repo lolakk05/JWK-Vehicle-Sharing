@@ -1,44 +1,19 @@
 package frontend;
 
-import app.Main;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import osoba.EmailException;
-import osoba.PeselException;
-import osoba.PhoneNumberException;
-import osoba.Serwisant;
-import pojazd.SamochodOsobowy;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.ArrayList;
 
-import static app.Main.vehicles;
-import static app.Main.workers;
 
 public class AddVehiclePanel extends JPanel {
     private MainFrame mainFrame;
-    private int liczba_stworzonych = 0;
-
-    public void saveVehicle() {
-        File clientsFile = new File("data/vehicles.json");
-
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(clientsFile));
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            gson.toJson(vehicles, writer);
-            writer.close();
-            System.out.println("Pojazd zarejestrowany prawidłowo!");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public AddVehiclePanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;

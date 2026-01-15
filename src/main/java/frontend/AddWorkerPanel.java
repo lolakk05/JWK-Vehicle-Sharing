@@ -1,7 +1,5 @@
 package frontend;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import osoba.*;
 
 import javax.swing.*;
@@ -11,24 +9,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
-
-import static app.Main.vehicles;
-import static app.Main.workers;
 
 public class AddWorkerPanel extends JPanel {
     private MainFrame mainFrame;
-
-    public void saveWorker() {
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data/workers.ser"))) {
-            oos.writeInt(workers.size());
-            for (Serwisant worker : workers) {
-                oos.writeObject(worker);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public AddWorkerPanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
@@ -171,10 +154,6 @@ public class AddWorkerPanel extends JPanel {
                         JOptionPane.showMessageDialog(null, "Wiek musi być liczbą");
                         throw new Exception("Wiek musi być liczbą");
                     }
-
-                    workers.add(new Serwisant(name.getText(), surname.getText(), pesel.getText(), int_age, email.getText(), new String(password.getPassword()), phone.getText(), "serwisant", spec.getText(), new ArrayList<>()));
-                    JOptionPane.showMessageDialog(null, "Serwisant dodany pomyślnie!");
-                    saveWorker();
 
                     name.setText(null);
                     surname.setText(null);

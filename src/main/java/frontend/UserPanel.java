@@ -1,7 +1,7 @@
 package frontend;
 
-import app.Main;
-import app.Session;
+import backend.ServiceUser;
+import backend.Session;
 import osoba.Klient;
 
 import javax.swing.*;
@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 
 public class UserPanel extends JPanel {
     private MainFrame mainFrame;
-    private Main appLogic;
+    private ServiceUser serviceUser;
     private Klient currentClient;
 
     private JLabel nameLabel;
@@ -23,8 +23,9 @@ public class UserPanel extends JPanel {
         balanceLabel.setText(String.valueOf(currentClient.getSaldo()));
     }
 
-    public UserPanel(MainFrame mainFrame, Main appLogic) {
+    public UserPanel(MainFrame mainFrame, ServiceUser serviceUser) {
         this.mainFrame = mainFrame;
+        this.serviceUser = serviceUser;
 
         setLayout(new GridBagLayout());
 
@@ -41,7 +42,7 @@ public class UserPanel extends JPanel {
                 int sum = Integer.parseInt(balanceField.getText());
                 currentClient.setSaldo(sum);
                 getUserData();
-                appLogic.saveClients();
+
             }
         });
 

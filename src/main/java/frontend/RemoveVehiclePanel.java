@@ -11,13 +11,10 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-import static app.Main.vehicles;
-import static serialization.VehicleSerialize.loadVehicles;
-
 public class RemoveVehiclePanel extends JPanel {
     private MainFrame mainFrame;
     private JPanel containerPanel;
-    private ArrayList<Pojazd> vehicles = loadVehicles();
+    private ArrayList<Pojazd> vehicles = new ArrayList<>();
 
     public void saveVehicle() {
         try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data/vehicles.ser"))) {
@@ -33,7 +30,7 @@ public class RemoveVehiclePanel extends JPanel {
     public RemoveVehiclePanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         setLayout(new FlowLayout());
-        vehicles = loadVehicles();
+        vehicles = new ArrayList<>();
 
         JPanel optionsPanel = new JPanel();
         optionsPanel.setLayout(new GridLayout(1,4));

@@ -1,21 +1,19 @@
 package frontend;
 
-import app.Main;
+import backend.ServiceUser;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class LoginPanel extends JPanel {
     private MainFrame mainFrame;
-    private Main loginManager;
+    private ServiceUser serviceUser;
 
-    public LoginPanel(MainFrame mainFrame, Main loginManager) {
+    public LoginPanel(MainFrame mainFrame, ServiceUser serviceUser) {
         this.mainFrame = mainFrame;
-        this.loginManager = loginManager;
+        this.serviceUser = serviceUser;
         setLayout(new GridBagLayout());
 
         JPanel loginPanel = new JPanel();
@@ -37,7 +35,7 @@ public class LoginPanel extends JPanel {
                     emailField.setText(null);
                     passwordField.setText(null);
                 }
-                else if(Main.login(emailField.getText(), new String(passwordField.getPassword()))) {
+                else if(serviceUser.login(emailField.getText(), new String(passwordField.getPassword()))) {
                      mainFrame.ChangeCard("MAIN");
                      emailField.setText(null);
                      passwordField.setText(null);

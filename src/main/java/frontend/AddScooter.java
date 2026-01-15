@@ -1,11 +1,7 @@
 package frontend;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import pojazd.HulajnogaElektryczna;
 import pojazd.Pojazd;
-import pojazd.Rower;
-import pojazd.SamochodOsobowy;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -14,22 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 
-import static app.Main.vehicles;
-
 public class AddScooter extends JPanel {
     private MainFrame mainFrame;
-    private int liczba_stworzonych = 0;
-
-    public void saveVehicle() {
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data/vehicles.ser"))) {
-            oos.writeInt(vehicles.size());
-            for (Pojazd pojazd : vehicles) {
-                oos.writeObject(vehicles);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public AddScooter(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
@@ -256,10 +238,6 @@ public class AddScooter extends JPanel {
                 } catch(Exception ex) {
                     throw new RuntimeException();
                 }
-
-                vehicles.add(new HulajnogaElektryczna(marka.getText(), model.getText(), Integer.parseInt(rokProdukcji.getText()), kolor.getText(), Double.parseDouble(waga.getText()), Double.parseDouble(cenaBazowa.getText()), "wolny", wymaganeUprawnienia.getText(), Integer.parseInt(pojemnoscBaterii.getText()), Integer.parseInt(zasiegKm.getText()), Double.parseDouble(maxPredkosc.getText())));
-                JOptionPane.showMessageDialog(null, "Hulajnoga dodana pomyślnie!");
-                saveVehicle();
 
                 marka.setText(null);
                 model.setText(null);
