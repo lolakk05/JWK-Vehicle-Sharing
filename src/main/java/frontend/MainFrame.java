@@ -21,7 +21,6 @@ public class MainFrame extends JFrame{
 
     private UserPanel userPanel;
     private AcceptLoanPanel acceptLoanPanel;
-    private AddVehiclePanel addVehiclePanel;
     private AddWorkerPanel addWorkerPanel;
     private AddCar addCar;
     private AddMotorcycle addMotorcycle;
@@ -51,7 +50,6 @@ public class MainFrame extends JFrame{
         userPanel = new UserPanel(this, serviceUser);
         RegisterPanel registerPanel = new RegisterPanel(this, serviceUser);
         AcceptLoanPanel acceptLoanPanel = new AcceptLoanPanel(this);
-        AddVehiclePanel addVehiclePanel = new AddVehiclePanel(this);
         AddWorkerPanel addWorkerPanel = new AddWorkerPanel(this);
         AddCar addCarPanel = new AddCar(this, serviceVehicle);
         AddMotorcycle addMotorcyclePanel = new AddMotorcycle(this, serviceVehicle);
@@ -69,7 +67,6 @@ public class MainFrame extends JFrame{
         mainContainer.add(vehicleListPanel, "MAIN");
         mainContainer.add(vehicleDetailPanel, "VEHICLE");
         mainContainer.add(acceptLoanPanel, "ACCEPT_LOAN");
-        mainContainer.add(addVehiclePanel, "ADD_VEHICLE_PANEL");
         mainContainer.add(addWorkerPanel, "ADD_WORKER_PANEL");
         mainContainer.add(addCarPanel, "ADD_CAR");
         mainContainer.add(addMotorcyclePanel, "ADD_MOTORCYCLE");

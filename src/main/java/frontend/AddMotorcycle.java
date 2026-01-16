@@ -33,12 +33,58 @@ public class AddMotorcycle extends JPanel {
             }
         });
 
-        JButton addVehicleButton = new JButton("Dodaj pojazd");
-        addVehicleButton.setSize(new Dimension(30,30));
-        addVehicleButton.addActionListener(new ActionListener() {
+        JButton btnDodajPojazd = new JButton("Dodaj pojazd \u25BC");
+        JPopupMenu popupPojazdy = new JPopupMenu();
+
+        JMenuItem menuItemCar = new JMenuItem("Dodaj samochód");
+        menuItemCar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainFrame.ChangeCard("ADD_VEHICLE_PANEL");
+                mainFrame.ChangeCard("ADD_CAR");
+            }
+        });
+        popupPojazdy.add(menuItemCar);
+
+        JMenuItem menuItemMotor = new JMenuItem("Dodaj motocykl");
+        menuItemMotor.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainFrame.ChangeCard("ADD_MOTORCYCLE");
+            }
+        });
+        popupPojazdy.add(menuItemMotor);
+
+        JMenuItem menuItemTir = new JMenuItem("Dodaj ciężarówkę");
+        menuItemTir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainFrame.ChangeCard("ADD_TIR");
+            }
+        });
+        popupPojazdy.add(menuItemTir);
+
+        JMenuItem menuItemScooter = new JMenuItem("Dodaj hulajnogę");
+        menuItemScooter.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainFrame.ChangeCard("ADD_SCOOTER");
+            }
+        });
+        popupPojazdy.add(menuItemScooter);
+
+        JMenuItem menuItemBike = new JMenuItem("Dodaj rower");
+        menuItemBike.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainFrame.ChangeCard("ADD_BIKE");
+            }
+        });
+        popupPojazdy.add(menuItemBike);
+
+        btnDodajPojazd.addActionListener(new  ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                popupPojazdy.show(btnDodajPojazd, 0, btnDodajPojazd.getHeight());
             }
         });
 
@@ -70,7 +116,7 @@ public class AddMotorcycle extends JPanel {
         });
 
         optionsPanel.add(acceptButton);
-        optionsPanel.add(addVehicleButton);
+        optionsPanel.add(btnDodajPojazd);
         optionsPanel.add(removeVehicleButton);
         optionsPanel.add(addWorkerButton);
         optionsPanel.add(logoutButton);
@@ -78,64 +124,6 @@ public class AddMotorcycle extends JPanel {
         optionsPanel.setSize(50,50);
 
         add(optionsPanel, BorderLayout.CENTER);
-
-        JPanel chooseVehiclePanel = new JPanel();
-        chooseVehiclePanel.setLayout(new GridLayout(1,5));
-
-        JButton carButton = new JButton("Samochód");
-        carButton.setSize(new Dimension(30,30));
-        carButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainFrame.ChangeCard("ADD_CAR");
-            }
-        });
-
-        JButton motorcycleButton = new JButton("Motocykl");
-        motorcycleButton.setSize(new Dimension(30,30));
-        motorcycleButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainFrame.ChangeCard("ADD_MOTOCYCLE");
-            }
-        });
-
-        JButton tirButton = new JButton("Ciężarówka");
-        tirButton.setSize(new Dimension(30,30));
-        tirButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainFrame.ChangeCard("ADD_TIR");
-            }
-        });
-
-        JButton scooterButton = new JButton("Hulajnoga");
-        scooterButton.setSize(new Dimension(30,30));
-        scooterButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainFrame.ChangeCard("ADD_SCOOTER");
-            }
-        });
-
-        JButton bikeButton = new JButton("Rower");
-        bikeButton.setSize(new Dimension(30,30));
-        bikeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainFrame.ChangeCard("ADD_BIKE");
-            }
-        });
-
-        chooseVehiclePanel.add(carButton);
-        chooseVehiclePanel.add(motorcycleButton);
-        chooseVehiclePanel.add(tirButton);
-        chooseVehiclePanel.add(scooterButton);
-        chooseVehiclePanel.add(bikeButton);
-
-        chooseVehiclePanel.setSize(50,50);
-
-        add(chooseVehiclePanel, BorderLayout.CENTER);
 
         JPanel addCarPanel = new JPanel();
 
