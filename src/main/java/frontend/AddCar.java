@@ -32,12 +32,58 @@ public class AddCar extends JPanel {
             }
         });
 
-        JButton addVehicleButton = new JButton("Dodaj pojazd");
-        addVehicleButton.setSize(new Dimension(30,30));
-        addVehicleButton.addActionListener(new ActionListener() {
+        JButton btnDodajPojazd = new JButton("Dodaj pojazd \u25BC");
+        JPopupMenu popupPojazdy = new JPopupMenu();
+
+        JMenuItem menuItemCar = new JMenuItem("Dodaj samochód");
+        menuItemCar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainFrame.ChangeCard("ADD_VEHICLE_PANEL");
+                mainFrame.ChangeCard("ADD_CAR");
+            }
+        });
+        popupPojazdy.add(menuItemCar);
+
+        JMenuItem menuItemMotor = new JMenuItem("Dodaj motocykl");
+        menuItemMotor.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainFrame.ChangeCard("ADD_MOTORCYCLE");
+            }
+        });
+        popupPojazdy.add(menuItemMotor);
+
+        JMenuItem menuItemTir = new JMenuItem("Dodaj ciężarówkę");
+        menuItemTir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainFrame.ChangeCard("ADD_TIR");
+            }
+        });
+        popupPojazdy.add(menuItemTir);
+
+        JMenuItem menuItemScooter = new JMenuItem("Dodaj hulajnogę");
+        menuItemScooter.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainFrame.ChangeCard("ADD_SCOOTER");
+            }
+        });
+        popupPojazdy.add(menuItemScooter);
+
+        JMenuItem menuItemBike = new JMenuItem("Dodaj rower");
+        menuItemBike.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainFrame.ChangeCard("ADD_BIKE");
+            }
+        });
+        popupPojazdy.add(menuItemBike);
+
+        btnDodajPojazd.addActionListener(new  ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                popupPojazdy.show(btnDodajPojazd, 0, btnDodajPojazd.getHeight());
             }
         });
 
@@ -69,7 +115,7 @@ public class AddCar extends JPanel {
         });
 
         optionsPanel.add(acceptButton);
-        optionsPanel.add(addVehicleButton);
+        optionsPanel.add(btnDodajPojazd);
         optionsPanel.add(removeVehicleButton);
         optionsPanel.add(addWorkerButton);
         optionsPanel.add(logoutButton);
@@ -77,64 +123,6 @@ public class AddCar extends JPanel {
         optionsPanel.setSize(50,50);
 
         add(optionsPanel, BorderLayout.CENTER);
-
-        JPanel chooseVehiclePanel = new JPanel();
-        chooseVehiclePanel.setLayout(new GridLayout(1,5));
-
-        JButton carButton = new JButton("Samochód");
-        carButton.setSize(new Dimension(30,30));
-        carButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainFrame.ChangeCard("ADD_CAR");
-            }
-        });
-
-        JButton motorcycleButton = new JButton("Motocykl");
-        motorcycleButton.setSize(new Dimension(30,30));
-        motorcycleButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainFrame.ChangeCard("ADD_MOTORCYCLE");
-            }
-        });
-
-        JButton tirButton = new JButton("Ciężarówka");
-        tirButton.setSize(new Dimension(30,30));
-        tirButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainFrame.ChangeCard("ADD_TIR");
-            }
-        });
-
-        JButton scooterButton = new JButton("Hulajnoga");
-        scooterButton.setSize(new Dimension(30,30));
-        scooterButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainFrame.ChangeCard("ADD_SCOOTER");
-            }
-        });
-
-        JButton bikeButton = new JButton("Rower");
-        bikeButton.setSize(new Dimension(30,30));
-        bikeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainFrame.ChangeCard("ADD_BIKE");
-            }
-        });
-
-        chooseVehiclePanel.add(carButton);
-        chooseVehiclePanel.add(motorcycleButton);
-        chooseVehiclePanel.add(tirButton);
-        chooseVehiclePanel.add(scooterButton);
-        chooseVehiclePanel.add(bikeButton);
-
-        chooseVehiclePanel.setSize(50,50);
-
-        add(chooseVehiclePanel, BorderLayout.CENTER);
 
         JPanel addCarPanel = new JPanel();
 
@@ -164,10 +152,6 @@ public class AddCar extends JPanel {
         addCarPanel.add(new JLabel("Cena bazowa: "));
         JTextField cenaBazowa =  new JTextField(15);
         addCarPanel.add(cenaBazowa);
-
-        addCarPanel.add(new JLabel("Wymagane uprawnienia: "));
-        JTextField wymaganeUprawnienia = new JTextField(15);
-        addCarPanel.add(wymaganeUprawnienia);
 
         addCarPanel.add(new JLabel("Nr VIN: "));
         JTextField vin = new JTextField(15);
@@ -201,7 +185,7 @@ public class AddCar extends JPanel {
         JButton addButton = new JButton("Dodaj");
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String[] car = {marka.getText(), model.getText(), rokProdukcji.getText(), kolor.getText(), waga.getText(), cenaBazowa.getText(), wymaganeUprawnienia.getText(), vin.getText(), nrRejestracyjny.getText(), pojemnoscSilnika.getText(), liczbaMiejsc.getText(), paliwo.getText(), nadwozie.getText(), iloscDrzwi.getText()};
+                String[] car = {marka.getText(), model.getText(), rokProdukcji.getText(), kolor.getText(), waga.getText(), cenaBazowa.getText(), "B", vin.getText(), nrRejestracyjny.getText(), pojemnoscSilnika.getText(), liczbaMiejsc.getText(), paliwo.getText(), nadwozie.getText(), iloscDrzwi.getText()};
 
                 serviceVehicle.addCar(car);
 
@@ -211,7 +195,6 @@ public class AddCar extends JPanel {
                 kolor.setText(null);
                 waga.setText(null);
                 cenaBazowa.setText(null);
-                wymaganeUprawnienia.setText(null);
                 vin.setText(null);
                 nrRejestracyjny.setText(null);
                 pojemnoscSilnika.setText(null);

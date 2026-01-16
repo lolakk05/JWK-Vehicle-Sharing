@@ -44,12 +44,58 @@ public class RemoveVehiclePanel extends JPanel {
             }
         });
 
-        JButton addVehicleButton = new JButton("Dodaj pojazd");
-        addVehicleButton.setSize(new Dimension(30,30));
-        addVehicleButton.addActionListener(new ActionListener() {
+        JButton btnDodajPojazd = new JButton("Dodaj pojazd \u25BC");
+        JPopupMenu popupPojazdy = new JPopupMenu();
+
+        JMenuItem menuItemCar = new JMenuItem("Dodaj samochód");
+        menuItemCar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainFrame.ChangeCard("ADD_VEHICLE_PANEL");
+                mainFrame.ChangeCard("ADD_CAR");
+            }
+        });
+        popupPojazdy.add(menuItemCar);
+
+        JMenuItem menuItemMotor = new JMenuItem("Dodaj motocykl");
+        menuItemMotor.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainFrame.ChangeCard("ADD_MOTORCYCLE");
+            }
+        });
+        popupPojazdy.add(menuItemMotor);
+
+        JMenuItem menuItemTir = new JMenuItem("Dodaj ciężarówkę");
+        menuItemTir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainFrame.ChangeCard("ADD_TIR");
+            }
+        });
+        popupPojazdy.add(menuItemTir);
+
+        JMenuItem menuItemScooter = new JMenuItem("Dodaj hulajnogę");
+        menuItemScooter.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainFrame.ChangeCard("ADD_SCOOTER");
+            }
+        });
+        popupPojazdy.add(menuItemScooter);
+
+        JMenuItem menuItemBike = new JMenuItem("Dodaj rower");
+        menuItemBike.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainFrame.ChangeCard("ADD_BIKE");
+            }
+        });
+        popupPojazdy.add(menuItemBike);
+
+        btnDodajPojazd.addActionListener(new  ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                popupPojazdy.show(btnDodajPojazd, 0, btnDodajPojazd.getHeight());
             }
         });
 
@@ -81,7 +127,7 @@ public class RemoveVehiclePanel extends JPanel {
         });
 
         optionsPanel.add(acceptButton);
-        optionsPanel.add(addVehicleButton);
+        optionsPanel.add(btnDodajPojazd);
         optionsPanel.add(removeVehicleButton);
         optionsPanel.add(addWorkerButton);
         optionsPanel.add(logoutButton);
