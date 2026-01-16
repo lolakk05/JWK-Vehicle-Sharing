@@ -154,10 +154,6 @@ public class AddBike extends JPanel {
         JTextField cenaBazowa =  new JTextField(15);
         addCarPanel.add(cenaBazowa);
 
-        addCarPanel.add(new JLabel("Wymagane uprawnienia: "));
-        JTextField wymaganeUprawnienia = new JTextField(15);
-        addCarPanel.add(wymaganeUprawnienia);
-
         addCarPanel.add(new JLabel("Rozmiar kół: "));
         JTextField rozmiarKol = new JTextField(15);
         addCarPanel.add(rozmiarKol);
@@ -171,7 +167,7 @@ public class AddBike extends JPanel {
         JButton addButton = new JButton("Dodaj");
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String[] bike = {marka.getText(), model.getText(), rokProdukcji.getText(), kolor.getText(), waga.getText(), cenaBazowa.getText(), wymaganeUprawnienia.getText(), rozmiarKol.getText(), typ.getText()};
+                String[] bike = {marka.getText(), model.getText(), rokProdukcji.getText(), kolor.getText(), waga.getText(), cenaBazowa.getText(), "Karta rowerowa", rozmiarKol.getText(), typ.getText()};
 
                 serviceVehicle.addBike(bike);
 
@@ -181,7 +177,6 @@ public class AddBike extends JPanel {
                 kolor.setText(null);
                 waga.setText(null);
                 cenaBazowa.setText(null);
-                wymaganeUprawnienia.setText(null);
                 rozmiarKol.setText(null);
                 typ.setText(null);
 

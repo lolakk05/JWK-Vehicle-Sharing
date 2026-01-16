@@ -153,10 +153,6 @@ public class AddScooter extends JPanel {
         JTextField cenaBazowa =  new JTextField(15);
         addCarPanel.add(cenaBazowa);
 
-        addCarPanel.add(new JLabel("Wymagane uprawnienia: "));
-        JTextField wymaganeUprawnienia = new JTextField(15);
-        addCarPanel.add(wymaganeUprawnienia);
-
         addCarPanel.add(new JLabel("Pojemność baterii: "));
         JTextField pojemnoscBaterii = new JTextField(15);
         addCarPanel.add(pojemnoscBaterii);
@@ -174,7 +170,7 @@ public class AddScooter extends JPanel {
         JButton addButton = new JButton("Dodaj");
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String[] scooter = {marka.getText(), model.getText(), rokProdukcji.getText(), kolor.getText(), waga.getText(), cenaBazowa.getText(), wymaganeUprawnienia.getText(), pojemnoscBaterii.getText(), zasiegKm.getText(), maxPredkosc.getText()};
+                String[] scooter = {marka.getText(), model.getText(), rokProdukcji.getText(), kolor.getText(), waga.getText(), cenaBazowa.getText(), "Karta rowerowa", pojemnoscBaterii.getText(), zasiegKm.getText(), maxPredkosc.getText()};
 
                 serviceVehicle.addScooter(scooter);
 
@@ -184,7 +180,6 @@ public class AddScooter extends JPanel {
                 kolor.setText(null);
                 waga.setText(null);
                 cenaBazowa.setText(null);
-                wymaganeUprawnienia.setText(null);
                 pojemnoscBaterii.setText(null);
                 zasiegKm.setText(null);
                 maxPredkosc.setText(null);

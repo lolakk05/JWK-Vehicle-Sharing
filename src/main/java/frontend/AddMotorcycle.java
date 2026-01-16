@@ -154,10 +154,6 @@ public class AddMotorcycle extends JPanel {
         JTextField cenaBazowa =  new JTextField(15);
         addCarPanel.add(cenaBazowa);
 
-        addCarPanel.add(new JLabel("Wymagane uprawnienia: "));
-        JTextField wymaganeUprawnienia = new JTextField(15);
-        addCarPanel.add(wymaganeUprawnienia);
-
         addCarPanel.add(new JLabel("Nr VIN: "));
         JTextField vin = new JTextField(15);
         addCarPanel.add(vin);
@@ -191,7 +187,7 @@ public class AddMotorcycle extends JPanel {
         JButton addButton = new JButton("Dodaj");
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String[] moto = {marka.getText(), model.getText(), rokProdukcji.getText(), kolor.getText(), waga.getText(), cenaBazowa.getText(), wymaganeUprawnienia.getText(), vin.getText(), nrRejestracyjny.getText(), pojemnoscSilnika.getText(), liczbaMiejsc.getText(), paliwo.getText(), "czy ma kufry", typ.getText()};
+                String[] moto = {marka.getText(), model.getText(), rokProdukcji.getText(), kolor.getText(), waga.getText(), cenaBazowa.getText(), "A", vin.getText(), nrRejestracyjny.getText(), pojemnoscSilnika.getText(), liczbaMiejsc.getText(), paliwo.getText(), "czy ma kufry", typ.getText()};
 
                 serviceVehicle.addMotorcycle(moto);
 
@@ -201,7 +197,6 @@ public class AddMotorcycle extends JPanel {
                 kolor.setText(null);
                 waga.setText(null);
                 cenaBazowa.setText(null);
-                wymaganeUprawnienia.setText(null);
                 vin.setText(null);
                 nrRejestracyjny.setText(null);
                 pojemnoscSilnika.setText(null);
