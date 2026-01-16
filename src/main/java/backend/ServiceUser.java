@@ -17,6 +17,10 @@ public class ServiceUser {
         this.repositoryUser = new RepositoryUser();
     }
 
+    public RepositoryUser getRepositoryUser() {
+        return repositoryUser;
+    }
+
     public void clientSaveData() {
         repositoryUser.save();
     }

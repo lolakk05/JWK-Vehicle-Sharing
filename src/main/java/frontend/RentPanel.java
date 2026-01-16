@@ -3,11 +3,7 @@ package frontend;
 import backend.ServiceRental;
 import backend.ServiceVehicle;
 import pojazd.Pojazd;
-import pojazd.Rower;
-import strategia.StrategiaCenowa;
-import strategia.StrategiaDlugoterminowa;
 import strategia.StrategiaDobowa;
-import strategia.StrategiaMinutowa;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +13,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class VehicleDetailPanel extends JPanel {
+public class RentPanel extends JPanel {
     private MainFrame mainFrame;
     private ServiceVehicle serviceVehicle;
     private ServiceRental serviceRental;
@@ -33,7 +29,7 @@ public class VehicleDetailPanel extends JPanel {
     private JLabel priceLabel = new JLabel();
 
 
-    public VehicleDetailPanel(MainFrame mainFrame, ServiceVehicle serviceVehicle, ServiceRental serviceRental) {
+    public RentPanel(MainFrame mainFrame, ServiceVehicle serviceVehicle, ServiceRental serviceRental) {
         this.mainFrame = mainFrame;
         this.serviceVehicle= serviceVehicle;
         this.serviceRental = serviceRental;
@@ -114,11 +110,6 @@ public class VehicleDetailPanel extends JPanel {
         }
     }
 
-    private void function() {
-        // Placeholder for additional functionality if needed in the future
-    }
-
-
     private void rentVehicle() {
         if (serviceRental.getLastStrategy() == null) {
             JOptionPane.showMessageDialog(this, "Najpierw oblicz cenę!");
@@ -129,14 +120,12 @@ public class VehicleDetailPanel extends JPanel {
         String dateStartFormatted = sdfForService.format(serviceRental.getLastStartDate());
         String dateEndFormatted = sdfForService.format(serviceRental.getLastEndDate());
         
-        serviceRental.rent(currentVehicle, dateStartFormatted, dateEndFormatted, serviceRental.getLastStrategy());
-        
-        JOptionPane.showMessageDialog(this, "Pojazd został wypożyczony!");
-        
-        serviceRental.clearCalculation();
-        priceLabel.setText("");
-        
-        mainFrame.ChangeCard("MAIN");
+        if(serviceRental.rent(currentVehicle, dateStartFormatted, dateEndFormatted, serviceRental.getLastStrategy())) {
+            serviceRental.clearCalculation();
+            priceLabel.setText("");
+            
+            mainFrame.ChangeCard("MAIN");
+        };
     }
 
     public void getVehicle(Pojazd P) {

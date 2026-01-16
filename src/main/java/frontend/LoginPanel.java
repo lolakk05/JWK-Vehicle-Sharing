@@ -36,7 +36,7 @@ public class LoginPanel extends JPanel {
                     passwordField.setText(null);
                 }
                 else if(serviceUser.login(emailField.getText(), new String(passwordField.getPassword()))) {
-                     mainFrame.ChangeCard("MAIN");
+                     mainFrame.ChangeCard("USER");
                      emailField.setText(null);
                      passwordField.setText(null);
                 }else if(emailField.getText().isEmpty() || passwordField.getText().isEmpty()){

@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.Flow;
 
 public class UserPanel extends JPanel {
     private MainFrame mainFrame;
@@ -27,10 +28,10 @@ public class UserPanel extends JPanel {
         this.mainFrame = mainFrame;
         this.serviceUser = serviceUser;
 
-        setLayout(new GridBagLayout());
-
         JPanel userPanel = new JPanel();
-        userPanel.setLayout(new GridBagLayout());
+        
+        JPanel menuPanel = new JPanel();
+        menuPanel.setLayout(new FlowLayout());
 
         nameLabel = new JLabel("Username: ..");
         balanceLabel = new JLabel("Balance: 0");
@@ -46,22 +47,30 @@ public class UserPanel extends JPanel {
             }
         });
 
-        JButton returnButton = new JButton("POWRUT");
-        returnButton.addActionListener(new ActionListener() {
+        JButton rentButton = new JButton("Wypożycz");
+        rentButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                mainFrame.ChangeCard("MAIN");
+                mainFrame.ChangeCard("RENT");
             }
         });
 
-        userPanel.add(nameLabel);
-        userPanel.add(balanceLabel);
+        JButton logoutButton = new JButton("Wyloguj Się");
+        logoutButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Session.logout();
+                mainFrame.ChangeCard("LOGIN");
+            }
+        });
 
-        userPanel.add(balanceField);
-        userPanel.add(balanceButton);
+        menuPanel.add(nameLabel);
+        menuPanel.add(balanceLabel);
 
-        userPanel.add(returnButton);
+        menuPanel.add(balanceField);
+        menuPanel.add(balanceButton);
+        menuPanel.add(rentButton);
+        menuPanel.add(logoutButton);
 
-        userPanel.add(new JLabel("W budowie..."));
+        userPanel.add(menuPanel, BorderLayout.NORTH);
 
         add(userPanel);
     }

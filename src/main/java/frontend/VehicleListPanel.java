@@ -39,22 +39,14 @@ public class VehicleListPanel extends JPanel {
         nameLabel = new JLabel();
         topPanel.add(nameLabel, BorderLayout.CENTER);
 
-        JButton goToUser =  new JButton("Profil");
-        goToUser.addActionListener(new ActionListener() {
+        JButton backButton = new JButton("Powrót");
+        backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 mainFrame.ChangeCard("USER");
             }
         });
-        JButton backButton = new JButton("Wyloguj się");
-        backButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Session.logout();
-                mainFrame.ChangeCard("LOGIN");
-            }
-        });
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
-        buttonPanel.add(goToUser);
         buttonPanel.add(backButton);
         topPanel.add(buttonPanel, BorderLayout.EAST);
         add(topPanel, BorderLayout.NORTH);
