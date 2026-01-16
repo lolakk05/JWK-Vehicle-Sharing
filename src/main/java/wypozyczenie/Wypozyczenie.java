@@ -1,20 +1,24 @@
 package wypozyczenie;
 
 import pojazd.Pojazd;
+import osoba.Klient;
 import strategia.StrategiaCenowa;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-public class Wypozyczenie {
+public class Wypozyczenie implements Serializable {
     private Pojazd pojazd;
+    private Klient klient;
     private Date dataRozpoczecia;
     private Date dataZakonczenia;
     private double kosztKoncowy;
     private StrategiaCenowa strategia;
 
-    public Wypozyczenie(Pojazd pojazd, Date dataRozpoczecia, Date dataZakonczenia, StrategiaCenowa strategia) {
+    public Wypozyczenie(Pojazd pojazd,Klient klient, Date dataRozpoczecia, Date dataZakonczenia, StrategiaCenowa strategia) {
         this.pojazd = pojazd;
+        this.klient = klient;
         this.dataRozpoczecia = dataRozpoczecia;
         this.dataZakonczenia = dataZakonczenia;
         this.strategia = strategia;

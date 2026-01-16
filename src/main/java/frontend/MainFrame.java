@@ -1,6 +1,7 @@
 package frontend;
 
 import backend.RepositoryVehicle;
+import backend.ServiceRental;
 import backend.ServiceUser;
 import backend.ServiceVehicle;
 import backend.ServiceWorker;
@@ -12,9 +13,12 @@ import java.awt.*;
 public class MainFrame extends JFrame{
     private CardLayout layout;
     private JPanel mainContainer;
+
     private ServiceUser serviceUser;
     private ServiceVehicle serviceVehicle;
     private ServiceWorker serviceWorker;
+    private ServiceRental serviceRental;
+
     private UserPanel userPanel;
     private AcceptLoanPanel acceptLoanPanel;
     private AddVehiclePanel addVehiclePanel;
@@ -39,6 +43,8 @@ public class MainFrame extends JFrame{
         this.serviceUser = new ServiceUser();
         this.serviceVehicle = new ServiceVehicle();
         this.serviceWorker = new ServiceWorker();
+        this.serviceRental = new ServiceRental();
+        this.serviceRental.setServiceVehicle(serviceVehicle);
 
         LoginPanel loginPanel = new LoginPanel(this, serviceUser);
         userPanel = new UserPanel(this, serviceUser);
@@ -52,7 +58,7 @@ public class MainFrame extends JFrame{
         AddScooter addScooterPanel = new AddScooter(this, serviceVehicle);
         AddBike addBikePanel = new AddBike(this, serviceVehicle);
         vehicleListPanel = new VehicleListPanel(this, serviceVehicle);
-        vehicleDetailPanel = new VehicleDetailPanel(this, serviceVehicle);
+        vehicleDetailPanel = new VehicleDetailPanel(this, serviceVehicle, serviceRental);
         RemoveVehiclePanel removeVehiclePanel = new RemoveVehiclePanel(this);
 
 
