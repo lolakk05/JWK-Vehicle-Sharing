@@ -147,4 +147,8 @@ public class ServiceVehicle {
     public ArrayList<Pojazd> getVehicles() {
         return repositoryVehicle.getVehicles();
     }
+    
+    public RepositoryVehicle getRepositoryVehicle() {
+        return repositoryVehicle;
+    }
 }

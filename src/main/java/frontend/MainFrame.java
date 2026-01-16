@@ -45,6 +45,7 @@ public class MainFrame extends JFrame{
         this.serviceWorker = new ServiceWorker();
         this.serviceRental = new ServiceRental();
         this.serviceRental.setServiceVehicle(serviceVehicle);
+        this.serviceRental.setRepositoryVehicle(serviceVehicle.getRepositoryVehicle());
 
         LoginPanel loginPanel = new LoginPanel(this, serviceUser);
         userPanel = new UserPanel(this, serviceUser);
