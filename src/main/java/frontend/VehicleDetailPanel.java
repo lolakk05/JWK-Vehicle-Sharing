@@ -3,6 +3,11 @@ package frontend;
 import backend.ServiceRental;
 import backend.ServiceVehicle;
 import pojazd.Pojazd;
+import pojazd.Rower;
+import strategia.StrategiaCenowa;
+import strategia.StrategiaDlugoterminowa;
+import strategia.StrategiaDobowa;
+import strategia.StrategiaMinutowa;
 
 import javax.swing.*;
 import java.awt.*;
@@ -101,9 +106,30 @@ public class VehicleDetailPanel extends JPanel {
                 return;
             }
 
-            serviceRental.calculateRental(currentVehicle, startDate, endDate);
-            
-            priceLabel.setText(String.format("%.2f PLN", serviceRental.getLastPrice()));
+            long diffInMillies = Math.abs(endDate.getTime() - startDate.getTime());
+            long diffInMinutes = TimeUnit.MINUTES.convert(diffInMillies, TimeUnit.MILLISECONDS);
+
+            if (diffInMinutes == 0) diffInMinutes = 1;
+
+            StrategiaCenowa strategia;
+
+            if (currentVehicle instanceof Rower) {
+                strategia = new StrategiaMinutowa();
+            } else {
+
+                long tydzienWMinutach = 7 * 24 * 60; 
+
+                if (diffInMinutes > tydzienWMinutach) {
+                    strategia = new StrategiaDlugoterminowa(0.20); // 20% rabatu
+                } else {
+                    strategia = new StrategiaDobowa();
+                }
+            }
+
+            double price = strategia.wyliczKoszt(diffInMinutes, currentVehicle.getCenaBazowa());
+
+            priceLabel.setText(String.format("%.2f", price));
+
         } catch (ParseException e) {
             JOptionPane.showMessageDialog(this, "Błędny format daty! Użyj formatu DD/MM/RRRR");
         }
