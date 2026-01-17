@@ -71,7 +71,6 @@ public class VehicleListPanel extends JPanel {
 
         for (Pojazd p : pojazdy) {
             if(Objects.equals(p.getStatus(), "wolny")) {
-                System.out.println(p);
                 JPanel row = new JPanel(new FlowLayout(FlowLayout.LEFT));
                 row.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
 

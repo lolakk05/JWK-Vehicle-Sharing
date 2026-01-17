@@ -52,8 +52,8 @@ public class MainFrame extends JFrame{
         this.serviceRental.setServiceUser(serviceUser);
         this.serviceRental.setRepositoryUser(serviceUser.getRepositoryUser());
 
-        LoginPanel loginPanel = new LoginPanel(this, serviceUser, serviceWorker);
-        userPanel = new UserPanel(this, serviceUser);
+        LoginPanel loginPanel = new LoginPanel(this, serviceUser);
+        userPanel = new UserPanel(this, serviceUser, serviceRental);
         RegisterPanel registerPanel = new RegisterPanel(this, serviceUser);
         AcceptLoanPanel acceptLoanPanel = new AcceptLoanPanel(this);
         AddWorkerPanel addWorkerPanel = new AddWorkerPanel(this, serviceWorker);
@@ -130,11 +130,12 @@ public class MainFrame extends JFrame{
     public void ChangeCard(String cardName) {
         if(cardName.equals("USER")){
             userPanel.getUserData();
+            userPanel.refreshRentalList();
         }
         if(cardName.equals("SERVICE_WORKER_PANEL")){
             serviceWorkerPanel.refreshData();
         }
-        if(cardName.equals("MAIN")){
+        if(cardName.equals("RENT")){
             vehicleListPanel.getClientData();
             vehicleListPanel.refreshList();
         }

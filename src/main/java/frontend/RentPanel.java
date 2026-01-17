@@ -124,7 +124,7 @@ public class RentPanel extends JPanel {
             serviceRental.clearCalculation();
             priceLabel.setText("");
             
-            mainFrame.ChangeCard("MAIN");
+            mainFrame.ChangeCard("RENT");
         };
     }
 

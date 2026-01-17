@@ -27,6 +27,9 @@ public class RepositoryRental {
                 rentals.add((Wypozyczenie) is.readObject());
             }
         }
+        catch(java.io.FileNotFoundException e) {
+            // File doesn't exist on first run - this is normal
+        }
         catch(Exception e) {
             e.printStackTrace();
         }
@@ -38,6 +41,9 @@ public class RepositoryRental {
             for(int i = 0; i < size; i++) {
                 awaitingRentals.add((Wypozyczenie) is.readObject());
             }
+        }
+        catch(java.io.FileNotFoundException e) {
+            // File doesn't exist on first run - this is normal
         }
         catch(Exception e) {
             e.printStackTrace();
