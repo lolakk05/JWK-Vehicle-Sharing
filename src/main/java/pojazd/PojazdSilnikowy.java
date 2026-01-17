@@ -1,4 +1,5 @@
 package pojazd;
+import java.util.Objects;
 
 abstract public class PojazdSilnikowy extends Pojazd {
     protected String vin;
@@ -25,5 +26,19 @@ abstract public class PojazdSilnikowy extends Pojazd {
                 liczbaMiejsc,
                 paliwo
         );
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        PojazdSilnikowy that = (PojazdSilnikowy) o;
+        return Objects.equals(vin, that.vin);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), vin);
     }
 }

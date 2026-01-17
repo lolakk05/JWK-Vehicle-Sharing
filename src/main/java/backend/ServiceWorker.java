@@ -1,6 +1,8 @@
 package backend;
 
 import osoba.Serwisant;
+import wypozyczenie.Status;
+import wypozyczenie.Wypozyczenie;
 import zlecenieNaprawy.ZlecenieNaprawy;
 
 import java.util.ArrayList;
@@ -10,10 +12,15 @@ import java.util.stream.Collectors;
 public class ServiceWorker {
     private RepositoryWorker repositoryWorker;
     private RepositoryZlecen repositoryZlecen;
+    private RepositoryRental repositoryRental;
 
     public ServiceWorker() {
         this.repositoryWorker = new RepositoryWorker();
         this.repositoryZlecen = new RepositoryZlecen();
+    }
+
+    public void setRepositoryRental(RepositoryRental repositoryRental) {
+        this.repositoryRental = repositoryRental;
     }
 
     public List<ZlecenieNaprawy> getWolneZlecenia() {
@@ -30,12 +37,30 @@ public class ServiceWorker {
 
     public void przypiszZlecenie(ZlecenieNaprawy zlecenie, Serwisant serwisant) {
         zlecenie.setSerwisant(serwisant);
+        serwisant.przyjmijZlecenie(zlecenie);
         repositoryZlecen.save();
+        repositoryWorker.save();
     }
 
     public void zakonczZlecenie(ZlecenieNaprawy zlecenie) {
         zlecenie.setCzyZakonczone(true);
+        if (zlecenie.getSerwisant() != null) {
+            zlecenie.getSerwisant().zakonczNaprawe(zlecenie);
+        }
+
+        // Przywracanie statusu AKTYWNE dla wypożyczenia
+        if (repositoryRental != null && zlecenie.getPojazd() != null) {
+            for (Wypozyczenie rental : repositoryRental.getRentals()) {
+                if (rental.getPojazd().equals(zlecenie.getPojazd()) && rental.getStatus() == Status.W_NAPRAWIE) {
+                    rental.setStatus(Status.AKTYWNE);
+                    repositoryRental.save();
+                    break;
+                }
+            }
+        }
+
         repositoryZlecen.save();
+        repositoryWorker.save();
     }
 
     public boolean login(String email, String password) {

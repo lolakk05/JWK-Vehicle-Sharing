@@ -76,6 +76,9 @@ public class ServiceWorkerPanel extends JPanel {
         if (Session.getCurrentUser() instanceof Serwisant) {
             currentSerwisant = (Serwisant) Session.getCurrentUser();
             welcomeLabel.setText("Serwisant: " + currentSerwisant.getImie() + " " + currentSerwisant.getNazwisko());
+        } else {
+            currentSerwisant = null;
+            welcomeLabel.setText("Panel Serwisanta");
         }
 
         freeOrdersModel.clear();
