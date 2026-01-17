@@ -54,7 +54,10 @@ public class ServiceRental {
     }
     
     public boolean rent(Pojazd vehicle, String dateStart, String dateEnd, StrategiaCenowa strategia) {
-        Klient client = Session.getCurrentUser();
+        if (!(Session.getCurrentUser() instanceof Klient)) {
+            return false;
+        }
+        Klient client = (Klient) Session.getCurrentUser();
         
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");

@@ -22,8 +22,10 @@ public class VehicleListPanel extends JPanel {
     private JLabel nameLabel;
 
     public void getClientData() {
-        currentClient = Session.getCurrentUser();
-        nameLabel.setText("Zalogowano jako: " + currentClient.getImie());
+        if (Session.getCurrentUser() instanceof Klient) {
+            currentClient = (Klient) Session.getCurrentUser();
+            nameLabel.setText("Zalogowano jako: " + currentClient.getImie());
+        }
     }
 
     public VehicleListPanel(MainFrame mainFrame, ServiceVehicle serviceVehicle) {

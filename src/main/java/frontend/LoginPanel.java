@@ -1,6 +1,7 @@
 package frontend;
 
 import backend.ServiceUser;
+import backend.ServiceWorker;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,10 +11,12 @@ import java.awt.event.ActionListener;
 public class LoginPanel extends JPanel {
     private MainFrame mainFrame;
     private ServiceUser serviceUser;
+    private ServiceWorker serviceWorker;
 
-    public LoginPanel(MainFrame mainFrame, ServiceUser serviceUser) {
+    public LoginPanel(MainFrame mainFrame, ServiceUser serviceUser, ServiceWorker serviceWorker) {
         this.mainFrame = mainFrame;
         this.serviceUser = serviceUser;
+        this.serviceWorker = serviceWorker;
         setLayout(new GridBagLayout());
 
         JPanel loginPanel = new JPanel();
@@ -39,7 +42,13 @@ public class LoginPanel extends JPanel {
                      mainFrame.ChangeCard("USER");
                      emailField.setText(null);
                      passwordField.setText(null);
-                }else if(emailField.getText().isEmpty() || passwordField.getText().isEmpty()){
+                }
+                else if(serviceWorker.login(emailField.getText(), new String(passwordField.getPassword()))) {
+                    mainFrame.ChangeCard("SERVICE_WORKER_PANEL");
+                    emailField.setText(null);
+                    passwordField.setText(null);
+                }
+                else if(emailField.getText().isEmpty() || passwordField.getText().isEmpty()){
                     JOptionPane.showMessageDialog(null, "Dane nie mogą być puste");
                 }
                 else {

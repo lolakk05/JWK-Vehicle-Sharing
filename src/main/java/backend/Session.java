@@ -1,14 +1,14 @@
 package backend;
 
-import osoba.Klient;
+import osoba.Osoba;
 
 import java.awt.*;
 
 public class Session {
-    private static Klient currentUser;
+    private static Osoba currentUser;
     private CardLayout layout;
 
-    public static void login(Klient user) {
+    public static void login(Osoba user) {
         currentUser = user;
     }
 
@@ -16,7 +16,7 @@ public class Session {
         currentUser = null;
     }
 
-    public static Klient getCurrentUser() {
+    public static Osoba getCurrentUser() {
         return currentUser;
     }
 }

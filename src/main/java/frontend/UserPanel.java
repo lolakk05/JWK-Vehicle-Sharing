@@ -19,9 +19,11 @@ public class UserPanel extends JPanel {
     private JLabel balanceLabel;
 
     public void getUserData() {
-        currentClient = Session.getCurrentUser();
-        nameLabel.setText("Imię: " + currentClient.getImie());
-        balanceLabel.setText(String.valueOf(currentClient.getSaldo()));
+        if (Session.getCurrentUser() instanceof Klient) {
+            currentClient = (Klient) Session.getCurrentUser();
+            nameLabel.setText("Imię: " + currentClient.getImie());
+            balanceLabel.setText(String.valueOf(currentClient.getSaldo()));
+        }
     }
 
     public UserPanel(MainFrame mainFrame, ServiceUser serviceUser) {

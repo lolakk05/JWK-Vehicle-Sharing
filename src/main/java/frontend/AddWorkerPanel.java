@@ -1,5 +1,6 @@
 package frontend;
 
+import backend.ServiceWorker;
 import osoba.*;
 
 import javax.swing.*;
@@ -12,9 +13,11 @@ import java.util.ArrayList;
 
 public class AddWorkerPanel extends JPanel {
     private MainFrame mainFrame;
+    private ServiceWorker serviceWorker;
 
-    public AddWorkerPanel(MainFrame mainFrame) {
+    public AddWorkerPanel(MainFrame mainFrame, ServiceWorker serviceWorker) {
         this.mainFrame = mainFrame;
+        this.serviceWorker = serviceWorker;
         setLayout(new FlowLayout());
 
         JPanel optionsPanel = new JPanel();
@@ -209,6 +212,10 @@ public class AddWorkerPanel extends JPanel {
                     password.setText(null);
                     phone.setText(null);
                     spec.setText(null);
+
+                    Serwisant newSerwisant = new Serwisant(worker[0], worker[1], worker[2], int_age, worker[4], worker[5], worker[6], "Serwis", worker[7], new ArrayList<>());
+                    serviceWorker.dodajPracownika(newSerwisant);
+                    JOptionPane.showMessageDialog(null, "Dodano serwisanta");
 
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
