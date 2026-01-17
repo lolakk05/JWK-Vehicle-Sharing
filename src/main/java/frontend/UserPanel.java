@@ -2,16 +2,20 @@ package frontend;
 
 import backend.ServiceRental;
 import backend.ServiceUser;
+import backend.ServiceWorker;
 import backend.Session;
 import osoba.Klient;
 import pojazd.Pojazd;
+import wypozyczenie.Status;
 import wypozyczenie.Wypozyczenie;
+import zlecenieNaprawy.ZlecenieNaprawy;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
 import java.util.concurrent.Flow;
 
@@ -19,6 +23,7 @@ public class UserPanel extends JPanel {
     private MainFrame mainFrame;
     private ServiceUser serviceUser;
     private ServiceRental serviceRental;
+    private ServiceWorker serviceWorker;
     private Klient currentClient;
 
     private JLabel nameLabel;
@@ -34,10 +39,11 @@ public class UserPanel extends JPanel {
         }
     }
 
-    public UserPanel(MainFrame mainFrame, ServiceUser serviceUser, ServiceRental serviceRental) {
+    public UserPanel(MainFrame mainFrame, ServiceUser serviceUser, ServiceRental serviceRental, ServiceWorker serviceWorker) {
         this.mainFrame = mainFrame;
         this.serviceUser = serviceUser;
         this.serviceRental = serviceRental;
+        this.serviceWorker = serviceWorker;
         
         setLayout(new BorderLayout());
         
@@ -157,6 +163,9 @@ public class UserPanel extends JPanel {
                 infoPanel.add(Box.createVerticalStrut(5));
                 infoPanel.add(priceLabel);
 
+                JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+                actionPanel.setOpaque(false);
+
                 JButton btnReturn = new JButton("Zwróć pojazd");
                 btnReturn.setPreferredSize(new Dimension(120, 35));
                 btnReturn.addActionListener(new ActionListener() {
@@ -166,9 +175,26 @@ public class UserPanel extends JPanel {
                         refreshRentalList();
                     }
                 });
+                actionPanel.add(btnReturn);
+
+                if (r.getStatus() == Status.AKTYWNE) {
+                    JButton btnRepair = new JButton("Zgłoś naprawę");
+                    btnRepair.setPreferredSize(new Dimension(120, 35));
+                    btnRepair.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            String opis = JOptionPane.showInputDialog(null, "Opisz usterkę:");
+                            if (opis != null && !opis.isEmpty()) {
+                                ZlecenieNaprawy zlecenie = new ZlecenieNaprawy(opis, new Date(), 1, 0.0, r.getPojazd());
+                                serviceWorker.dodajZlecenie(zlecenie);
+                                JOptionPane.showMessageDialog(null, "Zgłoszono naprawę dla pojazdu: " + p.getMarka() + " " + p.getModel());
+                            }
+                        }
+                    });
+                    actionPanel.add(btnRepair);
+                }
 
                 row.add(infoPanel, BorderLayout.CENTER);
-                row.add(btnReturn, BorderLayout.EAST);
+                row.add(actionPanel, BorderLayout.EAST);
 
                 rentalListPanel.add(row);
             }

@@ -23,6 +23,13 @@ public class RepositoryZlecen {
         }
         try (ObjectInputStream is = new ObjectInputStream(new FileInputStream(file))) {
             zlecenia = (List<ZlecenieNaprawy>) is.readObject();
+            if (zlecenia != null && !zlecenia.isEmpty()) {
+                int maxId = zlecenia.stream()
+                        .mapToInt(ZlecenieNaprawy::getId)
+                        .max()
+                        .orElse(0);
+                ZlecenieNaprawy.setNextId(maxId + 1);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

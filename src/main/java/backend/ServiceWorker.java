@@ -30,12 +30,18 @@ public class ServiceWorker {
 
     public void przypiszZlecenie(ZlecenieNaprawy zlecenie, Serwisant serwisant) {
         zlecenie.setSerwisant(serwisant);
+        serwisant.przyjmijZlecenie(zlecenie);
         repositoryZlecen.save();
+        repositoryWorker.save();
     }
 
     public void zakonczZlecenie(ZlecenieNaprawy zlecenie) {
         zlecenie.setCzyZakonczone(true);
+        if (zlecenie.getSerwisant() != null) {
+            zlecenie.getSerwisant().zakonczNaprawe(zlecenie);
+        }
         repositoryZlecen.save();
+        repositoryWorker.save();
     }
 
     public boolean login(String email, String password) {

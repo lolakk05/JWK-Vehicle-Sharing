@@ -7,6 +7,11 @@ import java.util.Date;
 
 public class ZlecenieNaprawy implements Serializable {
     private static int nextId = 1;
+
+    public static void setNextId(int nextId) {
+        ZlecenieNaprawy.nextId = nextId;
+    }
+
     private int id;
     private String opisUsterki;
     private Date dataZgloszenia;
