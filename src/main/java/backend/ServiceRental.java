@@ -36,6 +36,10 @@ public class ServiceRental {
         this.serviceUser = serviceUser;
         this.repositoryUser = repositoryUser;
     }
+
+    public RepositoryRental getRepositoryRental() {
+        return repositoryRental;
+    }
     
     public void setRepositoryVehicle(RepositoryVehicle repositoryVehicle) {
         this.repositoryVehicle = repositoryVehicle;

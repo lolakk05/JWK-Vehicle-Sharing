@@ -69,6 +69,14 @@ public class Wypozyczenie implements Serializable {
         this.strategia = strategia;
     }
 
+    public Klient getKlient() {
+        return klient;
+    }
+
+    public Pojazd getPojazd() {
+        return pojazd;
+    }
+
     @Override
     public String toString() {
         return "Wypożyczenie: " + pojazd.getMarka() + " " + pojazd.getModel() + " | Koszt: " + String.format("%.2f", kosztKoncowy) + " PLN";
