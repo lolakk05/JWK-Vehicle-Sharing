@@ -2,6 +2,8 @@ package frontend;
 
 import backend.ServiceVehicle;
 import pojazd.Pojazd;
+import wypozyczenie.Status;
+import wypozyczenie.Wypozyczenie;
 
 import javax.swing.*;
 import java.awt.*;
@@ -150,25 +152,37 @@ public class RemoveVehiclePanel extends JPanel {
 
         ArrayList<Pojazd> pojazdy = new ArrayList<>(serviceVehicle.getVehicles());
 
-        for (Pojazd p : pojazdy) {
-            if(Objects.equals(p.getStatus(), "wolny")) {
-                JPanel row = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                row.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
+        int freeVehicles = 0;
+        for(Pojazd p: pojazdy){
+            if(Objects.equals(p.getStatus(), "wolny")){
+                freeVehicles++;
+            }
+        }
 
-                JLabel label = new JLabel(p.getMarka() + " " + p.getModel() + " (" + p.getStatus() + ")");
-                JButton deleteButton = new JButton("Usuń");
-                deleteButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        ServiceVehicle.removeVehicle(p);
-                        refreshList();
-                    }
-                });
+        if(freeVehicles == 0) {
+            JLabel emptyLabel = new JLabel("Brak wolnych pojazdów do usunięcia");
+            vehicleListPanel.add(emptyLabel);
+        } else {
+            for (Pojazd p : pojazdy) {
+                if (Objects.equals(p.getStatus(), "wolny")) {
+                    JPanel row = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                    row.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
 
-                row.add(label);
-                row.add(deleteButton);
+                    JLabel label = new JLabel(p.getMarka() + " " + p.getModel() + " (" + p.getStatus() + ")");
+                    JButton deleteButton = new JButton("Usuń");
+                    deleteButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            ServiceVehicle.removeVehicle(p);
+                            refreshList();
+                        }
+                    });
 
-                vehicleListPanel.add(row);
+                    row.add(label);
+                    row.add(deleteButton);
+
+                    vehicleListPanel.add(row);
+                }
             }
         }
         vehicleListPanel.revalidate();

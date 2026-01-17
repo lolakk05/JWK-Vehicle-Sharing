@@ -141,4 +141,9 @@ public class ServiceRental {
             return new StrategiaDobowa();
         }
     }
+
+    public void acceptRental(Wypozyczenie rental) {
+        rental.setStatus(Status.AKTYWNE);
+        repositoryRental.save();
+    }
 }

@@ -1,5 +1,6 @@
 package backend;
 
+import wypozyczenie.Status;
 import wypozyczenie.Wypozyczenie;
 
 import java.io.FileInputStream;

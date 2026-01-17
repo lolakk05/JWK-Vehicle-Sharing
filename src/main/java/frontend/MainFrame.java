@@ -1,9 +1,6 @@
 package frontend;
 
-import backend.ServiceRental;
-import backend.ServiceUser;
-import backend.ServiceVehicle;
-import backend.ServiceWorker;
+import backend.*;
 import osoba.Serwisant;
 import pojazd.Pojazd;
 import zlecenieNaprawy.ZlecenieNaprawy;
@@ -57,7 +54,7 @@ public class MainFrame extends JFrame{
         loginPanel = new LoginPanel(this, serviceUser, serviceWorker);
         userPanel = new UserPanel(this, serviceUser, serviceRental);
         RegisterPanel registerPanel = new RegisterPanel(this, serviceUser);
-        AcceptLoanPanel acceptLoanPanel = new AcceptLoanPanel(this);
+        acceptLoanPanel = new AcceptLoanPanel(this, serviceRental);
         AddWorkerPanel addWorkerPanel = new AddWorkerPanel(this, serviceWorker);
         AddCar addCarPanel = new AddCar(this, serviceVehicle);
         AddMotorcycle addMotorcyclePanel = new AddMotorcycle(this, serviceVehicle);
@@ -143,6 +140,9 @@ public class MainFrame extends JFrame{
         }
         if (cardName.equals("REMOVE_VEHICLE_PANEL")) {
             removeVehiclePanel.refreshList();
+        }
+        if (cardName.equals("ACCEPT_LOAN")) {
+            acceptLoanPanel.refreshList();
         }
 
         layout.show(mainContainer, cardName);
