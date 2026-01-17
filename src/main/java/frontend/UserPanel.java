@@ -29,8 +29,8 @@ public class UserPanel extends JPanel {
     public void getUserData() {
         currentClient =(Klient) Session.getCurrentUser();
         if (currentClient != null) {
-            nameLabel.setText("Imię: " + currentClient.getImie());
-            balanceLabel.setText(String.valueOf(currentClient.getSaldo()));
+            nameLabel.setText("Zalogowano jako: " + currentClient.getImie());
+            balanceLabel.setText("Saldo: " + String.valueOf(currentClient.getSaldo() + " PLN"));
         }
     }
 
@@ -39,14 +39,19 @@ public class UserPanel extends JPanel {
         this.serviceUser = serviceUser;
         this.serviceRental = serviceRental;
         
+        setLayout(new BorderLayout());
+        
         JPanel menuPanel = new JPanel();
-        menuPanel.setLayout(new FlowLayout());
-        menuPanel.setBorder(getBorder());
+        menuPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 10));
+        menuPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10),
+                            BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY)));
 
         nameLabel = new JLabel("Username: ..");
+        nameLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
         balanceLabel = new JLabel("Balance: 0");
+        balanceLabel.setFont(new Font("SansSerif", Font.PLAIN, 14));
 
-        JTextField balanceField = new JTextField(15);
+        JTextField balanceField = new JTextField(10);
         JButton balanceButton = new JButton("Doładuj konto");
         balanceButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -57,14 +62,14 @@ public class UserPanel extends JPanel {
             }
         });
 
-        JButton rentButton = new JButton("Wypożycz");
+        JButton rentButton = new JButton("Wypożycz pojazd");
         rentButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 mainFrame.ChangeCard("RENT");
             }
         });
 
-        JButton logoutButton = new JButton("Wyloguj Się");
+        JButton logoutButton = new JButton("Wyloguj");
         logoutButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Session.logout();
@@ -73,30 +78,33 @@ public class UserPanel extends JPanel {
         });
 
         menuPanel.add(nameLabel);
+        menuPanel.add(new JLabel(" | "));
         menuPanel.add(balanceLabel);
-
+        menuPanel.add(new JLabel(" | "));
+        menuPanel.add(new JLabel("Doładuj:"));
         menuPanel.add(balanceField);
         menuPanel.add(balanceButton);
         menuPanel.add(rentButton);
         menuPanel.add(logoutButton);
+        
+        menuPanel.setPreferredSize(new Dimension(800, 100));
 
         add(menuPanel, BorderLayout.NORTH);
 
-        JPanel contentPanel = new JPanel();
-        contentPanel.setLayout(new GridLayout(2, 1));
-
         rentalListPanel = new JPanel();
         rentalListPanel.setLayout(new BoxLayout(rentalListPanel, BoxLayout.Y_AXIS));
-        JLabel rentalLabel = new JLabel("Twoje wypożyczenia:");
+        rentalListPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        
+        JLabel rentalLabel = new JLabel("Twoje oczekujące wypożyczenia:");
+        rentalLabel.setFont(new Font("SansSerif", Font.BOLD, 18));
+        rentalLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 15, 5));
         rentalListPanel.add(rentalLabel);
 
         JScrollPane rentalScrollPane = new JScrollPane(rentalListPanel);
         rentalScrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        rentalScrollPane.setBorder(BorderFactory.createEmptyBorder());
 
         add(rentalScrollPane, BorderLayout.CENTER);
-
-        contentPanel.add(rentalListPanel);
-        add(contentPanel, BorderLayout.CENTER);
 
         refreshRentalList();
     }
@@ -109,36 +117,71 @@ public class UserPanel extends JPanel {
         }
 
         if (currentClient == null) {
-            return; // Nie ma zalogowanego użytkownika
+            return; 
         }
 
-        ArrayList<Wypozyczenie> rental = new ArrayList<>(serviceRental.getRepositoryRental().getAwaitingRentals());
-        System.out.println("Ilość wypożyczeń: " + rental.size());
-        System.out.println("Email obecnego użytkownika: " + currentClient.getEmail());
+        JLabel titleLabel = new JLabel("Twoje wypożyczenia:");
+        titleLabel.setFont(new Font("SansSerif", Font.BOLD, 18));
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 15, 5));
+        titleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        rentalListPanel.add(titleLabel);
 
+        ArrayList<Wypozyczenie> rental = new ArrayList<Wypozyczenie>(serviceRental.getRentals());
+        
+        boolean hasRentals = false;
         for (Wypozyczenie r: rental) {
-            Pojazd p = r.getPojazd();
-            System.out.println("Email z wypożyczenia: " + r.getKlient().getEmail());
             if(r.getKlient().getEmail().equals(currentClient.getEmail())) {
-                JPanel row = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                row.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
+                hasRentals = true;
+                Pojazd p = r.getPojazd();
+                
+                JPanel row = new JPanel();
+                row.setLayout(new BorderLayout(10, 5));
+                row.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY),
+                    BorderFactory.createEmptyBorder(10, 15, 10, 15)
+                ));
+                row.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80));
+                row.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-                JLabel label = new JLabel(p.getMarka() + " " + p.getModel() + " | Koszt: " + String.format("%.2f", r.getKosztKoncowy()) + " PLN");
-                JButton btnDetails = new JButton("Zwróć");
-                btnDetails.addActionListener(new ActionListener() {
+                JPanel infoPanel = new JPanel();
+                infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+                
+                JLabel vehicleLabel = new JLabel(p.getMarka() + " " + p.getModel() + ", Początek: " + r.getDataRozpoczecia() + " Koniec: " + r.getDataZakonczenia());
+                vehicleLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+                
+                JLabel priceLabel = new JLabel("Koszt: " + String.format("%.2f", r.getKosztKoncowy()) + " PLN" + " Status: " + r.getStatus());
+                priceLabel.setFont(new Font("SansSerif", Font.PLAIN, 14));
+                priceLabel.setForeground(new Color(60, 120, 60));
+                
+                infoPanel.add(vehicleLabel);
+                infoPanel.add(Box.createVerticalStrut(5));
+                infoPanel.add(priceLabel);
+
+                JButton btnReturn = new JButton("Zwróć pojazd");
+                btnReturn.setPreferredSize(new Dimension(120, 35));
+                btnReturn.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        serviceRental.getRepositoryRental().saveAwaiting();
+                        serviceRental.returnRental(r);
                         serviceRental.getRepositoryRental().save();
                         refreshRentalList();
                     }
                 });
 
-                row.add(label);
-                row.add(btnDetails);
+                row.add(infoPanel, BorderLayout.CENTER);
+                row.add(btnReturn, BorderLayout.EAST);
 
                 rentalListPanel.add(row);
             }
         }
+        
+        if (!hasRentals) {
+            JLabel noRentalsLabel = new JLabel("Brak wypożyczeń");
+            noRentalsLabel.setFont(new Font("SansSerif", Font.ITALIC, 14));
+            noRentalsLabel.setForeground(Color.GRAY);
+            noRentalsLabel.setBorder(BorderFactory.createEmptyBorder(20, 15, 20, 15));
+            rentalListPanel.add(noRentalsLabel);
+        }
+        
         rentalListPanel.revalidate();
         rentalListPanel.repaint();
     }

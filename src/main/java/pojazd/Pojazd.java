@@ -25,7 +25,7 @@ abstract public class Pojazd implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("%s %s (%d) | Kolor: %s | Cena: %.2f PLN | Waga: %.1f kg | Wymagane: %s",
+        return String.format("Szczegóły pojazdu: \nMarka: %s \nModel: %s \nRok: %d \nKolor: %s \nCena: %.2f PLN \nWaga: %.1f kg \nWymagane: %s",
                 marka,
                 model,
                 rokProdukcji,

@@ -12,7 +12,7 @@ public class Ciezarowka extends PojazdSilnikowy {
 
     @Override
     public String toString() {
-        return super.toString() + String.format(" | [CIĘŻARÓWKA] Ładowność: %.1f t | Osie: %d",
+        return super.toString() + String.format("\nŁadowność: %.1f t \nOsie: %d",
                 ladownosc,
                 iloscOsi
         );

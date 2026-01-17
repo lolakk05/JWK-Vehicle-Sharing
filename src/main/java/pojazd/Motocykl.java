@@ -12,7 +12,7 @@ public class Motocykl extends PojazdSilnikowy {
 
     @Override
     public String toString() {
-        return super.toString() + String.format(" | [MOTOCYKL] Typ: %s | Kufry: %s",
+        return super.toString() + String.format("\nTyp: %s \nKufry: %s",
                 typ,
                 czyMaKufry ? "Tak" : "Nie"
         );

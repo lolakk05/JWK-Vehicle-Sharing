@@ -10,14 +10,11 @@ import java.util.ArrayList;
 
 public class RepositoryRental {
     private ArrayList<Wypozyczenie> rentals;
-    private ArrayList<Wypozyczenie> awaitingRentals;
 
     public RepositoryRental() {
         this.rentals = new ArrayList<>();
-        this.awaitingRentals = new ArrayList<>();
 
         load();
-        loadAwaiting();
     }
 
     public void load() {
@@ -38,24 +35,6 @@ public class RepositoryRental {
         }
     }
 
-    public void loadAwaiting() {
-        try(ObjectInputStream is = new ObjectInputStream(new FileInputStream("data/awaitingRentals.ser"))) {
-            int size = is.readInt();
-            for(int i = 0; i < size; i++) {
-                awaitingRentals.add((Wypozyczenie) is.readObject());
-            }
-        }
-        catch(java.io.FileNotFoundException e) {
-            System.out.println("Brak pliku z oczekującymi (to normalne przy pierwszym uruchomieniu).");
-        }
-        catch(java.io.EOFException e) {
-            System.out.println("Brak pliku z oczekującymi (to normalne przy pierwszym uruchomieniu).");
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public void save() {
         try(ObjectOutputStream so = new ObjectOutputStream(new FileOutputStream("data/rentals.ser"))) {
             so.writeInt(rentals.size());
@@ -68,33 +47,12 @@ public class RepositoryRental {
         }
     }
 
-    public void saveAwaiting() {
-        try(ObjectOutputStream so = new ObjectOutputStream(new FileOutputStream("data/awaitingRentals.ser"))) {
-            so.writeInt(awaitingRentals.size());
-            for(Wypozyczenie rental : awaitingRentals) {
-                so.writeObject(rental);
-            }
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public ArrayList<Wypozyczenie> getRentals() {
         return rentals;
-    }
-
-    public ArrayList<Wypozyczenie> getAwaitingRentals() {
-        return awaitingRentals;
     }
 
     public void upload(Wypozyczenie rental) {
         rentals.add(rental);
         save();
-    }
-
-    public void uploadAwaiting(Wypozyczenie rental) {
-        awaitingRentals.add(rental);
-        saveAwaiting();
     }
 }

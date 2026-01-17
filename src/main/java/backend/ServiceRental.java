@@ -1,6 +1,7 @@
 package backend;
 
 import osoba.Klient;
+import wypozyczenie.Status;
 import wypozyczenie.Wypozyczenie;
 import pojazd.Pojazd;
 import strategia.*;
@@ -8,6 +9,7 @@ import strategia.*;
 import java.security.Provider.Service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -39,6 +41,10 @@ public class ServiceRental {
 
     public RepositoryRental getRepositoryRental() {
         return repositoryRental;
+    }
+
+    public ArrayList<Wypozyczenie> getRentals() {
+        return repositoryRental.getRentals();
     }
     
     public void setRepositoryVehicle(RepositoryVehicle repositoryVehicle) {
@@ -75,8 +81,8 @@ public class ServiceRental {
                 if (repositoryVehicle != null) {
                     repositoryVehicle.save();
                 }
-                Wypozyczenie rental = new Wypozyczenie(vehicle, client, dataRozpoczecia, dataZakonczenia, strategia);
-                repositoryRental.uploadAwaiting(rental);
+                Wypozyczenie rental = new Wypozyczenie(vehicle, client, dataRozpoczecia, dataZakonczenia, strategia, Status.OCZEKUJACE);
+                repositoryRental.upload(rental);
                 JOptionPane.showMessageDialog(null, "Pojazd został wypożyczony!");
                 return true;
             } else {
@@ -98,6 +104,20 @@ public class ServiceRental {
         lastStartDate = startDate;
         lastEndDate = endDate;
     }
+
+    public void returnRental(Wypozyczenie rental) {
+        int result = JOptionPane.showConfirmDialog(null, "Potwierdzenie zwrotu pojazdu, zostanie zwrócone: " + rental.getKosztKoncowy() * 0.9 + " PLN", "Potwierdzenie zwrotu pojazdu", JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            rental.getPojazd().setStatus("wolny");
+            rental.getKlient().setSaldo(rental.getKosztKoncowy() * 0.9);
+            rental.setStatus(Status.ZAKONCZONE);
+            serviceUser.clientSaveData();
+            if (repositoryVehicle != null) {
+                repositoryVehicle.save();
+            }
+        }
+        repositoryRental.save();
+    }
     
     public StrategiaCenowa getLastStrategy() { return lastStrategy; }
     public double getLastPrice() { return lastPrice; }
@@ -116,10 +136,9 @@ public class ServiceRental {
             return new StrategiaDlugoterminowa();
         } else if (days >= 1) {
             return new StrategiaDobowa();
-        } else if (hours >= 1) {
+        }
+        else {
             return new StrategiaDobowa();
-        } else {
-            return new StrategiaMinutowa();
         }
     }
 }

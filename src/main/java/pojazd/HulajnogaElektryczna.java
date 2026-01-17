@@ -14,7 +14,7 @@ public class HulajnogaElektryczna extends Pojazd {
 
     @Override
     public String toString() {
-        return super.toString() + String.format(" | [HULAJNOGA] Bateria: %d | Zasięg: %d km | V-max: %.1f km/h",
+        return super.toString() + String.format("\nBateria: %d \nZasięg: %d km \nV-max: %.1f km/h",
                 pojemnoscBaterii,
                 zasiegKm,
                 maxPredkosc

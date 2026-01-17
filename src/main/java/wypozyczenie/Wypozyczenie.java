@@ -8,6 +8,10 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import java.text.SimpleDateFormat;
+
+import wypozyczenie.*;
+
 public class Wypozyczenie implements Serializable {
     private Pojazd pojazd;
     private Klient klient;
@@ -15,15 +19,17 @@ public class Wypozyczenie implements Serializable {
     private Date dataZakonczenia;
     private double kosztKoncowy;
     private StrategiaCenowa strategia;
+    private Status status;
 
-    public Wypozyczenie(Pojazd pojazd,Klient klient, Date dataRozpoczecia, Date dataZakonczenia, StrategiaCenowa strategia) {
+    public Wypozyczenie(Pojazd pojazd,Klient klient, Date dataRozpoczecia, Date dataZakonczenia, StrategiaCenowa strategia, Status status) {
         this.pojazd = pojazd;
         this.klient = klient;
         this.dataRozpoczecia = dataRozpoczecia;
         this.dataZakonczenia = dataZakonczenia;
         this.strategia = strategia;
+        this.status = status;
 
-        przeliczKoszt(); // liczenie kosztu dla calego wypozyczenia
+        przeliczKoszt(); 
     }
 
     public void przeliczKoszt() {
@@ -37,16 +43,18 @@ public class Wypozyczenie implements Serializable {
         }
     }
 
-    public Date getDataRozpoczecia() {
-        return dataRozpoczecia;
+    public String getDataRozpoczecia() {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        return formatter.format(dataRozpoczecia);
     }
 
     public void setDataRozpoczecia(Date dataRozpoczecia) {
         this.dataRozpoczecia = dataRozpoczecia;
     }
 
-    public Date getDataZakonczenia() {
-        return dataZakonczenia;
+    public String getDataZakonczenia() {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        return formatter.format(dataZakonczenia);
     }
 
     public void setDataZakonczenia(Date dataZakonczenia) {
@@ -75,6 +83,14 @@ public class Wypozyczenie implements Serializable {
 
     public Pojazd getPojazd() {
         return pojazd;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     @Override

@@ -12,7 +12,7 @@ public class Rower extends Pojazd {
 
     @Override
     public String toString() {
-        return super.toString() + String.format(" | [ROWER] Typ: %s | Koła: %d\"",
+        return super.toString() + String.format("\nTyp: %s \nKoła: %d\"",
                 typ,
                 rozmiarKol
         );

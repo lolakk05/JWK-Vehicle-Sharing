@@ -12,7 +12,7 @@ public class SamochodOsobowy extends PojazdSilnikowy {
 
     @Override
     public String toString() {
-        return super.toString() + String.format(" | [OSOBOWY] Nadwozie: %s | Drzwi: %d",
+        return super.toString() + String.format("\nNadwozie: %s \nDrzwi: %d",
                 nadwozie,
                 iloscDrzwi
         );
