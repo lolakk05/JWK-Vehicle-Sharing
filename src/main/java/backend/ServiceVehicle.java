@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 public class ServiceVehicle {
-    private RepositoryVehicle repositoryVehicle;
+    private static RepositoryVehicle repositoryVehicle;
 
     public ServiceVehicle() {
         this.repositoryVehicle = new RepositoryVehicle();
@@ -19,6 +19,10 @@ public class ServiceVehicle {
                 throw new Exception("Żadne pole nie może być puste");
             }
         }
+    }
+
+    public static void removeVehicle(Pojazd p) {
+        repositoryVehicle.delete(p);
     }
 
     public void addCar(String[] car) {

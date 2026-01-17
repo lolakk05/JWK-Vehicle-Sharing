@@ -54,4 +54,8 @@ public class RepositoryVehicle {
         vehicles.add(vehicle);
         save();
     }
+
+    public void delete(Pojazd vehicle) {
+        vehicles.remove(vehicle);
+    }
 }

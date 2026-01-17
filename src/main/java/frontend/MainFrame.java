@@ -34,6 +34,7 @@ public class MainFrame extends JFrame{
     private VehicleListPanel vehicleListPanel;
     private RentPanel rentPanel;
     private ServiceWorkerPanel serviceWorkerPanel;
+    private RemoveVehiclePanel removeVehiclePanel;
 
     public MainFrame() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -65,7 +66,7 @@ public class MainFrame extends JFrame{
         AddBike addBikePanel = new AddBike(this, serviceVehicle);
         vehicleListPanel = new VehicleListPanel(this, serviceVehicle);
         rentPanel = new RentPanel(this, serviceVehicle, serviceRental);
-        RemoveVehiclePanel removeVehiclePanel = new RemoveVehiclePanel(this);
+        removeVehiclePanel = new RemoveVehiclePanel(this, serviceVehicle);
         serviceWorkerPanel = new ServiceWorkerPanel(this, serviceWorker);
 
         mainContainer.add(loginPanel, "LOGIN");
@@ -139,6 +140,9 @@ public class MainFrame extends JFrame{
         if(cardName.equals("RENT")){
             vehicleListPanel.getClientData();
             vehicleListPanel.refreshList();
+        }
+        if (cardName.equals("REMOVE_VEHICLE_PANEL")) {
+            removeVehiclePanel.refreshList();
         }
 
         layout.show(mainContainer, cardName);

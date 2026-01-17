@@ -14,7 +14,6 @@ import java.io.*;
 public class AddBike extends JPanel {
     private MainFrame mainFrame;
     private ServiceVehicle serviceVehicle;
-    private int liczba_stworzonych = 0;
 
     public AddBike(MainFrame mainFrame, ServiceVehicle serviceVehicle) {
         this.mainFrame = mainFrame;

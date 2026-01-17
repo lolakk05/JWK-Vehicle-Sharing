@@ -1,36 +1,28 @@
 package frontend;
 
+import backend.ServiceVehicle;
 import pojazd.Pojazd;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class RemoveVehiclePanel extends JPanel {
     private MainFrame mainFrame;
+    private ServiceVehicle serviceVehicle;
+    private JPanel vehicleListPanel;
     private JPanel containerPanel;
-    private ArrayList<Pojazd> vehicles = new ArrayList<>();
 
-    public void saveVehicle() {
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data/vehicles.ser"))) {
-            oos.writeInt(vehicles.size());
-            for (Pojazd pojazd : vehicles) {
-                oos.writeObject(vehicles);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    private Pojazd currentVehicle;
 
-    public RemoveVehiclePanel(MainFrame mainFrame) {
+    public RemoveVehiclePanel(MainFrame mainFrame, ServiceVehicle serviceVehicle) {
         this.mainFrame = mainFrame;
+        this.serviceVehicle = serviceVehicle;
+
         setLayout(new FlowLayout());
-        vehicles = new ArrayList<>();
 
         JPanel optionsPanel = new JPanel();
         optionsPanel.setLayout(new GridLayout(1,4));
@@ -137,45 +129,49 @@ public class RemoveVehiclePanel extends JPanel {
         add(optionsPanel, BorderLayout.CENTER);
 
         containerPanel = new JPanel();
-        containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));
 
-        JScrollPane scrollPane = new JScrollPane(containerPanel);
+        vehicleListPanel = new JPanel();
+        vehicleListPanel.setLayout(new BoxLayout(vehicleListPanel, BoxLayout.Y_AXIS));
+
+        JScrollPane scrollPane = new JScrollPane(vehicleListPanel);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
 
-        add(scrollPane, BorderLayout.CENTER);
+        containerPanel.add(scrollPane);
 
-        refresh();
+        refreshList();
+
+        containerPanel.add(vehicleListPanel);
+
+        add(containerPanel, BorderLayout.CENTER);
     }
 
-    public void refresh() {
-        containerPanel.removeAll();
+    public void refreshList() {
+        vehicleListPanel.removeAll();
 
-        if (vehicles.isEmpty()) {
-            containerPanel.add(new JLabel("Brak pojazdów w bazie."));
-        } else {
-            for (Pojazd pojazd : vehicles) {
-                JPanel vehicleRow = new JPanel(new BorderLayout());
-                vehicleRow.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
-                vehicleRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
+        ArrayList<Pojazd> pojazdy = new ArrayList<>(serviceVehicle.getVehicles());
 
-                JLabel rejestracjaLabel = new JLabel(pojazd.getMarka()+" | "+pojazd.getModel());
-                rejestracjaLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0)); // Margines tekstu
-                vehicleRow.add(rejestracjaLabel, BorderLayout.CENTER);
+        for (Pojazd p : pojazdy) {
+            if(Objects.equals(p.getStatus(), "wolny")) {
+                JPanel row = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                row.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
 
-                JButton deleteButton = new JButton("USUŃ");
+                JLabel label = new JLabel(p.getMarka() + " " + p.getModel() + " (" + p.getStatus() + ")");
+                JButton deleteButton = new JButton("Usuń");
                 deleteButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        vehicles.remove(pojazd);
-                        saveVehicle();
+                        ServiceVehicle.removeVehicle(p);
+                        refreshList();
                     }
                 });
 
-                vehicleRow.add(deleteButton, BorderLayout.EAST);
-                containerPanel.add(vehicleRow);
+                row.add(label);
+                row.add(deleteButton);
+
+                vehicleListPanel.add(row);
             }
         }
-        containerPanel.revalidate();
-        containerPanel.repaint();
+        vehicleListPanel.revalidate();
+        vehicleListPanel.repaint();
     }
 }

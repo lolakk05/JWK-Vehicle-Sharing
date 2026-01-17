@@ -160,9 +160,6 @@ public class AddWorkerPanel extends JPanel {
         JTextField spec = new JTextField(15);
         addWorkerPanel.add(spec);
 
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-
         JButton addButton = new JButton("Dodaj");
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -223,8 +220,7 @@ public class AddWorkerPanel extends JPanel {
             }
         });
 
-        buttonPanel.add(addButton);
-        addWorkerPanel.add(buttonPanel);
+        addWorkerPanel.add(addButton);
 
         add(addWorkerPanel, BorderLayout.CENTER);
     }
