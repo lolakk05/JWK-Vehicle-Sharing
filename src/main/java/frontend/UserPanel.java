@@ -155,7 +155,7 @@ public class UserPanel extends JPanel {
                 JLabel vehicleLabel = new JLabel(p.getMarka() + " " + p.getModel() + ", Początek: " + r.getDataRozpoczecia() + " Koniec: " + r.getDataZakonczenia());
                 vehicleLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
                 
-                JLabel priceLabel = new JLabel("Koszt: " + String.format("%.2f", r.getKosztKoncowy()) + " PLN" + " Status: " + r.getStatus());
+                JLabel priceLabel = new JLabel("Koszt: " + String.format("%.2f", r.getKosztKoncowy()) + " PLN" + " Status: " + r.getStatus().getDisplayName());
                 priceLabel.setFont(new Font("SansSerif", Font.PLAIN, 14));
                 priceLabel.setForeground(new Color(60, 120, 60));
                 
@@ -186,7 +186,10 @@ public class UserPanel extends JPanel {
                             if (opis != null && !opis.isEmpty()) {
                                 ZlecenieNaprawy zlecenie = new ZlecenieNaprawy(opis, new Date(), 1, 0.0, r.getPojazd());
                                 serviceWorker.dodajZlecenie(zlecenie);
+                                r.setStatus(Status.W_NAPRAWIE);
+                                serviceRental.getRepositoryRental().save();
                                 JOptionPane.showMessageDialog(null, "Zgłoszono naprawę dla pojazdu: " + p.getMarka() + " " + p.getModel());
+                                refreshRentalList();
                             }
                         }
                     });

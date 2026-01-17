@@ -1,6 +1,7 @@
 package pojazd;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 abstract public class Pojazd implements Serializable {
     protected String marka;
@@ -98,5 +99,23 @@ abstract public class Pojazd implements Serializable {
 
     public void setWymaganeUprawnienia(String wymaganeUprawnienia) {
         this.wymaganeUprawnienia = wymaganeUprawnienia;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Pojazd pojazd = (Pojazd) o;
+        return rokProdukcji == pojazd.rokProdukcji &&
+                Double.compare(pojazd.waga, waga) == 0 &&
+                Double.compare(pojazd.cenaBazowa, cenaBazowa) == 0 &&
+                Objects.equals(marka, pojazd.marka) &&
+                Objects.equals(model, pojazd.model) &&
+                Objects.equals(kolor, pojazd.kolor);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(marka, model, rokProdukcji, kolor, waga, cenaBazowa);
     }
 }

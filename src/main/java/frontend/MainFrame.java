@@ -51,6 +51,8 @@ public class MainFrame extends JFrame{
         this.serviceRental.setServiceUser(serviceUser);
         this.serviceRental.setRepositoryUser(serviceUser.getRepositoryUser());
 
+        this.serviceWorker.setRepositoryRental(serviceRental.getRepositoryRental());
+
         loginPanel = new LoginPanel(this, serviceUser, serviceWorker);
         userPanel = new UserPanel(this, serviceUser, serviceRental, serviceWorker);
         RegisterPanel registerPanel = new RegisterPanel(this, serviceUser);
@@ -84,43 +86,10 @@ public class MainFrame extends JFrame{
         add(mainContainer);
 
         layout.show(mainContainer, "LOGIN");
-
-
-        ///  TEST DANE DLA SERWISANTA
-        initializeExampleData();
-        /// ^^^ to wyzej mozna usunac na luzaczku
+        
 
         setVisible(true);
     }
-
-
-    /// CALA FUNKCJA NIZEJ TO PO PROSTU WYGENEROWANIE PRZYKLADOWYCH DANYCH DLA SERWISANTA
-    /// ZEBY PRZETESTOWAC SOBIE JAK TO WYGLADA I DZIALA, PASSY DO KONTA:
-    /// email: serwisant@ ; haslo: serwisant
-
-
-    private void initializeExampleData() {
-        if (serviceVehicle.getVehicles().isEmpty()) {
-            try {
-                serviceVehicle.addCar(new String[]{"Toyota", "Corolla", "2020", "Srebrny", "1300", "100", "B", "VIN123", "KR12345", "1.8", "5", "Benzyna", "Sedan", "5"});
-                serviceVehicle.addBike(new String[]{"Giant", "Roam", "2022", "Czarny", "15", "20", "Górski", "28", "Shimano"});
-            } catch (Exception e) {
-                System.out.println("Błąd podczas dodawania przykładowych pojazdów: " + e.getMessage());
-            }
-        }
-
-        if (serviceWorker.getWolneZlecenia().isEmpty()) {
-            ArrayList<Pojazd> vehicles = serviceVehicle.getVehicles();
-            if (!vehicles.isEmpty()) {
-                serviceWorker.dodajZlecenie(new ZlecenieNaprawy("Wymiana oleju", new Date(), 1, 200.0, vehicles.get(0)));
-                if (vehicles.size() > 1) {
-                    serviceWorker.dodajZlecenie(new ZlecenieNaprawy("Naprawa hamulca", new Date(), 2, 50.0, vehicles.get(1)));
-                }
-            }
-        }
-    }
-
-    /// KONIEC TESTU
 
     public void setVehicle(Pojazd P) {
         rentPanel.getVehicle(P);
