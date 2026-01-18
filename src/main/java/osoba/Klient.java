@@ -18,6 +18,10 @@ public class Klient extends Osoba {
         this.saldo = saldo;
     }
 
+    public String[] getKategoriaArray() {
+        return kategoria.toArray(new String[0]);
+    }
+
     public double getSaldo() {
         return saldo;
     }

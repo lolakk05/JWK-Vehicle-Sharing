@@ -28,6 +28,10 @@ public class UserPanel extends JPanel {
 
     private JPanel rentalListPanel;
     private JLabel nameLabel;
+    
+    private JTextField searchField;
+    private JComboBox<String> statusFilter;
+    private String currentSortOrder = "date_desc"; 
 
 
     public void getUserData() {
@@ -97,15 +101,76 @@ public class UserPanel extends JPanel {
 
         add(menuPanel, BorderLayout.NORTH);
 
+        JPanel filterPanel = new JPanel();
+        filterPanel.setLayout(new GridLayout(2, 1, 5, 5));
+        filterPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        JPanel topRow = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JLabel searchLabel = new JLabel("Szukaj:");
+        searchField = new JTextField(20);
+        searchField.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            public void changedUpdate(javax.swing.event.DocumentEvent e) { refreshRentalList(); }
+            public void removeUpdate(javax.swing.event.DocumentEvent e) { refreshRentalList(); }
+            public void insertUpdate(javax.swing.event.DocumentEvent e) { refreshRentalList(); }
+        });
+        
+        JLabel filterLabel = new JLabel("Status:");
+        String[] status = {"Wszystkie", Status.OCZEKUJACE.getDisplayName(), Status.AKTYWNE.getDisplayName(), Status.ZAKONCZONE.getDisplayName()};
+        statusFilter = new JComboBox<>(status);
+        statusFilter.addActionListener(e -> refreshRentalList());
+        
+        topRow.add(searchLabel);
+        topRow.add(searchField);
+        topRow.add(filterLabel);
+        topRow.add(statusFilter);
+
+        JPanel bottomRow = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JLabel sortLabel = new JLabel("Sortuj:");
+        JButton sortDateDesc = new JButton("Data ↓");
+        sortDateDesc.addActionListener(e -> {
+            currentSortOrder = "date_desc";
+            refreshRentalList();
+        });
+        JButton sortDateAsc = new JButton("Data ↑");
+        sortDateAsc.addActionListener(e -> {
+            currentSortOrder = "date_asc";
+            refreshRentalList();
+        });
+        JButton sortPriceDesc = new JButton("Cena ↓");
+        sortPriceDesc.addActionListener(e -> {
+            currentSortOrder = "price_desc";
+            refreshRentalList();
+        });
+        JButton sortPriceAsc = new JButton("Cena ↑");
+        sortPriceAsc.addActionListener(e -> {
+            currentSortOrder = "price_asc";
+            refreshRentalList();
+        });
+        
+        bottomRow.add(sortLabel);
+        bottomRow.add(sortDateDesc);
+        bottomRow.add(sortDateAsc);
+        bottomRow.add(sortPriceDesc);
+        bottomRow.add(sortPriceAsc);
+
+        filterPanel.add(topRow);
+        filterPanel.add(bottomRow);
+
         rentalListPanel = new JPanel();
         rentalListPanel.setLayout(new BoxLayout(rentalListPanel, BoxLayout.Y_AXIS));
         rentalListPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
+        JPanel centerPanel = new JPanel();
+        centerPanel.setLayout(new BorderLayout());
+        centerPanel.add(filterPanel, BorderLayout.NORTH);
+        
         JScrollPane rentalScrollPane = new JScrollPane(rentalListPanel);
         rentalScrollPane.getVerticalScrollBar().setUnitIncrement(16);
         rentalScrollPane.setBorder(BorderFactory.createEmptyBorder());
+        
+        centerPanel.add(rentalScrollPane, BorderLayout.CENTER);
 
-        add(rentalScrollPane, BorderLayout.CENTER);
+        add(centerPanel, BorderLayout.CENTER);
 
         refreshRentalList();
     }
@@ -127,12 +192,18 @@ public class UserPanel extends JPanel {
         titleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         rentalListPanel.add(titleLabel);
 
-        ArrayList<Wypozyczenie> rental = new ArrayList<Wypozyczenie>(serviceRental.getRentals());
+        String searchText = searchField != null ? searchField.getText() : "";
+        String selectedStatus = statusFilter != null ? (String) statusFilter.getSelectedItem() : "Wszystkie";
         
-        boolean hasRentals = false;
-        for (Wypozyczenie r: rental) {
-            if(r.getKlient().getEmail().equals(currentClient.getEmail())) {
-                hasRentals = true;
+        ArrayList<Wypozyczenie> filteredRentals = serviceRental.getFilteredAndSortedRentals(
+            currentClient, 
+            searchText, 
+            selectedStatus, 
+            currentSortOrder
+        );
+        
+        boolean hasRentals = !filteredRentals.isEmpty();
+        for (Wypozyczenie r: filteredRentals) {
                 Pojazd p = r.getPojazd();
                 
                 JPanel row = new JPanel();
@@ -155,6 +226,9 @@ public class UserPanel extends JPanel {
                 if(r.getStatus().equals(Status.ZAKONCZONE)) {
                     priceLabel.setForeground(new Color(255, 0, 0));
                 }
+                else if(r.getStatus().equals(Status.OCZEKUJACE)) {
+                    priceLabel.setForeground(new Color(255, 165, 0));
+                }
                 else {
                     priceLabel.setForeground(new Color(60, 120, 60));
                 }
@@ -167,8 +241,22 @@ public class UserPanel extends JPanel {
                 JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
                 actionPanel.setOpaque(false);
 
-                if (r.getStatus() != Status.ZAKONCZONE && r.getStatus() != Status.ANULOWANE) {
-                    JButton btnReturn = new JButton("Zwróć pojazd");
+                if (r.getStatus() == Status.OCZEKUJACE) {
+                    JButton btnReturn = new JButton("Anuluj");
+                    btnReturn.setPreferredSize(new Dimension(120, 35));
+                    btnReturn.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            serviceRental.cancelRental(r);
+                            serviceRental.getRepositoryRental().save();
+                            serviceVehicle.zwolnijPojazd(r.getPojazd());
+                            refreshRentalList();
+                        }
+                    });
+                    actionPanel.add(btnReturn);
+                }
+
+                if (r.getStatus() == Status.AKTYWNE) {
+                    JButton btnReturn = new JButton("Zwróć");
                     btnReturn.setPreferredSize(new Dimension(120, 35));
                     btnReturn.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
@@ -179,9 +267,6 @@ public class UserPanel extends JPanel {
                         }
                     });
                     actionPanel.add(btnReturn);
-                }
-
-                if (r.getStatus() == Status.AKTYWNE) {
                     JButton btnRepair = new JButton("Zgłoś naprawę");
                     btnRepair.setPreferredSize(new Dimension(120, 35));
                     btnRepair.addActionListener(new ActionListener() {
@@ -204,11 +289,10 @@ public class UserPanel extends JPanel {
                 row.add(actionPanel, BorderLayout.EAST);
 
                 rentalListPanel.add(row);
-            }
         }
         
         if (!hasRentals) {
-            JLabel noRentalsLabel = new JLabel("Brak wypożyczeń");
+            JLabel noRentalsLabel = new JLabel("Brak wypożyczeń spełniających kryteria");
             noRentalsLabel.setFont(new Font("SansSerif", Font.ITALIC, 14));
             noRentalsLabel.setForeground(Color.GRAY);
             noRentalsLabel.setBorder(BorderFactory.createEmptyBorder(20, 15, 20, 15));

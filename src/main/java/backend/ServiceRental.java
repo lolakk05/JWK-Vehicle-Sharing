@@ -75,16 +75,29 @@ public class ServiceRental {
             Date dataZakonczenia = sdf.parse(dateEnd);
 
             if(client.getSaldo() >= lastPrice) {
-                client.setSaldo(-lastPrice);
-                serviceUser.clientSaveData();
-                vehicle.setStatus("zajęty");
-                if (repositoryVehicle != null) {
-                    repositoryVehicle.save();
+                if(client.getKategoriaArray() != null) {
+                    boolean hasCategory = false;
+                    for(String cat : client.getKategoriaArray()) {
+                        if(vehicle.getWymaganeUprawnienia().equals(cat)) {
+                            hasCategory = true;
+                            break;
+                        }
+                    }
+                    if(!hasCategory) {
+                        JOptionPane.showMessageDialog(null, "Brak odpowiednich uprawnień do wypożyczenia tego pojazdu.");
+                        return false;
+                    }
+                    client.setSaldo(-lastPrice);
+                    serviceUser.clientSaveData();
+                    vehicle.setStatus("zajęty");
+                    if (repositoryVehicle != null) {
+                        repositoryVehicle.save();
+                    }
+                    Wypozyczenie rental = new Wypozyczenie(vehicle, client, dataRozpoczecia, dataZakonczenia, strategia, Status.OCZEKUJACE);
+                    repositoryRental.upload(rental);
+                    JOptionPane.showMessageDialog(null, "Pojazd został wypożyczony!");
+                    return true;
                 }
-                Wypozyczenie rental = new Wypozyczenie(vehicle, client, dataRozpoczecia, dataZakonczenia, strategia, Status.OCZEKUJACE);
-                repositoryRental.upload(rental);
-                JOptionPane.showMessageDialog(null, "Pojazd został wypożyczony!");
-                return true;
             } else {
                 JOptionPane.showMessageDialog(null, "Niewystarczające środki na koncie. Proszę doładować saldo.");
             }
@@ -99,17 +112,33 @@ public class ServiceRental {
         long diffInHours = TimeUnit.HOURS.convert(endDate.getTime() - startDate.getTime(), TimeUnit.MILLISECONDS);
         long diffInDays = TimeUnit.DAYS.convert(endDate.getTime() - startDate.getTime(), TimeUnit.MILLISECONDS);
         
+        diffInDays = diffInDays + 1;
+        diffInMinutes = diffInMinutes + TimeUnit.MINUTES.convert(1, TimeUnit.DAYS);
+        
         lastStrategy = selectStrategyBasedOnTime(diffInMinutes, diffInHours, diffInDays);
         lastPrice = lastStrategy.wyliczKoszt(diffInMinutes, vehicle.getCenaBazowa());
         lastStartDate = startDate;
         lastEndDate = endDate;
     }
 
-    public void returnRental(Wypozyczenie rental) {
-        int result = JOptionPane.showConfirmDialog(null, "Potwierdzenie zwrotu pojazdu, zostanie zwrócone: " + rental.getKosztKoncowy() * 0.9 + " PLN", "Potwierdzenie zwrotu pojazdu", JOptionPane.OK_CANCEL_OPTION);
+    public void cancelRental(Wypozyczenie rental) {
+        int result = JOptionPane.showConfirmDialog(null, "Potwierdzenie anulowania wypożyczenia, zostanie zwrócone: " + rental.getKosztKoncowy() * 0.9 + " PLN", "Potwierdzenie zwrotu pojazdu", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
             ServiceVehicle.zwolnijPojazd(rental.getPojazd());
             rental.getKlient().setSaldo(rental.getKosztKoncowy() * 0.9);
+            rental.setStatus(Status.ZAKONCZONE);
+            serviceUser.clientSaveData();
+            if (repositoryVehicle != null) {
+                repositoryVehicle.save();
+            }
+        }
+        repositoryRental.save();
+    }
+
+    public void returnRental(Wypozyczenie rental) {
+        int result = JOptionPane.showConfirmDialog(null, "Potwierdzenie zwrotu pojazdu", "Potwierdzenie zwrotu pojazdu", JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            ServiceVehicle.zwolnijPojazd(rental.getPojazd());
             rental.setStatus(Status.ZAKONCZONE);
             serviceUser.clientSaveData();
             if (repositoryVehicle != null) {
@@ -134,10 +163,8 @@ public class ServiceRental {
     private StrategiaCenowa selectStrategyBasedOnTime(long minutes, long hours, long days) {
         if (days > 10) {
             return new StrategiaDlugoterminowa();
-        } else if (days >= 1) {
-            return new StrategiaDobowa();
-        }
-        else {
+        } 
+        else  {
             return new StrategiaDobowa();
         }
     }
@@ -145,5 +172,46 @@ public class ServiceRental {
     public void acceptRental(Wypozyczenie rental) {
         rental.setStatus(Status.AKTYWNE);
         repositoryRental.save();
+    }
+    
+    public ArrayList<Wypozyczenie> getFilteredAndSortedRentals(Klient client, String searchText, String statusFilter, String sortOrder) {
+        ArrayList<Wypozyczenie> allRentals = new ArrayList<>(repositoryRental.getRentals());
+        ArrayList<Wypozyczenie> filteredRentals = new ArrayList<>();
+        
+        for (Wypozyczenie r : allRentals) {
+            if (r.getKlient().getEmail().equals(client.getEmail())) {
+                Pojazd p = r.getPojazd();
+                String vehicleName = (p.getMarka() + " " + p.getModel()).toLowerCase();
+                
+                if (searchText != null && !searchText.isEmpty() && !vehicleName.contains(searchText.toLowerCase())) {
+                    continue;
+                }
+                
+                if (statusFilter != null && !statusFilter.equals("Wszystkie") && !r.getStatus().getDisplayName().equals(statusFilter)) {
+                    continue;
+                }
+                
+                filteredRentals.add(r);
+            }
+        }
+        
+        if (sortOrder != null) {
+            switch (sortOrder) {
+                case "date_desc":
+                    filteredRentals.sort((r1, r2) -> r2.getDataRozpoczecia().compareTo(r1.getDataRozpoczecia()));
+                    break;
+                case "date_asc":
+                    filteredRentals.sort((r1, r2) -> r1.getDataRozpoczecia().compareTo(r2.getDataRozpoczecia()));
+                    break;
+                case "price_desc":
+                    filteredRentals.sort((r1, r2) -> Double.compare(r2.getKosztKoncowy(), r1.getKosztKoncowy()));
+                    break;
+                case "price_asc":
+                    filteredRentals.sort((r1, r2) -> Double.compare(r1.getKosztKoncowy(), r2.getKosztKoncowy()));
+                    break;
+            }
+        }
+        
+        return filteredRentals;
     }
 }

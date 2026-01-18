@@ -165,21 +165,43 @@ public class RemoveVehiclePanel extends JPanel {
         } else {
             for (Pojazd p : pojazdy) {
                 if (Objects.equals(p.getStatus(), "wolny")) {
-                    JPanel row = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                    row.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
+                    JPanel row = new JPanel();
+                    row.setLayout(new BorderLayout(5, 10));
+                    row.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY),
+                        BorderFactory.createEmptyBorder(10, 15, 10, 15)
+                    ));
+                    row.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80));
+                    row.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-                    JLabel label = new JLabel(p.getMarka() + " " + p.getModel() + " (" + p.getStatus() + ")");
-                    JButton deleteButton = new JButton("Usuń");
-                    deleteButton.addActionListener(new ActionListener() {
-                        @Override
+                    JPanel infoPanel = new JPanel();
+                    infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+                    
+                    JLabel vehicleLabel = new JLabel(p.getMarka() + " " + p.getModel() + " " + p.getRokProdukcji());
+                    vehicleLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+                    
+                    JLabel statusLabel = new JLabel("Status: " + p.getStatus());
+                    statusLabel.setFont(new Font("SansSerif", Font.PLAIN, 14));
+                    statusLabel.setForeground(new Color(60, 120, 60));
+                    
+                    infoPanel.add(vehicleLabel);
+                    infoPanel.add(Box.createVerticalStrut(5));
+                    infoPanel.add(statusLabel);
+
+                    row.add(infoPanel, BorderLayout.CENTER);
+
+                    JButton btnDelete = new JButton("Usuń");
+                    btnDelete.setPreferredSize(new Dimension(200, 35));
+                    btnDelete.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
                             ServiceVehicle.removeVehicle(p);
                             refreshList();
                         }
                     });
-
-                    row.add(label);
-                    row.add(deleteButton);
+                    JPanel buttonPanelRow = new JPanel();
+                    buttonPanelRow.setLayout(new FlowLayout(FlowLayout.RIGHT));
+                    buttonPanelRow.add(btnDelete);
+                    row.add(buttonPanelRow, BorderLayout.EAST);
 
                     vehicleListPanel.add(row);
                 }

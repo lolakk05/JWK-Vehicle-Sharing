@@ -159,4 +159,45 @@ public class ServiceVehicle {
     public RepositoryVehicle getRepositoryVehicle() {
         return repositoryVehicle;
     }
+    
+    public ArrayList<Pojazd> getFilteredAndSortedVehicles(String searchText, String sortOrder) {
+        ArrayList<Pojazd> allVehicles = new ArrayList<>(repositoryVehicle.getVehicles());
+        ArrayList<Pojazd> filteredVehicles = new ArrayList<>();
+        
+        for (Pojazd p : allVehicles) {
+            if (!p.getStatus().equals("wolny")) {
+                continue;
+            }
+            
+            if (searchText != null && !searchText.isEmpty()) {
+                String vehicleName = (p.getMarka() + " " + p.getModel()).toLowerCase();
+                if (!vehicleName.contains(searchText.toLowerCase())) {
+                    continue;
+                }
+            }
+            
+            filteredVehicles.add(p);
+        }
+        
+        if (sortOrder != null) {
+            switch (sortOrder) {
+                case "name_asc":
+                    filteredVehicles.sort((v1, v2) -> (v1.getMarka() + " " + v1.getModel())
+                        .compareTo(v2.getMarka() + " " + v2.getModel()));
+                    break;
+                case "name_desc":
+                    filteredVehicles.sort((v1, v2) -> (v2.getMarka() + " " + v2.getModel())
+                        .compareTo(v1.getMarka() + " " + v1.getModel()));
+                    break;
+                case "price_asc":
+                    filteredVehicles.sort((v1, v2) -> Double.compare(v1.getCenaBazowa(), v2.getCenaBazowa()));
+                    break;
+                case "price_desc":
+                    filteredVehicles.sort((v1, v2) -> Double.compare(v2.getCenaBazowa(), v1.getCenaBazowa()));
+                    break;
+            }
+        }
+        
+        return filteredVehicles;
+    }
 }

@@ -123,7 +123,7 @@ public class AddMotorcycle extends JPanel {
 
         optionsPanel.setSize(50,50);
 
-        add(optionsPanel, BorderLayout.CENTER);
+        add(optionsPanel);
 
         JPanel addCarPanel = new JPanel();
 

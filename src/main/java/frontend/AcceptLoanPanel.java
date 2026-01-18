@@ -162,23 +162,45 @@ public class AcceptLoanPanel extends JPanel {
         } else {
             for (Wypozyczenie wp : rentals) {
                 if (Objects.equals(wp.getStatus(), Status.OCZEKUJACE)) {
-                    JPanel row = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                    row.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
+                    Pojazd p = wp.getPojazd();
+                    
+                    JPanel row = new JPanel();
+                    row.setLayout(new BorderLayout(5, 10));
+                    row.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY),
+                        BorderFactory.createEmptyBorder(10, 15, 10, 15)
+                    ));
+                    row.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80));
+                    row.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-                    Pojazd currentVehicle = wp.getPojazd();
+                    JPanel infoPanel = new JPanel();
+                    infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+                    
+                    JLabel vehicleLabel = new JLabel(p.getMarka() + " " + p.getModel() + " " + p.getRokProdukcji());
+                    vehicleLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+                    
+                    JLabel dateLabel = new JLabel("Od: " + wp.getDataRozpoczecia() + " Do: " + wp.getDataZakonczenia());
+                    dateLabel.setFont(new Font("SansSerif", Font.PLAIN, 14));
+                    dateLabel.setForeground(new Color(60, 120, 60));
+                    
+                    infoPanel.add(vehicleLabel);
+                    infoPanel.add(Box.createVerticalStrut(5));
+                    infoPanel.add(dateLabel);
 
-                    JLabel label = new JLabel(currentVehicle.getMarka() + " " + currentVehicle.getModel() + " " + wp.getDataRozpoczecia() + " - " + wp.getDataZakonczenia());
-                    JButton deleteButton = new JButton("Akceptuj");
-                    deleteButton.addActionListener(new ActionListener() {
-                        @Override
+                    row.add(infoPanel, BorderLayout.CENTER);
+
+                    JButton btnAccept = new JButton("Akceptuj");
+                    btnAccept.setPreferredSize(new Dimension(200, 35));
+                    btnAccept.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
                             serviceRental.acceptRental(wp);
                             refreshList();
                         }
                     });
-
-                    row.add(label);
-                    row.add(deleteButton);
+                    JPanel buttonPanelRow = new JPanel();
+                    buttonPanelRow.setLayout(new FlowLayout(FlowLayout.RIGHT));
+                    buttonPanelRow.add(btnAccept);
+                    row.add(buttonPanelRow, BorderLayout.EAST);
 
                     vehicleListPanel.add(row);
                 }

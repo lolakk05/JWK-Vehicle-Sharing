@@ -6,6 +6,9 @@ import pojazd.Pojazd;
 import strategia.StrategiaDobowa;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,16 +41,26 @@ public class RentPanel extends JPanel {
 
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout());
+        topPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 20));
+        
+        JPanel infoPanel = new JPanel();
+        infoPanel.setOpaque(false);
+        
         vehicleBrandModel = new JLabel("Vehicle Brand:");
-        vehicleBrandModel.setFont(new Font("SansSerif", Font.PLAIN, 32));
+        vehicleBrandModel.setFont(new Font("SansSerif", Font.BOLD, 28));
+        
+        
+        infoPanel.add(vehicleBrandModel);
+        
         JButton returnButton = new JButton("Powrót");
+        returnButton.setFont(new Font("SansSerif", Font.PLAIN, 12));
         returnButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                mainFrame.ChangeCard("MAIN");
+                mainFrame.ChangeCard("RENT");
             }
         });
 
-        topPanel.add(vehicleBrandModel, BorderLayout.WEST);
+        topPanel.add(infoPanel, BorderLayout.WEST);
         topPanel.add(returnButton, BorderLayout.EAST);
 
         add(topPanel, BorderLayout.NORTH);
@@ -74,6 +87,15 @@ public class RentPanel extends JPanel {
 
         gbc.gridx = 1;
         dateStart = new JTextField(12);
+        dateStart.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+            }
+            public void removeUpdate(DocumentEvent e) {
+            }
+            public void insertUpdate(DocumentEvent e) {
+                SwingUtilities.invokeLater(() -> insert(dateStart));
+            }
+        });
         rentPanel.add(dateStart, gbc);
 
         gbc.gridx = 2;
@@ -81,6 +103,15 @@ public class RentPanel extends JPanel {
 
         gbc.gridx = 3;
         dateEnd = new JTextField(12);
+        dateEnd.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+            }
+            public void removeUpdate(DocumentEvent e) {
+            }
+            public void insertUpdate(DocumentEvent e) {
+                SwingUtilities.invokeLater(() -> insert(dateEnd));
+            }
+        });
         rentPanel.add(dateEnd, gbc);
 
         gbc.gridx = 4;
@@ -151,6 +182,15 @@ public class RentPanel extends JPanel {
             
             mainFrame.ChangeCard("RENT");
         };
+    }
+
+    public void insert(JTextField field) {
+         if(field.getText().length() == 2) {
+            field.setText(field.getText() + '/');
+         } 
+         else if(field.getText().length() == 5) {
+            field.setText(field.getText() + '/');
+         }
     }
 
     public void getVehicle(Pojazd P) {
