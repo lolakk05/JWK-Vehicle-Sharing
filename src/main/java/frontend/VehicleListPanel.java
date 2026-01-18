@@ -5,6 +5,7 @@ import backend.ServiceVehicle;
 import backend.Session;
 import osoba.Klient;
 import pojazd.Pojazd;
+import wypozyczenie.Status;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,12 +20,10 @@ public class VehicleListPanel extends JPanel {
     private JPanel vehicleListPanel;
 
     private Klient currentClient;
-    private JLabel nameLabel;
 
     public void getClientData() {
         if (Session.getCurrentUser() instanceof Klient) {
             currentClient = (Klient) Session.getCurrentUser();
-            nameLabel.setText("Zalogowano jako: " + currentClient.getImie());
         }
     }
 
@@ -37,9 +36,6 @@ public class VehicleListPanel extends JPanel {
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout(10, 10));
         topPanel.add(new JLabel("Lista dostępnych pojazdów"), BorderLayout.WEST);
-
-        nameLabel = new JLabel();
-        topPanel.add(nameLabel, BorderLayout.CENTER);
 
         JButton backButton = new JButton("Powrót");
         backButton.addActionListener(new ActionListener() {
@@ -71,20 +67,41 @@ public class VehicleListPanel extends JPanel {
 
         for (Pojazd p : pojazdy) {
             if(Objects.equals(p.getStatus(), "wolny")) {
-                JPanel row = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                row.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
+                JPanel row = new JPanel();
+                row.setLayout(new BorderLayout(5, 10));
+                row.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY),
+                    BorderFactory.createEmptyBorder(10, 15, 10, 15)
+                ));
+                row.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80));
+                row.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-                JLabel label = new JLabel(p.getMarka() + " " + p.getModel() + " (" + p.getStatus() + ")");
-                JButton btnDetails = new JButton("Szczegóły");
-                btnDetails.addActionListener(new ActionListener() {
+                JPanel infoPanel = new JPanel();
+                infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+                
+                JLabel vehicleLabel = new JLabel(p.getMarka() + " " + p.getModel() + " " + p.getRokProdukcji());
+                vehicleLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+                
+                JLabel priceLabel = new JLabel("Koszt: " + String.format("%.2f", p.getCenaBazowa()) + " PLN");
+                priceLabel.setFont(new Font("SansSerif", Font.PLAIN, 14));
+                priceLabel.setForeground(new Color(60, 120, 60));
+                
+                
+                infoPanel.add(vehicleLabel);
+                infoPanel.add(Box.createVerticalStrut(5));
+                infoPanel.add(priceLabel);
+
+                row.add(infoPanel, BorderLayout.CENTER);
+
+                JButton btnReturn = new JButton("Zobacz szczegóły");
+                btnReturn.setPreferredSize(new Dimension(200, 35));
+                btnReturn.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         mainFrame.setVehicle(p);
-                        mainFrame.ChangeCard("VEHICLE");
+                        mainFrame.ChangeCard("RENT");
                     }
                 });
-
-                row.add(label);
-                row.add(btnDetails);
+                row.add(btnReturn, BorderLayout.EAST);
 
                 vehicleListPanel.add(row);
             }

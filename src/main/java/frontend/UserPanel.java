@@ -24,10 +24,11 @@ public class UserPanel extends JPanel {
     private Klient currentClient;
     private ServiceVehicle serviceVehicle;
 
-    private JLabel nameLabel;
     private JLabel balanceLabel;
 
     private JPanel rentalListPanel;
+    private JLabel nameLabel;
+
 
     public void getUserData() {
         currentClient =(Klient) Session.getCurrentUser();
@@ -100,11 +101,6 @@ public class UserPanel extends JPanel {
         rentalListPanel.setLayout(new BoxLayout(rentalListPanel, BoxLayout.Y_AXIS));
         rentalListPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
-        JLabel rentalLabel = new JLabel("Twoje oczekujące wypożyczenia:");
-        rentalLabel.setFont(new Font("SansSerif", Font.BOLD, 18));
-        rentalLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 15, 5));
-        rentalListPanel.add(rentalLabel);
-
         JScrollPane rentalScrollPane = new JScrollPane(rentalListPanel);
         rentalScrollPane.getVerticalScrollBar().setUnitIncrement(16);
         rentalScrollPane.setBorder(BorderFactory.createEmptyBorder());
@@ -156,7 +152,13 @@ public class UserPanel extends JPanel {
                 
                 JLabel priceLabel = new JLabel("Koszt: " + String.format("%.2f", r.getKosztKoncowy()) + " PLN" + " Status: " + r.getStatus().getDisplayName());
                 priceLabel.setFont(new Font("SansSerif", Font.PLAIN, 14));
-                priceLabel.setForeground(new Color(60, 120, 60));
+                if(r.getStatus().equals(Status.ZAKONCZONE)) {
+                    priceLabel.setForeground(new Color(255, 0, 0));
+                }
+                else {
+                    priceLabel.setForeground(new Color(60, 120, 60));
+                }
+                
                 
                 infoPanel.add(vehicleLabel);
                 infoPanel.add(Box.createVerticalStrut(5));
