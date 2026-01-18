@@ -5,6 +5,7 @@ import backend.ServiceUser;
 import backend.Session;
 import osoba.Klient;
 import pojazd.Pojazd;
+import wypozyczenie.Status;
 import wypozyczenie.Wypozyczenie;
 
 import javax.swing.*;
@@ -21,10 +22,11 @@ public class UserPanel extends JPanel {
     private ServiceRental serviceRental;
     private Klient currentClient;
 
-    private JLabel nameLabel;
     private JLabel balanceLabel;
 
     private JPanel rentalListPanel;
+    private JLabel nameLabel;
+
 
     public void getUserData() {
         currentClient =(Klient) Session.getCurrentUser();
@@ -95,11 +97,6 @@ public class UserPanel extends JPanel {
         rentalListPanel.setLayout(new BoxLayout(rentalListPanel, BoxLayout.Y_AXIS));
         rentalListPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
-        JLabel rentalLabel = new JLabel("Twoje oczekujące wypożyczenia:");
-        rentalLabel.setFont(new Font("SansSerif", Font.BOLD, 18));
-        rentalLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 15, 5));
-        rentalListPanel.add(rentalLabel);
-
         JScrollPane rentalScrollPane = new JScrollPane(rentalListPanel);
         rentalScrollPane.getVerticalScrollBar().setUnitIncrement(16);
         rentalScrollPane.setBorder(BorderFactory.createEmptyBorder());
@@ -151,24 +148,32 @@ public class UserPanel extends JPanel {
                 
                 JLabel priceLabel = new JLabel("Koszt: " + String.format("%.2f", r.getKosztKoncowy()) + " PLN" + " Status: " + r.getStatus());
                 priceLabel.setFont(new Font("SansSerif", Font.PLAIN, 14));
-                priceLabel.setForeground(new Color(60, 120, 60));
+                if(r.getStatus().equals(Status.ZAKONCZONE)) {
+                    priceLabel.setForeground(new Color(255, 0, 0));
+                }
+                else {
+                    priceLabel.setForeground(new Color(60, 120, 60));
+                }
+                
                 
                 infoPanel.add(vehicleLabel);
                 infoPanel.add(Box.createVerticalStrut(5));
                 infoPanel.add(priceLabel);
 
-                JButton btnReturn = new JButton("Zwróć pojazd");
-                btnReturn.setPreferredSize(new Dimension(120, 35));
-                btnReturn.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        serviceRental.returnRental(r);
-                        serviceRental.getRepositoryRental().save();
-                        refreshRentalList();
-                    }
-                });
-
                 row.add(infoPanel, BorderLayout.CENTER);
-                row.add(btnReturn, BorderLayout.EAST);
+
+                if(r.getStatus().equals(Status.OCZEKUJACE)) {
+                    JButton btnReturn = new JButton("Zwróć pojazd");
+                    btnReturn.setPreferredSize(new Dimension(120, 35));
+                    btnReturn.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            serviceRental.returnRental(r);
+                            serviceRental.getRepositoryRental().save();
+                            refreshRentalList();
+                        }
+                    });
+                    row.add(btnReturn, BorderLayout.EAST);
+                }
 
                 rentalListPanel.add(row);
             }
