@@ -7,20 +7,23 @@ import java.util.Date;
 
 public class ZlecenieNaprawy implements Serializable {
     private static int nextId = 1;
+
+    public static void setNextId(int nextId) {
+        ZlecenieNaprawy.nextId = nextId;
+    }
+
     private int id;
     private String opisUsterki;
     private Date dataZgloszenia;
-    private int priorytet;
     private double kosztCzesci;
     private Pojazd pojazd;
     private boolean czyZakonczone;
     private Serwisant serwisant;
 
-    public ZlecenieNaprawy(String opisUsterki, Date dataZgloszenia, int priorytet, double kosztCzesci, Pojazd pojazd) {
+    public ZlecenieNaprawy(String opisUsterki, Date dataZgloszenia, double kosztCzesci, Pojazd pojazd) {
         this.id = nextId++;
         this.opisUsterki = opisUsterki;
         this.dataZgloszenia = dataZgloszenia;
-        this.priorytet = priorytet;
         this.kosztCzesci = kosztCzesci;
         this.pojazd = pojazd;
         this.czyZakonczone = false;
@@ -37,10 +40,6 @@ public class ZlecenieNaprawy implements Serializable {
 
     public Date getDataZgloszenia() {
         return dataZgloszenia;
-    }
-
-    public int getPriorytet() {
-        return priorytet;
     }
 
     public double getKosztCzesci() {
@@ -69,7 +68,7 @@ public class ZlecenieNaprawy implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("Zlecenie #%d | %s | Pojazd: %s %s | Priorytet: %d",
-                id, opisUsterki, pojazd.getMarka(), pojazd.getModel(), priorytet);
+        return String.format("Zlecenie #%d | %s | Pojazd: %s %s",
+                id, opisUsterki, pojazd.getMarka(), pojazd.getModel());
     }
 }
