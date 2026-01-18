@@ -1,6 +1,7 @@
 package frontend;
 
 import backend.*;
+import obserwator.StatsControler;
 import osoba.Serwisant;
 import pojazd.Pojazd;
 import zlecenieNaprawy.ZlecenieNaprawy;
@@ -33,6 +34,8 @@ public class MainFrame extends JFrame{
     private ServiceWorkerPanel serviceWorkerPanel;
     private RemoveVehiclePanel removeVehiclePanel;
 
+    private StatsControler statsControler;
+
     public MainFrame() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 800);
@@ -43,18 +46,18 @@ public class MainFrame extends JFrame{
         mainContainer = new JPanel(layout);
 
         this.serviceUser = new ServiceUser();
-        this.serviceVehicle = new ServiceVehicle();
+        this.serviceVehicle = new ServiceVehicle(statsControler);
         this.serviceWorker = new ServiceWorker();
         this.serviceRental = new ServiceRental();
+        this.statsControler = new StatsControler();
         this.serviceRental.setServiceVehicle(serviceVehicle);
         this.serviceRental.setRepositoryVehicle(serviceVehicle.getRepositoryVehicle());
         this.serviceRental.setServiceUser(serviceUser);
         this.serviceRental.setRepositoryUser(serviceUser.getRepositoryUser());
-
         this.serviceWorker.setRepositoryRental(serviceRental.getRepositoryRental());
 
         loginPanel = new LoginPanel(this, serviceUser, serviceWorker);
-        userPanel = new UserPanel(this, serviceUser, serviceRental, serviceWorker, serviceVehicle);
+        userPanel = new UserPanel(this, serviceUser, serviceRental, serviceWorker, serviceVehicle, statsControler);
         RegisterPanel registerPanel = new RegisterPanel(this, serviceUser);
         acceptLoanPanel = new AcceptLoanPanel(this, serviceRental);
         AddWorkerPanel addWorkerPanel = new AddWorkerPanel(this, serviceWorker);
@@ -64,7 +67,7 @@ public class MainFrame extends JFrame{
         AddScooter addScooterPanel = new AddScooter(this, serviceVehicle);
         AddBike addBikePanel = new AddBike(this, serviceVehicle);
         vehicleListPanel = new VehicleListPanel(this, serviceVehicle);
-        rentPanel = new RentPanel(this, serviceVehicle, serviceRental);
+        rentPanel = new RentPanel(this, serviceVehicle, serviceRental, statsControler);
         removeVehiclePanel = new RemoveVehiclePanel(this, serviceVehicle);
         serviceWorkerPanel = new ServiceWorkerPanel(this, serviceWorker);
 

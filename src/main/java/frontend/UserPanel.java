@@ -1,6 +1,7 @@
 package frontend;
 
 import backend.*;
+import obserwator.StatsControler;
 import osoba.Klient;
 import pojazd.Pojazd;
 import wypozyczenie.Status;
@@ -23,11 +24,13 @@ public class UserPanel extends JPanel {
     private ServiceWorker serviceWorker;
     private Klient currentClient;
     private ServiceVehicle serviceVehicle;
+    private StatsControler statsControler;
 
     private JLabel nameLabel;
     private JLabel balanceLabel;
 
     private JPanel rentalListPanel;
+    private JPanel statsPanel;
 
     public void getUserData() {
         currentClient =(Klient) Session.getCurrentUser();
@@ -37,12 +40,13 @@ public class UserPanel extends JPanel {
         }
     }
 
-    public UserPanel(MainFrame mainFrame, ServiceUser serviceUser, ServiceRental serviceRental, ServiceWorker serviceWorker, ServiceVehicle serviceVehicle) {
+    public UserPanel(MainFrame mainFrame, ServiceUser serviceUser, ServiceRental serviceRental, ServiceWorker serviceWorker, ServiceVehicle serviceVehicle, StatsControler statsControler) {
         this.mainFrame = mainFrame;
         this.serviceUser = serviceUser;
         this.serviceRental = serviceRental;
         this.serviceWorker = serviceWorker;
         this.serviceVehicle = serviceVehicle;
+        this.statsControler = statsControler;
         
         setLayout(new BorderLayout());
         
@@ -64,6 +68,7 @@ public class UserPanel extends JPanel {
                 currentClient.setSaldo(sum);
                 getUserData();
                 serviceUser.clientSaveData();
+                balanceField.setText(null);
             }
         });
 
@@ -95,6 +100,12 @@ public class UserPanel extends JPanel {
         menuPanel.setPreferredSize(new Dimension(800, 100));
 
         add(menuPanel, BorderLayout.NORTH);
+
+        statsPanel = new JPanel();
+
+        statsPanel.add(new JLabel("NIGGA"));
+        statsPanel.setLayout(new FlowLayout());
+        add(statsPanel);
 
         rentalListPanel = new JPanel();
         rentalListPanel.setLayout(new BoxLayout(rentalListPanel, BoxLayout.Y_AXIS));
@@ -173,6 +184,7 @@ public class UserPanel extends JPanel {
                             serviceRental.returnRental(r);
                             serviceRental.getRepositoryRental().save();
                             serviceVehicle.zwolnijPojazd(r.getPojazd());
+                            statsControler.update(r.getPojazd(),1);
                             refreshRentalList();
                         }
                     });
@@ -216,4 +228,24 @@ public class UserPanel extends JPanel {
         rentalListPanel.revalidate();
         rentalListPanel.repaint();
     }
+
+//    public void refreshStatsPanel(){
+//        statsPanel.removeAll();
+//        int[] stats = statsControler.getStats();
+//
+//        JLabel carStatsLabel = new JLabel("Dostępne auta: "+stats[0]);
+//        JLabel motorStatsLabel = new JLabel("Dostępne motocykle: "+stats[1]);
+//        JLabel tirStatsLabel = new JLabel("Dostępne ciężarówki: "+stats[2]);
+//        JLabel scooterStatsLabel = new JLabel("Dostępne hulajnogi: "+stats[3]);
+//        JLabel bikeStatsLabel = new JLabel("Dostępne rowery: "+stats[4]);
+//
+//        statsPanel.add(carStatsLabel);
+//        statsPanel.add(motorStatsLabel);
+//        statsPanel.add(tirStatsLabel);
+//        statsPanel.add(scooterStatsLabel);
+//        statsPanel.add(bikeStatsLabel);
+//
+//        revalidate();
+//        repaint();
+//    }
 }
