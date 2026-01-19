@@ -82,9 +82,6 @@ public class UserPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 mainFrame.ChangeCard("RENT");
                 int[] tab = statsControler.getStats();
-                for(int i = 0; i < tab.length; i++){
-                    System.out.println(tab[i]);
-                }
             }
         });
 
@@ -271,8 +268,8 @@ public class UserPanel extends JPanel {
                     btnReturn.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
                             serviceRental.returnRental(r);
-                            serviceRental.getRepositoryRental().save();
                             serviceVehicle.zwolnijPojazd(r.getPojazd());
+                            serviceRental.getRepositoryRental().save();
                             statsControler.update(r.getPojazd(),1);
                             refreshRentalList();
                         }
