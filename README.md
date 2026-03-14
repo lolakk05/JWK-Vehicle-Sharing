@@ -1,6 +1,7 @@
 # JWK Vehicle Sharing
 
 JWK Vehicle Sharing is a comprehensive desktop application for managing a vehicle sharing system. It allows users to rent various types of vehicles, administrators to manage the fleet and workers, and service workers to handle vehicle maintenance.
+This project was written for the  Structural and Object Oriented course at the Wroclaw University of Science and Technology.
 
 ## Table of Contents
 - [Features](#features)
